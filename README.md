@@ -40,3 +40,5 @@ Then, to run the project and view the project console in your web browser, run:
 ```
 expo start
 ```
+
+#### API Keys are in the Google Doc - Copy them into a new file called 'ApiKeys.js'
