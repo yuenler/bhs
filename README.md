@@ -1,6 +1,6 @@
-# BHS student app
+# BHS
 
-### How to run the App on your computer
+### How to run the app client on your computer
 
 **Step 1: Install NodeJS**
 
