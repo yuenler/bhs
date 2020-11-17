@@ -8,7 +8,7 @@ export default class ScheduleReader extends React.Component {
   render() {
     DocumentPicker.getDocumentAsync({ type: 'image', multiple: false })
       .then(res => {
-        alert(res.name);
+        
       })
   }
 }

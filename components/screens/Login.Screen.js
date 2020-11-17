@@ -30,17 +30,8 @@ export default class LoginScreen extends React.Component {
       if (result.type === "success") {
         const { idToken, accessToken } = result;
         const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
-        firebase
-          .auth()
+        firebase.auth()
           .signInWithCredential(credential)
-          .then(res => {
-            if (res.user.email.endsWith('@brooklinek12.org') || res.user.email.endsWith('@psbma.org')) {
-              return true;
-            }
-            else {
-              alert('Please use a Brookline Public Schools email address!');
-            }
-          })
           .catch(error => {
             alert('Couldn\'t sign in with Google: ' + error);
           });
@@ -50,7 +41,6 @@ export default class LoginScreen extends React.Component {
     } catch (err) {
       alert('Couldn\'t sign in with Google: ' + error);
     }
-    return false;
   }
 
   render() {
