@@ -1,59 +1,66 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, TextInput, Alert } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import ApiKeys from '../../ApiKeys';
 import * as firebase from 'firebase';
+import * as Google from 'expo-google-app-auth';
 
 const styles = StyleSheet.create({
-  sceneContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
+  container: {
+    marginLeft: 15,
+    marginTop: 20
   },
-});
+  title: {
+    fontSize: 20
+  }
+})
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoadingComplete: false,
-      email: "",
-      password: ""
-    };
   }
 
-  onLoginPress = () => {
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(({ message }) => {
-        Alert.alert(message);
-      })
+  async signIn() {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId: ApiKeys.GoogleConfig.iosClientId,
+        iosClientId: ApiKeys.GoogleConfig.iosClientId,
+        scopes: ["profile", "email"]
+      });
+
+      if (result.type === "success") {
+        const { idToken, accessToken } = result;
+        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then(res => {
+            if (res.user.email.endsWith('@brooklinek12.org') || res.user.email.endsWith('@psbma.org')) {
+              return true;
+            }
+            else {
+              alert('Please use a Brookline Public Schools email address!');
+            }
+          })
+          .catch(error => {
+            alert('Couldn\'t sign in with Google: ' + error);
+          });
+      } else {
+        alert('Couldn\'t sign in with Google');
+      }
+    } catch (err) {
+      alert('Couldn\'t sign in with Google: ' + error);
+    }
+    return false;
   }
 
   render() {
     return (
-      <View style={styles.sceneContainer}>
-        <Text style={{ fontSize: 50 }}>DayLites</Text>
-        <TextInput
-          style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, }}
-          value={this.state.email}
-          onChangeText={text => { this.setState({ email: text }) }}
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize='none'
-          autoCorrect={false}
-        />
-        <View style={{ paddingTop: 10 }} />
-        <TextInput
-          style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, }}
-          value={this.state.password}
-          onChangeText={text => { this.setState({ password: text }) }}
-          placeholder="Password"
-          secureTextEntry={true}
-          autoCapitalize='none'
-          autoCorrect={false}
-        />
-        <TouchableOpacity onPress={this.onLoginPress}>
-          <Text style={{ fontSize: 30 }}>Login</Text>
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView>
+        <View style={styles.container}>
+
+          <Text onPress={() => this.signIn()}>Login</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 }

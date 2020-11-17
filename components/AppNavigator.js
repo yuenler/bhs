@@ -8,6 +8,7 @@ const Tabs = createBottomTabNavigator();
 
 export default class AppNavigator extends React.Component {
   render() {
+    console.log('hi');
     return (
       <Tabs.Navigator>
         <Tabs.Screen name="Home" component={HomeScreen} />

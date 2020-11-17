@@ -7,9 +7,7 @@ const Stack = createStackNavigator();
 export default class NotLoggedInScreen extends React.Component {
   render() {
     return (
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreen} />
-      </Stack.Navigator>
+      <LoginScreen />
     )
   }
 }
