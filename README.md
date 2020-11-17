@@ -25,7 +25,7 @@ Run the .EXE file and follow the instructions on the installer.
 
 Open the Command Line again and enter this command:
 ```
-git clone git@github.com:bhsappdev/bhs
+git clone https://github.com/bhsappdev/bhs
 ```
 
 **Step 5: Run the Project**
