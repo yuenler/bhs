@@ -1,14 +1,26 @@
 import React from 'react';
-import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
+import { Text, View } from 'react-native';
 
-// this doesn't work yet, since the render function returns nothing - don't use it please
 export default class ScheduleReader extends React.Component {
   state = { file: null };
 
+  _loadFile() {
+    ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    }).then(res => {
+      alert(res.base64);
+    })
+  }
+
   render() {
-    DocumentPicker.getDocumentAsync({ type: 'image', multiple: false })
-      .then(res => {
-        
-      })
+    return (
+      <View>
+        <Text onPress={this._loadFile}>Upload Schedule</Text>
+      </View>
+    )
   }
 }

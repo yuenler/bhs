@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import NotLoggedInScreen from './components/screens/NotLoggedIn.Screen';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './components/AppNavigator';
+import * as Font from 'expo-font';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,20 +27,31 @@ export default class App extends React.Component {
       isLoadingComplete: false,
       isAuthenticationReady: false,
       isAuthenticated: false,
+      user: null
     };
 
     if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
   }
 
+
+
+  _loadFonts() {
+    return Font.loadAsync({
+      'Red Hat Display': require('./assets/fonts/RedHatDisplay-Medium.ttf')
+    })
+  }
+
   onAuthStateChanged = (user) => {
-    alert(JSON.stringify(user));
     this.setState({ isAuthenticationReady: true });
     this.setState({ isAuthenticated: !!user });
+    this.setState({ user });
   }
 
   _loadResourcesAsync = async () => {
-    return Promise.all([]);
+    return Promise.all([
+      this._loadFonts()
+    ]);
   };
 
   _handleLoadingError = error => {
@@ -65,7 +77,7 @@ export default class App extends React.Component {
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-            {(this.state.isAuthenticated) ? <AppNavigator /> : <NotLoggedInScreen />}
+            {(this.state.isAuthenticated) ? <AppNavigator user={this.state.user} /> : <NotLoggedInScreen />}
           </View>
         </NavigationContainer>
       );

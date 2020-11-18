@@ -7,7 +7,7 @@ export default class ScheduleScreen extends React.Component {
 		return (
 			<SafeAreaView>
 				<Text>Schedule</Text>
-				{/* <ScheduleReader /> */}
+				<ScheduleReader />
 			</SafeAreaView>
 		);
 	}
