@@ -1,4 +1,4 @@
-# Official Brookline High School mobile app for Android and iOS
+# Official Brookline High School Android and iOS app
 
 ### How to run the app client on your computer
 
