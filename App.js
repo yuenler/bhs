@@ -5,7 +5,7 @@ import ApiKeys from './ApiKeys';
 import * as firebase from 'firebase';
 import NotLoggedInScreen from './components/screens/NotLoggedIn.Screen';
 import { NavigationContainer } from '@react-navigation/native';
-import AppNavigator from './components/AppNavigator';
+import AppNavigator from './components/navigators/App.Navigator';
 import * as Font from 'expo-font';
 
 const styles = StyleSheet.create({
