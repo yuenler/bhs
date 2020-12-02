@@ -7,6 +7,7 @@ import NotLoggedInScreen from './components/screens/NotLoggedIn.Screen';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './components/navigators/App.Navigator';
 import * as Font from 'expo-font';
+import { set } from './components/User';
 
 const styles = StyleSheet.create({
   container: {
@@ -72,12 +73,13 @@ export default class App extends React.Component {
         />
       );
     } else {
+      set(this.state.user);
       return (
         <NavigationContainer>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-            {(this.state.isAuthenticated) ? <AppNavigator user={this.state.user} /> : <NotLoggedInScreen />}
+            {(this.state.isAuthenticated) ? <AppNavigator /> : <NotLoggedInScreen />}
           </View>
         </NavigationContainer>
       );
