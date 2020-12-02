@@ -1,4 +1,5 @@
 import React from 'react';
+import CreateEventScreen from '../screens/CreateEventScreen';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import EventsScreen from '../screens/Events.Screen';
@@ -10,6 +11,7 @@ export default class EventsNavigator extends React.Component {
     return (
       <Stack.Navigator>
         <Stack.Screen component={EventsScreen} name="Events" />
+        <Stack.Screen component={CreateEventScreen} name="Create Event" />
       </Stack.Navigator>
     )
   }

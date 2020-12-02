@@ -1,13 +1,11 @@
 import React from 'react';
 import { SafeAreaView, Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 
-export default class EventsScreen extends React.Component {
+export default class CreateEventsScreen extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<TouchableOpacity style = {styles.button} onPress = {() => {
-					this.props.navigation.navigate('Create Event')
-				}}>
+				<TouchableOpacity style = {styles.button}>
 					<Text style={styles.buttonText}>Post Event Here!</Text>
 				</TouchableOpacity>
 			</View>
