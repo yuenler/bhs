@@ -28,7 +28,9 @@ export default class ScheduleScreen extends React.Component {
 		for (let i = 0, len = scheduleForToday.length; i < len; ++i) {
 			const block = scheduleForToday[i];
 			if (time > block.numbers.starts) {
-				this.block = i * 259;
+				if (i - 1 in scheduleForToday) {
+					this.block += scheduleForToday[i - 1].numbers.duration * 3 + 9;
+				}
 			}
 		}
 
@@ -59,22 +61,22 @@ const styles = StyleSheet.create({
 })
 
 const colors = {
-	A: '#6A8EAE',
-	B: '#49306B',
-	C: '#ACE4AA',
-	D: '#E1CDB5',
-	E: '#F4B886',
-	F: '#AAC0AA',
-	G: '#B2675E',
-	T: '#EEF1BD',
-	L: '#C5979D',
-	X: '#2C365E'
+	A: '#7ea8be',
+	B: '#3f6c51',
+	C: '#b38cb4',
+	D: '#6d4c3d',
+	E: '#6610f2',
+	F: '#a30000',
+	G: '#ff7700',
+	T: '#1a8fe3',
+	L: '#272727',
+	X: '#0d1317'
 }
 
 const schedule = [
 	[
 		{
-			title: 'A block',
+			title: 'A',
 			starts: '8:20',
 			ends: '9:40 am',
 			color: 'A',
@@ -85,7 +87,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'B block',
+			title: 'B',
 			starts: '9:55',
 			ends: '11:15 am',
 			color: 'B',
@@ -96,7 +98,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'C block - 1/2',
+			title: 'C - 1/2',
 			starts: '11:30',
 			ends: '12:05 pm',
 			color: 'C',
@@ -118,7 +120,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'C block - 2/2',
+			title: 'C - 2/2',
 			starts: '12:45',
 			ends: '1:25 pm',
 			color: 'C',
@@ -129,7 +131,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'D block',
+			title: 'D',
 			starts: '1:40',
 			ends: '3:00 pm',
 			color: 'D',
@@ -142,7 +144,7 @@ const schedule = [
 	],
 	[
 		{
-			title: 'E block',
+			title: 'E',
 			starts: '8:20',
 			ends: '9:40 am',
 			color: 'E',
@@ -164,7 +166,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'X block',
+			title: 'X',
 			starts: '10:40',
 			ends: '11:15 am',
 			color: 'X',
@@ -175,7 +177,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'F block - 1/2',
+			title: 'F - 1/2',
 			starts: '11:30',
 			ends: '12:05 pm',
 			color: 'F',
@@ -197,7 +199,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'F block - 2/2',
+			title: 'F - 2/2',
 			starts: '12:45',
 			ends: '1:25 pm',
 			color: 'F',
@@ -208,7 +210,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'G block',
+			title: 'G',
 			starts: '1:40',
 			ends: '3:00 pm',
 			color: 'G',
@@ -221,73 +223,80 @@ const schedule = [
 	],
 	[
 		{
-			title: 'A block',
+			title: 'A',
 			starts: '8:20',
 			ends: '8:45 am',
 			color: 'A',
 			numbers: {
 				starts: 820,
-				ends: 845
+				ends: 845,
+				duration: 25
 			}
 		},
 		{
-			title: 'B block',
+			title: 'B',
 			starts: '8:55',
 			ends: '9:20 am',
 			color: 'B',
 			numbers: {
 				starts: 855,
-				ends: 920
+				ends: 920,
+				duration: 25
 			}
 		},
 		{
-			title: 'C block',
+			title: 'C',
 			starts: '9:30',
 			ends: '9:55 am',
 			color: 'C',
 			numbers: {
 				starts: 930,
-				ends: 955
+				ends: 955,
+				duration: 25
 			}
 		},
 		{
-			title: 'D block',
+			title: 'D',
 			starts: '10:05',
 			ends: '10:30 am',
 			color: 'D',
 			numbers: {
 				starts: 1005,
-				ends: 1030
+				ends: 1030,
+				duration: 25
 			}
 		},
 		{
-			title: 'E block',
+			title: 'E',
 			starts: '10:40',
 			ends: '11:05 am',
 			color: 'E',
 			numbers: {
 				starts: 1040,
-				ends: 1105
+				ends: 1105,
+				duration: 25
 			}
 		},
 		{
-			title: 'F block',
+			title: 'F',
 			starts: '11:15',
 			ends: '11:40 am',
 			color: 'F',
 			numbers: {
 				starts: 1115,
-				ends: 1140
+				ends: 1140,
+				duration: 25
 			}
 		},
 		{
-			title: 'G block',
+			title: 'G',
 			starts: '11:50',
 			ends: '12:15 pm',
 			color: 'G',
 			numbers: {
 				starts: 1150,
-				ends: 1215
+				ends: 1215,
+				duration: 25
 			}
 		},
 	]
