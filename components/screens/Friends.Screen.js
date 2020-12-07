@@ -2,10 +2,18 @@ import React from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 
 export default class FriendsScreen extends React.Component {
-	makeFriend = () => {
-		// connect to firebase
+
+	makeFriend(userId, request) {
+	  firebase
+	    .database()
+	    .ref('users/' + userId)
+	    .set({
+	      friendRequested: true,
+	    });
 	}
-	onPress = () => { this.makeFriend };
+	
+	onPress = () => {this.makeFriend(userId, true)};
+	
 	render() {
 		return (
 			<View>
