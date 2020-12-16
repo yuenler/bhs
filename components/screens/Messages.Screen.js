@@ -1,15 +1,18 @@
-// @flow
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
+import fire from '../../Fire';
 
-import Fire from '../../Fire';
+// type Props = {
+//   name?: string,
+//   email?: string,
+//   avatar?: string,
+// };
 
-type Props = {
-  name?: string,
-};
+class Chat extends React.Component {
 
-class Chat extends React.Component<Props> {
-
+//   constructor(props) {
+//     super(props);
+//   }
   static navigationOptions = ({ navigation }) => ({
     title: (navigation.state.params || {}).name || 'Chat!',
   });
@@ -20,29 +23,32 @@ class Chat extends React.Component<Props> {
 
   get user() {
     return {
-      name: this.props.navigation.state.params.name,
-      _id: Fire.shared.uid,
+    //   name: user.name,
+    //   email: user.email,
+      id: fire.uid,
+      _id: fire.uid, // need for gifted-chat
     };
   }
+
   render() {
     return (
       <GiftedChat
         messages={this.state.messages}
-        onSend={Fire.shared.send}
+        onSend={fire.send}
         user={this.user}
       />
     );
   }
 
   componentDidMount() {
-    Fire.shared.on(message =>
+    fire.refOn(message =>
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, message),
       }))
     );
   }
   componentWillUnmount() {
-    Fire.shared.off();
+    fire.refOff();
   }
 }
 

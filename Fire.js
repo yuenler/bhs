@@ -1,47 +1,27 @@
-import firebase from 'firebase'; // 4.8.1
-import ApiKeys from '/ApiKeys'
+import firebase from 'firebase';
+import uuid from 'uuid';
+import user from './components/User';
+
+
+
 class Fire {
-  constructor() {
-    this.init();
-    this.observeAuth();
-  }
-
-//   init = () =>
-//     firebase.initializeApp({
-//       apiKey: 'AIzaSyDLgW8QG1qO8O5WZLC1U8WaqCr5-CvEVmo',
-//       authDomain: 'chatter-b85d7.firebaseapp.com',
-//       databaseURL: 'https://chatter-b85d7.firebaseio.com',
-//       projectId: 'chatter-b85d7',
-//       storageBucket: '',
-//       messagingSenderId: '861166145757',
-//     });
-
-  observeAuth = () =>
-    firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
-
-  onAuthStateChanged = user => {
-    if (!user) {
-      try {
-        firebase.auth().signInAnonymously();
-      } catch ({ message }) {
-        alert(message);
-      }
-    }
-  };
 
   get uid() {
-    return (firebase.auth().currentUser || {}).uid;
+    return (user.uid);
   }
 
   get ref() {
-    return firebase.database().ref('messages');
+    return firebase.database().ref('Messages');
   }
 
   parse = snapshot => {
     const { timestamp: numberStamp, text, user } = snapshot.val();
-    const { key: _id } = snapshot;
+    const { key: id } = snapshot;
+    const { key: _id } = snapshot; //needed for giftedchat
     const timestamp = new Date(numberStamp);
+
     const message = {
+      id,
       _id,
       timestamp,
       text,
@@ -50,14 +30,16 @@ class Fire {
     return message;
   };
 
-  on = callback =>
+  refOn = callback => {
     this.ref
       .limitToLast(20)
       .on('child_added', snapshot => callback(this.parse(snapshot)));
+  }
 
   get timestamp() {
     return firebase.database.ServerValue.TIMESTAMP;
   }
+  
   // send the message to the Backend
   send = messages => {
     for (let i = 0; i < messages.length; i++) {
@@ -65,19 +47,17 @@ class Fire {
       const message = {
         text,
         user,
-        timestamp: this.timestamp,
+        createdAt: this.timestamp,
       };
-      this.append(message);
+      this.ref.push(message);
     }
   };
 
-  append = message => this.ref.push(message);
-
-  // close the connection to the Backend
-  off() {
+  refOff() {
     this.ref.off();
   }
 }
 
-Fire.shared = new Fire();
-export default Fire;
+
+const fire = new Fire();
+export default fire;
