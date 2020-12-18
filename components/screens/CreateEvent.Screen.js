@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react"; 
 import firebase from "firebase";
 import user from "../User";
-import { Button, SafeAreaView, StyleSheet, Modal, View, TextInput, Dimensions, TouchableOpcaity, Text} from "react-native"; 
+import { Button, SafeAreaView, StyleSheet, Modal, View, TextInput, Dimensions, TouchableOpcaity, Text, Alert} from "react-native"; 
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window"); 
@@ -12,50 +12,31 @@ export default function App() {
 	function storeText(text) {
 		firebase
 		  .database()
-		  .ref('users/' + user.uid)
-		  .set({
+		  .ref('Events')
+		  .push({
 			post: text,
 		  });
+		  Alert.alert('You event has been successfully published!')
 	  }
+
+	function handlePost(text){
+		storeText(text)
+		//code to navigate back to events screen
+	}
 	  
-	// This is to manage Modal State 
-	const [isModalVisible, setModalVisible] = useState(false); 
 
 	// This is to manage TextInput State 
 	const [inputValue, setInputValue] = useState(""); 
 
-	// Create toggleModalVisibility function that will 
-	// Open and close modal upon button clicks. 
-	const toggleModalVisibility = () => { 
-		setModalVisible(!isModalVisible); 
-	}; 
-
 	return ( 
 		<SafeAreaView style={styles.screen}> 
 			<StatusBar style="auto" /> 
-
-			{/** We are going to create a Modal with Text Input. */} 
-			<Button title="Show Modal" onPress={toggleModalVisibility} /> 
-
-			{/** This is our modal component containing textinput and a button */} 
-			<Modal animationType="slide"
-				transparent visible={isModalVisible} 
-				presentationStyle="overFullScreen"
-				onDismiss={toggleModalVisibility}> 
-				<View style={styles.viewWrapper}> 
-					<View style={styles.modalView}> 
-						<TextInput placeholder="Enter something..."
-								value={inputValue} style={styles.textInput} 
-								onChangeText={(inputValue) => {
-									setInputValue(inputValue)}} /> 
-
-						{/** This button is responsible to close the modal */} 
-						<Button title="Close" onPress={toggleModalVisibility} /> 
-					</View> 
-				</View> 
-			</Modal> 
+				<TextInput placeholder="Describe your event..."
+						value={inputValue} style={styles.textInput} 
+						onChangeText={(inputValue) => {
+						setInputValue(inputValue)}} /> 
 			<TouchableOpacity style = {styles.button} onPress = {() => {
-					storeText(inputValue)
+					handlePost(inputValue)
 				}}>
 					<Text style={styles.buttonText}>Post!</Text>
 			</TouchableOpacity>
@@ -76,20 +57,6 @@ const styles = StyleSheet.create({
 		alignItems: "center", 
 		justifyContent: "center", 
 		backgroundColor: "rgba(0, 0, 0, 0.2)", 
-	}, 
-	modalView: { 
-		alignItems: "center", 
-		justifyContent: "center", 
-		position: "absolute", 
-		top: "50%", 
-		left: "50%", 
-		elevation: 5, 
-		transform: [{ translateX: -(width * 0.4) }, 
-					{ translateY: -90 }], 
-		height: 180, 
-		width: width * 0.8, 
-		backgroundColor: "#fff", 
-		borderRadius: 7, 
 	}, 
 	textInput: { 
 		width: "80%", 

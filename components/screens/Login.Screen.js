@@ -33,13 +33,13 @@ export default class LoginScreen extends React.Component {
         firebase.auth()
           .signInWithCredential(credential)
           .catch(error => {
-            alert('Couldn\'t sign in with Google: ' + error);
+            Alert.alert('Couldn\'t sign in with Google: ' + error);
           });
       } else {
-        alert('Couldn\'t sign in with Google');
+        Alert.alert('Couldn\'t sign in with Google');
       }
     } catch (err) {
-      alert('Couldn\'t sign in with Google: ' + error);
+      Alert.alert('Couldn\'t sign in with Google: ' + error);
     }
   }
 

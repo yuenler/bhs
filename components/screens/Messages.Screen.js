@@ -2,17 +2,9 @@ import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
 import fire from '../../Fire';
 
-// type Props = {
-//   name?: string,
-//   email?: string,
-//   avatar?: string,
-// };
-
 class Chat extends React.Component {
 
-//   constructor(props) {
-//     super(props);
-//   }
+
   static navigationOptions = ({ navigation }) => ({
     title: (navigation.state.params || {}).name || 'Chat!',
   });
@@ -47,6 +39,7 @@ class Chat extends React.Component {
       }))
     );
   }
+  
   componentWillUnmount() {
     fire.refOff();
   }
