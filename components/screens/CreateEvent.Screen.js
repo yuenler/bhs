@@ -46,8 +46,8 @@ export default function App() {
 					<View style={styles.modalView}> 
 						<TextInput placeholder="Enter something..."
 								value={inputValue} style={styles.textInput} 
-								onChangeText={(value) => {
-									setInputValue}} /> 
+								onChangeText={(inputValue) => {
+									setInputValue(inputValue)}} /> 
 
 						{/** This button is responsible to close the modal */} 
 						<Button title="Close" onPress={toggleModalVisibility} /> 
