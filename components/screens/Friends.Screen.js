@@ -7,16 +7,34 @@ import firebase from 'firebase';
 
 export default class FriendsScreen extends React.Component {
 
+	state = {
+        people: []
+    };
+
 	makeFriend(user) {
 	  firebase
 	    .database()
 	    .ref('Friends')
 	    .push({
-	      friendRequested: user,
+		  friendRequested: user,
+		  matched: false 
 		});
 		Alert.alert('Friend request sent!')
+		this.matchFriend()
+	} 
+	matchFriend(user) {
+		
+
+
+}
+	componentDidMount() { {
+		firebase.database().ref('Friends').on('child_added', (snapshot) => {
+		this.setState({
+			people: people.push(snapshot.val().post),
+		});
+	});
 	}
-	
+	  }
 	onPress = () => {this.makeFriend(user.uid)};
 	
 	render() {
