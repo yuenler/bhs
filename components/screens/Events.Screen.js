@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, View} fro
 import firebase from 'firebase';
 
 
-
+const events = [];
 
 export default class EventsScreen extends React.Component {
 
