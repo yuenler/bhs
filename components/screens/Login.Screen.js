@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import ApiKeys from '../../ApiKeys';
 import * as firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
@@ -48,9 +48,30 @@ export default class LoginScreen extends React.Component {
       <SafeAreaView>
         <View style={styles.container}>
 
-          <Text onPress={() => this.signIn()}>Login</Text>
+          <TouchableOpacity  onPress={() => this.signIn()} style = {styles.button}>
+            <Text style = {styles.buttonText}>Login with Google</Text>
+            </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+	button: {
+		backgroundColor: 'blue',
+		padding: 20,
+		borderRadius: 20,
+	},
+	buttonText: {
+		fontSize: 20,
+    	color: '#fff',
+	},
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});
