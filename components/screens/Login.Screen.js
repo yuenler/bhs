@@ -11,7 +11,22 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20
-  }
+  },
+  button: {
+		backgroundColor: 'blue',
+		padding: 20,
+		borderRadius: 20,
+	},
+	buttonText: {
+		fontSize: 20,
+    	color: '#fff',
+	},
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 })
 
 export default class LoginScreen extends React.Component {
@@ -57,21 +72,3 @@ export default class LoginScreen extends React.Component {
   }
 }
 
-
-const styles = StyleSheet.create({
-	button: {
-		backgroundColor: 'blue',
-		padding: 20,
-		borderRadius: 20,
-	},
-	buttonText: {
-		fontSize: 20,
-    	color: '#fff',
-	},
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});

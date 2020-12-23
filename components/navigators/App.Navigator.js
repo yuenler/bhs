@@ -12,10 +12,10 @@ const Tabs = createBottomTabNavigator();
 export default class AppNavigator extends React.Component {
   render() {
     return (
-
+  
       <Tabs.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({color, size }) => {
             let iconName;
 
             if (route.name === 'Schedule') {
@@ -45,6 +45,7 @@ export default class AppNavigator extends React.Component {
         <Tabs.Screen name="Events" component={EventsNavigator} />
         <Tabs.Screen name="Friends" component={FriendsNavigator} />
       </Tabs.Navigator>
+
 
     )
   }

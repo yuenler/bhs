@@ -4,10 +4,18 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
 
 export default class ScheduleScreen extends React.Component {
+
+	state = {isCustomized: false}
+
 	scrollRef = null;
 	block = 0;
 
 	render() {
+
+		if (! this.state.isCustomized){
+			Alert.alert("You have not customized your classes yet.")
+		}
+
 		let scheduleForToday;
 		let today = new Date();
 		let day = today.getDay();

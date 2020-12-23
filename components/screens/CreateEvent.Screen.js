@@ -14,6 +14,7 @@ export default function App() {
 		  .database()
 		  .ref('Events')
 		  .push({
+			// postTitle: title,
 			post: text,
 		  });
 		  Alert.alert('You event has been successfully published!')
@@ -31,6 +32,10 @@ export default function App() {
 	return ( 
 		<SafeAreaView style={styles.screen}> 
 			<StatusBar style="auto" /> 
+				{/* <TextInput placeholder="Event title"
+						value={inputValue} style={styles.textInput} 
+						onChangeText={(inputValue) => {
+						setInputValue(inputValue)}} />  */}
 				<TextInput placeholder="Describe your event..."
 						value={inputValue} style={styles.textInput} 
 						onChangeText={(inputValue) => {
