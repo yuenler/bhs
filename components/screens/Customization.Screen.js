@@ -1,10 +1,7 @@
 import React, { useReducer } from 'react';
 import { Text, View, StyleSheet, Alert} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {Picker} from 'react-native-community/picker';
-import user from '../User';
-import firebase from 'firebase';
-
+import {Picker} from '@react-native-picker/picker';
 
 export default class CustomizationScreen extends React.Component {
     state = {
@@ -12,23 +9,47 @@ export default class CustomizationScreen extends React.Component {
         teacher: ""
 	};
 
+	options = {
+		blocks:['A','B','C','D','E','F','G'],
+		teachers: ['Adam','alex']
+	}
+
+
 	render() {
+
+		let blocks = this.options.blocks.map( (s) => {
+            return <Picker.Item value={s} label={s} />
+		});
+		
+		let teachers = this.options.teachers.map( (s) => {
+            return <Picker.Item value={s} label={s} />
+        });
 	
 		return (
 			<View>
-                <Picker
-                selectedValue={this.state.language}
+                 <Picker
+                selectedValue={this.state.block}
                 style={{ height: 50, width: 100 }}
-                onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}>
-                <Picker.Item label="A" value="A" />
-                <Picker.Item label="B" value="B" />
-                <Picker.Item label="C" value="C" />
-                <Picker.Item label="D" value="D" />
-                <Picker.Item label="E" value="E" />
-                <Picker.Item label="F" value="F" />
-                <Picker.Item label="G" value="G" />
+                onValueChange={(itemValue) => this.setState({ block: itemValue })}>
+                {blocks}
 
                 </Picker>
+
+				<Picker
+                selectedValue={this.state.teacher}
+                style={{ height: 50, width: 100 }}
+                onValueChange={(itemValue) => this.setState({ teacher: itemValue })}>
+                {teachers}
+
+                </Picker>
+
+				<TouchableOpacity style = {styles.button} onPress = {() => {
+					// handleRecord()
+				}}>
+					<Text style={styles.buttonText}>Record Class</Text>
+				</TouchableOpacity>
+
+				
 
             </View>
             

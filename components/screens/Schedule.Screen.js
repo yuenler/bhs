@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, Alert} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
 
@@ -11,10 +11,6 @@ export default class ScheduleScreen extends React.Component {
 	block = 0;
 
 	render() {
-
-		if (! this.state.isCustomized){
-			Alert.alert("You have not customized your classes yet.")
-		}
 
 		let scheduleForToday;
 		let today = new Date();
@@ -56,6 +52,21 @@ export default class ScheduleScreen extends React.Component {
 	}
 
 	componentDidMount() {
+		if (! this.state.isCustomized){
+			Alert.alert(
+				"You have not customized your classes yet!",
+				"",
+				[
+				  {
+					text: "Cancel",
+					style: "cancel"
+				  },
+				  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize') }
+				],
+				{ cancelable: false }
+			  );
+		}
+
 		setTimeout(() => {
 			this.scrollRef.scrollTo({ y: this.block, animate: true });
 		}, 0);
