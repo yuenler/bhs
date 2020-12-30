@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { Text, View, StyleSheet, Alert} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from 'react-native';
 
 export default class CustomizationScreen extends React.Component {
     state = {
