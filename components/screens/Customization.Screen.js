@@ -45,6 +45,7 @@ export default class CustomizationScreen extends React.Component {
 
 				<TouchableOpacity style = {styles.button} onPress = {() => {
 					// handleRecord()
+					this.props.navigation.navigate('Schedule',{block: this.state.block, teacher: this.state.teacher})
 				}}>
 					<Text style={styles.buttonText}>Record Class</Text>
 				</TouchableOpacity>
