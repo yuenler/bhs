@@ -7,47 +7,50 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window"); 
 
-export default function App() { 
-
-	function storeText(text) {
+export default class CustomizationScreen extends React.Component {
+	storeText(title, text) {
 		firebase
 		  .database()
 		  .ref('Events')
 		  .push({
-			// postTitle: title,
+			postTitle: title,
 			post: text,
 		  });
 		  Alert.alert('You event has been successfully published!')
 	  }
 
-	function handlePost(text){
-		storeText(text)
+	handlePost(title, text){
+		this.storeText(title, text)
 		//code to navigate back to events screen
 	}
 	  
 
-	// This is to manage TextInput State 
-	const [inputValue, setInputValue] = useState(""); 
+	state = {
+        title: "",
+        text: ""
+	};
 
+	render() {
 	return ( 
 		<SafeAreaView style={styles.screen}> 
 			<StatusBar style="auto" /> 
-				{/* <TextInput placeholder="Event title"
-						value={inputValue} style={styles.textInput} 
-						onChangeText={(inputValue) => {
-						setInputValue(inputValue)}} />  */}
+				<TextInput placeholder="Event title"
+						style={styles.textInput} 
+						onChangeText={title => this.setState({ title })}
+          				value={this.state.title} /> 
 				<TextInput placeholder="Describe your event..."
-						value={inputValue} style={styles.textInput} 
-						onChangeText={(inputValue) => {
-						setInputValue(inputValue)}} /> 
+						style={styles.textInput} 
+						onChangeText={text => this.setState({ text })}
+          				value={this.state.text} /> 
 			<TouchableOpacity style = {styles.button} onPress = {() => {
-					handlePost(inputValue)
+					this.handlePost(this.state.title, this.state.text)
 				}}>
 					<Text style={styles.buttonText}>Post!</Text>
 			</TouchableOpacity>
 		</SafeAreaView> 
 	); 
 } 
+}
 
 // These are user defined styles 
 const styles = StyleSheet.create({ 

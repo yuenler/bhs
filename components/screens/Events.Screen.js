@@ -3,18 +3,21 @@ import { SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, View} fro
 import firebase from 'firebase';
 
 
-const events = [];
+const titles = [];
+const texts = []
 
 export default class EventsScreen extends React.Component {
 
 	state = {
-        events: []
+		titles: [],
+		texts: []
     };
 
 	componentDidMount() {
 		firebase.database().ref('Events').on('child_added', (snapshot) => {
 		this.setState({
-			events: events.push(snapshot.val().post),
+			titles: titles.push(snapshot.val().postTitle),
+			texts: texts.push(snapshot.val().post)
 		});
 	});
 	}
@@ -24,8 +27,8 @@ export default class EventsScreen extends React.Component {
 	render() {
 		
 		let printedEvent = "";
-		for (let i = 0, len = events.length; i < len; ++i) {
-			printedEvent += events[i]
+		for (let i = 0, len = titles.length; i < len; ++i) {
+			printedEvent += titles[i]
 			printedEvent += "\n---------------------\n"
 		}
 
