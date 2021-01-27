@@ -28,7 +28,8 @@ export default class EventsScreen extends React.Component {
 		
 		const events = []
 		// let printedEvent = "";
-		for (let i = 0, len = titles.length; i < len; ++i) {
+		var i;
+		for (i = titles.length-1; i >= 0; i--) {
 			events.push(
 				{
 				title: titles[i],
@@ -44,7 +45,7 @@ export default class EventsScreen extends React.Component {
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						events.map((block, i) => {
-							return <EventsBox background='#a30000' color="white" title={block.title} text={block.text} key={i} />;
+							return <EventsBox background='#7a7a7a' color="white" title={block.title} text={block.text} key={i} />;
 						})
 					}
 				</ScrollView>
@@ -52,7 +53,7 @@ export default class EventsScreen extends React.Component {
 				<TouchableOpacity style = {styles.button} onPress = {() => {
 					this.props.navigation.navigate('Create Event')
 				}}>
-					<Text style={styles.buttonText}>Post Event Here!</Text>
+					<Text style={styles.buttonText}>Create Event Here</Text>
 				</TouchableOpacity>
 			</View>
 		);
@@ -63,11 +64,14 @@ export default class EventsScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	button: {
+		margin: 20,
 		backgroundColor: 'blue',
 		padding: 20,
 		borderRadius: 20,
+		alignItems: "center", 
 	},
 	buttonText: {
+		
 		fontSize: 20,
     	color: '#fff',
 	},

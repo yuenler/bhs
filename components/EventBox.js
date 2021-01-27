@@ -26,23 +26,20 @@ const styles = (color, bg, height) => StyleSheet.create({
     borderRadius: 3,
     backgroundColor: bg,
     width: '100%',
-
+    height: 200,
   },
   title: {
     fontSize: 25,
-    marginTop: 7.5,
+    marginTop: 0,
     fontFamily: 'Red Hat Display',
-    width: '100%',
-
     color
   },
   text: {
     fontSize: 14,
     fontFamily: 'Red Hat Display',
     position: 'absolute',
-    width: '100%',
-    marginLeft: 15,
-    textAlign: 'right',
+    marginLeft: 20,
+    marginTop: 50,
     color
   }
 })

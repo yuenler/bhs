@@ -39,13 +39,27 @@ export default class CustomizationScreen extends React.Component {
 						onChangeText={title => this.setState({ title })}
           				value={this.state.title} /> 
 				<TextInput placeholder="Describe your event..."
+						multiline
 						style={styles.textInput} 
 						onChangeText={text => this.setState({ text })}
           				value={this.state.text} /> 
 			<TouchableOpacity style = {styles.button} onPress = {() => {
-					this.handlePost(this.state.title, this.state.text)
+					Alert.alert(
+						"Are you sure you want to post?",
+						"If you continue, your post will be publicly viewable by everyone who has downloaded this app. By continuing, you acknowledge that your post is relevant and appropriate for the Brookline High School community. If our team deems that your post does not satisfy these conditions, we reserve the right to remove your post from our app. ",
+						[
+						  {
+							text: "Cancel",
+							style: "cancel"
+						  },
+						  { text: "Continue", onPress: () => this.handlePost(this.state.title, this.state.text)}
+						],
+						{ cancelable: false }
+					  );
+
+					
 				}}>
-					<Text style={styles.buttonText}>Post!</Text>
+					<Text style={styles.buttonText}>Post</Text>
 			</TouchableOpacity>
 		</SafeAreaView> 
 	); 
@@ -78,6 +92,11 @@ const styles = StyleSheet.create({
 	button: {
 		backgroundColor: 'blue',
 		padding: 20,
+		alignItems: "center", 
 		borderRadius: 20,
+	},
+	buttonText: {
+		fontSize: 20,
+    	color: '#fff',
 	},
 });
