@@ -21,7 +21,7 @@
     "expo-image-picker": "^9.1.1",
     "expo-notifications": "~0.7.2",
     "expo-status-bar": "~1.0.2",
-    "firebase": "^7.9.0",
+    "firebase": "^7.24.0",
     "node-gyp": "^7.1.2",
     "react": "^16.13.1",
     "react-dom": "16.13.1",

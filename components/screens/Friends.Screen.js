@@ -1,8 +1,10 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert } from 'react-native';
+import { Text, View, StyleSheet, Alert, Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import user from '../User';
 import firebase from 'firebase';
+import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
+
 
 
 export default class FriendsScreen extends React.Component {
@@ -15,7 +17,6 @@ export default class FriendsScreen extends React.Component {
 	
 	componentDidMount() {
 		
-	
 		firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
 
 			if (snapshot.hasChild("matchName")){
@@ -100,18 +101,44 @@ export default class FriendsScreen extends React.Component {
 		if (! this.state.ready){
 			return(<View><Text>Loading...</Text></View>)
 		}
+
 		return (
+			
 			<View>
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
 					<Text style = {styles.buttonText}>Make a Friend</Text>
 				</TouchableOpacity>
 
-				<Text>Your matched friend is {this.state.matchName}</Text>
-
 				<TouchableOpacity style = {styles.deleteFriendButton} onPress={this.onDelete}>
 					<Text style = {styles.buttonText}>Delete Friend</Text>
 				</TouchableOpacity>
 
+				<Text>Your matched friend is... {this.state.matchName}</Text>
+
+				<View style = {styles.contactContainer}>
+					
+				<View style={{flex:1, margin: 20}}>
+
+				<MaterialCommunityIcons.Button backgroundColor="#4287f5" style={styles.contactButton} name='message'  onPress={()=>{ Linking.openURL('sms:' + {phoneNumber})}}>Text</MaterialCommunityIcons.Button>
+				</View>
+
+				<View style={{flex:1, margin: 20}}>
+				<MaterialCommunityIcons.Button backgroundColor="#3b5998" style={styles.contactButton} name='phone'  onPress={()=>{ Linking.openURL('tel:' + {phoneNumber})}}>Call</MaterialCommunityIcons.Button>
+				</View>
+	
+				</View>
+
+				<View style = {styles.contactContainer}>
+
+				<View style={{flex:1, margin: 20}}>
+				<Ionicons.Button backgroundColor="#0cc42a" style={styles.contactButton} name='ios-videocam'  onPress={()=>{ Linking.openURL('facetime:' + {phoneNumber})}}>FaceTime</Ionicons.Button>
+				</View>
+
+				<View style={{flex:1, margin: 20}}>
+				<MaterialCommunityIcons.Button backgroundColor="#c42e0c" style={styles.contactButton} name='email'  onPress={()=>{ Linking.openURL('mailto:' + this.state.matchEmail)}}>Email</MaterialCommunityIcons.Button>
+				</View>
+
+				</View>
 			</View>
 		);
 	}
@@ -122,13 +149,18 @@ const styles = StyleSheet.create({
 		backgroundColor: 'blue',
 		padding: 20,
 		borderRadius: 20,
-		margin: 20
+		margin: 20,
+		
 	},
 	deleteFriendButton: {
 		backgroundColor: 'red',
 		padding: 20,
 		borderRadius: 20,
 		margin: 20
+	},
+	contactButton: {
+		padding: 20,
+		borderRadius: 20,
 	},
 	buttonText: {
 		fontSize: 20,
@@ -140,4 +172,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	contactContainer: {
+		flexDirection: 'row',
+		
+	}
 });
