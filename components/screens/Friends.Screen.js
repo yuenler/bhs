@@ -14,17 +14,21 @@ export default class FriendsScreen extends React.Component {
 	};
 	
 	componentDidMount() {
-	try{
+		
+	
 		firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
-		this.setState({
-			matchName: snapshot.val().matchName,
-			matchEmail: snapshot.val().matchEmail
-		});
-	});
-	}
-	catch(error){
 
-	}
+			if (snapshot.hasChild("matchName")){
+
+				this.setState({
+					matchName: snapshot.val().matchName,
+					matchEmail: snapshot.val().matchEmail
+				});
+	
+			}
+		
+	});
+
 	this.setState({ready:true});
 	}
 
@@ -39,11 +43,12 @@ export default class FriendsScreen extends React.Component {
 			matchedName = snapshot.val().name
 			matchedUID = snapshot.val().uid
 		});
-		if (available == true){
-			if (matchedUID === userUID){
-				available = false;
-			}
-		}
+		//so that you don't match with yourself
+		// if (available == true){
+		// 	if (matchedUID === userUID){
+		// 		available = false;
+		// 	}
+		// }
 		
 		if (available){
 			Alert.alert('You have matched with ' + matchedName + "!")
@@ -80,8 +85,16 @@ export default class FriendsScreen extends React.Component {
 		Alert.alert('Friend request sent!')
 	} 
 
-	
+	deleteFriend(userUID){
+		let userRef = firebase.database().ref('Matches/' + userUID);
+		userRef.remove()
+		Alert.alert('Friend successfully deleted!')
+	}
+
 	onPress = () => {this.makeFriend(user.displayName, user.email, user.uid)};
+
+	onDelete = () => {this.deleteFriend(user.uid)};
+
 	
 	render() {
 		if (! this.state.ready){
@@ -92,7 +105,12 @@ export default class FriendsScreen extends React.Component {
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
 					<Text style = {styles.buttonText}>Make a Friend</Text>
 				</TouchableOpacity>
+
 				<Text>Your matched friend is {this.state.matchName}</Text>
+
+				<TouchableOpacity style = {styles.deleteFriendButton} onPress={this.onDelete}>
+					<Text style = {styles.buttonText}>Delete Friend</Text>
+				</TouchableOpacity>
 
 			</View>
 		);
@@ -104,6 +122,13 @@ const styles = StyleSheet.create({
 		backgroundColor: 'blue',
 		padding: 20,
 		borderRadius: 20,
+		margin: 20
+	},
+	deleteFriendButton: {
+		backgroundColor: 'red',
+		padding: 20,
+		borderRadius: 20,
+		margin: 20
 	},
 	buttonText: {
 		fontSize: 20,
