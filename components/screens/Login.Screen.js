@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import ApiKeys from '../../ApiKeys';
 import * as firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
