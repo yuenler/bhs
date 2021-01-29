@@ -37,7 +37,6 @@ export default class EventsScreen extends React.Component {
 				}
 			)
 		}
-		console.log(events)
 
 		return (
 			

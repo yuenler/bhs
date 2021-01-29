@@ -45,11 +45,11 @@ export default class FriendsScreen extends React.Component {
 			matchedUID = snapshot.val().uid
 		});
 		//so that you don't match with yourself
-		// if (available == true){
-		// 	if (matchedUID === userUID){
-		// 		available = false;
-		// 	}
-		// }
+		if (available == true){
+			if (matchedUID === userUID){
+				available = false;
+			}
+		}
 		
 		if (available){
 			Alert.alert('You have matched with ' + matchedName + "!")
@@ -104,7 +104,7 @@ export default class FriendsScreen extends React.Component {
 
 		return (
 			
-			<View>
+			<View style={styles.container}>
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
 					<Text style = {styles.buttonText}>Make a Friend</Text>
 				</TouchableOpacity>
@@ -113,7 +113,9 @@ export default class FriendsScreen extends React.Component {
 					<Text style = {styles.buttonText}>Delete Friend</Text>
 				</TouchableOpacity>
 
-				<Text>Your matched friend is... {this.state.matchName}</Text>
+				<View style={{margin: 20}}>
+				<Text style={{color:'#FFFFFF', fontSize: 30}}>Your matched friend is: {this.state.matchName}</Text>
+				</View>
 
 				<View style = {styles.contactContainer}>
 					
@@ -146,14 +148,14 @@ export default class FriendsScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: 'blue',
+		backgroundColor: '#0e4bb0',
 		padding: 20,
 		borderRadius: 20,
 		margin: 20,
 		
 	},
 	deleteFriendButton: {
-		backgroundColor: 'red',
+		backgroundColor: '#c90606',
 		padding: 20,
 		borderRadius: 20,
 		margin: 20
@@ -168,7 +170,7 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: '#818fa6',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},

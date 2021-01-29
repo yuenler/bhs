@@ -1,12 +1,13 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert} from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Picker } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 
 export default class CustomizationScreen extends React.Component {
     state = {
         block: "",
-        teacher: ""
+		teacher: "",
+		phoneNumber: "",
 	};
 
 	options = {
@@ -18,15 +19,18 @@ export default class CustomizationScreen extends React.Component {
 	render() {
 
 		let blocks = this.options.blocks.map( (s) => {
-            return <Picker.Item value={s} label={s} />
+            return <Picker.Item key={s} value={s} label={s} />
 		});
 		
 		let teachers = this.options.teachers.map( (s) => {
-            return <Picker.Item value={s} label={s} />
+            return <Picker.Item key={s} value={s} label={s} />
         });
 	
 		return (
-			<View>
+			<View style={styles.container}>
+				<View style={{flexDirection: 'row'}}>
+				<View style={{flex:1, margin: 20}}>
+					<Text>Block</Text>
                  <Picker
                 selectedValue={this.state.block}
                 style={{ height: 50, width: 100 }}
@@ -34,14 +38,20 @@ export default class CustomizationScreen extends React.Component {
                 {blocks}
 
                 </Picker>
+				</View>
 
+				<View style={{flex:2, margin: 20}}>
+				<Text>Teacher</Text>
 				<Picker
                 selectedValue={this.state.teacher}
-                style={{ height: 50, width: 100 }}
+                style={{ height: 50, width: 200 }}
                 onValueChange={(itemValue) => this.setState({ teacher: itemValue })}>
                 {teachers}
 
                 </Picker>
+				</View>
+				</View>
+
 
 				<TouchableOpacity style = {styles.button} onPress = {() => {
 					// handleRecord()
@@ -50,6 +60,14 @@ export default class CustomizationScreen extends React.Component {
 				}}>
 					<Text style={styles.buttonText}>Record Class</Text>
 				</TouchableOpacity>
+
+				<View style={{margin: 30}}>
+				<Text>The following field will only be used for the Friends screen of the app.</Text>
+				</View>
+				<TextInput placeholder="Phone number"
+						style={styles.textInput} 
+						onChangeText={phoneNumber => this.setState({ phoneNumber })}
+          				value={this.state.phoneNumber} /> 
 
 				
 
@@ -61,9 +79,10 @@ export default class CustomizationScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: 'blue',
+		backgroundColor: '#058244',
 		padding: 20,
 		borderRadius: 20,
+		margin: 20
 	},
 	buttonText: {
 		fontSize: 20,
@@ -71,8 +90,15 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
 		alignItems: 'center',
-		justifyContent: 'center',
+		backgroundColor: '#fff',
 	},
+	textInput: { 
+		width: "80%", 
+		borderRadius: 5, 
+		paddingVertical: 8, 
+		paddingHorizontal: 16, 
+		borderColor: "rgba(0, 0, 0, 0.2)", 
+		borderWidth: 1, 
+	}, 
 });
