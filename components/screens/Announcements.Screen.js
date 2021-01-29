@@ -6,7 +6,7 @@ import EventsBox from '../EventBox';
 const titles = [];
 const texts = []
 
-export default class EventsScreen extends React.Component {
+export default class AnnouncementsScreen extends React.Component {
 
 	state = {
 		titles: [],

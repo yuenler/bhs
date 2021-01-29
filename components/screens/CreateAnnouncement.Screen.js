@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window"); 
 
-export default class CustomizationScreen extends React.Component {
+export default class CreateAnnouncementsScreen extends React.Component {
 	storeText(title, text) {
 		firebase
 		  .database()
@@ -21,7 +21,7 @@ export default class CustomizationScreen extends React.Component {
 
 	handlePost(title, text){
 		this.storeText(title, text)
-		//code to navigate back to events screen
+		this.props.navigation.navigate('Events')
 	}
 	  
 
