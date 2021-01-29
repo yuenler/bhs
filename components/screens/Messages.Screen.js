@@ -18,10 +18,10 @@ class Chat extends React.Component {
 
   get user() {
     return {
+      _id: fire.uid,
       name: user.displayName,
-      email: user.email,
-      id: fire.uid,
-      _id: fire.uid, // need for gifted-chat
+      avatar: user.photoURL
+    
     };
   }
 
@@ -29,11 +29,12 @@ class Chat extends React.Component {
     const block = this.props.route.params.block;
     return (
       <GiftedChat
+        
         renderUsernameOnMessage={true}
-        alwaysShowSend={true}
         messages={this.state.messages}
         onSend={fire.send}
         user={this.user}
+        timeTextStyle={{ left: { color: 'red' }, right: { color: 'yellow' } }}
       />
     );
   }

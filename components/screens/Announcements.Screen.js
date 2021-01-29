@@ -50,7 +50,7 @@ export default class AnnouncementsScreen extends React.Component {
 				</ScrollView>
 
 				<TouchableOpacity style = {styles.button} onPress = {() => {
-					this.props.navigation.navigate('Create Event')
+					this.props.navigation.navigate('Create Announcement')
 				}}>
 					<Text style={styles.buttonText}>Create Event Here</Text>
 				</TouchableOpacity>

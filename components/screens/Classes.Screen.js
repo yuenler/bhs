@@ -9,7 +9,42 @@ export default class ClassesScreen extends React.Component {
     onA = () => {this.props.navigation.navigate('Messages', 
         {block: 'A'}
       )};
+
+      onB = () => {this.props.navigation.navigate('Messages', 
+        {block: 'B'}
+      )};
     
+      onC = () => {this.props.navigation.navigate('Messages', 
+        {block: 'C'}
+      )};
+
+      onD = () => {this.props.navigation.navigate('Messages', 
+        {block: 'D'}
+      )};
+      
+      onE = () => {this.props.navigation.navigate('Messages', 
+        {block: 'E'}
+      )};
+      
+      onF = () => {this.props.navigation.navigate('Messages', 
+        {block: 'F'}
+      )};
+      
+      onG = () => {this.props.navigation.navigate('Messages', 
+        {block: 'G'}
+      )};
+    
+      onZ = () => {this.props.navigation.navigate('Messages', 
+        {block: 'Z'}
+      )};
+      
+      onT = () => {this.props.navigation.navigate('Messages', 
+        {block: 'T'}
+      )};
+      
+      onX = () => {this.props.navigation.navigate('Messages', 
+        {block: 'X'}
+      )};
     
 	render() {
         

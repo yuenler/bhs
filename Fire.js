@@ -15,15 +15,13 @@ class Fire {
   }
 
   parse = snapshot => {
-    const { timestamp: numberStamp, text, user } = snapshot.val();
-    const { key: id } = snapshot;
+    const { createdAt, text, user } = snapshot.val();
     const { key: _id } = snapshot; //needed for giftedchat
-    const timestamp = new Date(numberStamp);
+    // const timestamp = new Date(numberStamp);
 
     const message = {
-      id,
       _id,
-      timestamp,
+      createdAt,
       text,
       user,
     };
@@ -37,7 +35,7 @@ class Fire {
   }
 
   get timestamp() {
-    return firebase.database.ServerValue.TIMESTAMP;
+    return Date(firebase.database.ServerValue.TIMESTAMP);
   }
   
   // send the message to the Backend
@@ -47,7 +45,7 @@ class Fire {
       const message = {
         text,
         user,
-        createdAt: new Date(this.timestamp),
+        createdAt: this.timestamp,
       };
       this.ref.push(message);
     }
