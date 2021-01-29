@@ -54,7 +54,7 @@ export default class LoginScreen extends React.Component {
         Alert.alert('Couldn\'t sign in with Google');
       }
     } catch (err) {
-      Alert.alert('Couldn\'t sign in with Google: ' + error);
+      Alert.alert('Couldn\'t sign in with Google: ' + err);
     }
   }
 
