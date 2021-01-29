@@ -47,7 +47,7 @@ class Fire {
       const message = {
         text,
         user,
-        createdAt: this.timestamp,
+        createdAt: new Date(this.timestamp),
       };
       this.ref.push(message);
     }
