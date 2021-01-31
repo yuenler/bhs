@@ -285,6 +285,10 @@ export default class ScheduleScreen extends React.Component {
 		else if (day === 3) {
 			scheduleForToday = schedule[2];
 		}
+		else
+		{
+			scheduleForToday = []
+		}
 
 		for (let i = 0, len = scheduleForToday.length; i < len; ++i) {
 			const block = scheduleForToday[i];

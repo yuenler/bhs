@@ -26,7 +26,7 @@ class Chat extends React.Component {
   }
 
   render() {
-    const block = this.props.route.params.block;
+    var block = this.props.route.params.block;
     return (
       <GiftedChat
         

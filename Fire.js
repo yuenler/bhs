@@ -3,15 +3,19 @@ import uuid from 'uuid';
 import user from './components/User';
 
 
-
 class Fire {
+
+  constructor(block, teacher) {
+    this.block = block;
+    this.teacher = teacher;
+  }
 
   get uid() {
     return (user.uid);
   }
 
   get ref() {
-    return firebase.database().ref('Messages');
+    return firebase.database().ref('Messages/' + this.block + '/' + this.teacher);
   }
 
   parse = snapshot => {
@@ -57,5 +61,5 @@ class Fire {
 }
 
 
-const fire = new Fire();
+const fire = new Fire('A', 'Marta Fuertes');
 export default fire;
