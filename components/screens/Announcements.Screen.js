@@ -52,7 +52,7 @@ export default class AnnouncementsScreen extends React.Component {
 				<TouchableOpacity style = {styles.button} onPress = {() => {
 					this.props.navigation.navigate('Create Announcement')
 				}}>
-					<Text style={styles.buttonText}>Create Event Here</Text>
+					<Text style={styles.buttonText}>Create Announcement Here</Text>
 				</TouchableOpacity>
 			</View>
 		);

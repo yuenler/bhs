@@ -21,7 +21,7 @@ export default class CreateAnnouncementsScreen extends React.Component {
 
 	handlePost(title, text){
 		this.storeText(title, text)
-		this.props.navigation.navigate('Events')
+		this.props.navigation.navigate('Announcements')
 	}
 	  
 
