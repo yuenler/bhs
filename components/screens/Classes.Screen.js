@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class ClassesScreen extends React.Component {
 
     onA = () => {this.props.navigation.navigate('Messages', 
-        {block: 'A'}
+        {block: 'A' }
       )};
 
       onB = () => {this.props.navigation.navigate('Messages', 

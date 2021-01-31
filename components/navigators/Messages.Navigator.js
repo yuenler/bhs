@@ -12,7 +12,11 @@ export default class MessagesNavigator extends React.Component {
     return (
       <Stack.Navigator>
         <Stack.Screen component={ClassesScreen} name="Classes" />
-        <Stack.Screen component={MessagesScreen} name="Messages" />
+        <Stack.Screen component={MessagesScreen} name="Messages" 
+        options={({ route }) => ({
+          title: route.params.block + ' Block'
+        })}
+        />
       </Stack.Navigator>
     )
   }
