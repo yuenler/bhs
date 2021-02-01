@@ -1,9 +1,11 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, Alert} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, Alert, TouchableOpacity} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
 
 export default class ScheduleScreen extends React.Component {
+
+
 	constructor(props){
 		super(props);
 		this.state = {isCustomized: false,
@@ -23,6 +25,8 @@ export default class ScheduleScreen extends React.Component {
 			'G' : ''
 		  }}
 	}
+
+	
 
 	  static getDerivedStateFromProps(props, state) {
 		  if (props.route.params && state.block[props.route.params.block] !== props.route.params.teacher){

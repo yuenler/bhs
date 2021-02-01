@@ -38,6 +38,7 @@ export default class AppNavigator extends React.Component {
           activeTintColor: 'tomato',
           inactiveTintColor: 'gray',
         }}
+        
       >
 
         <Tabs.Screen name="Schedule" component={ScheduleNavigator} />

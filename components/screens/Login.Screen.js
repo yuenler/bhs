@@ -5,10 +5,6 @@ import * as firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
 
 const styles = StyleSheet.create({
-  container: {
-    marginLeft: 15,
-    marginTop: 20
-  },
   title: {
     fontSize: 20
   },
@@ -60,14 +56,12 @@ export default class LoginScreen extends React.Component {
 
   render() {
     return (
-      <SafeAreaView>
         <View style={styles.container}>
 
           <TouchableOpacity  onPress={() => this.signIn()} style = {styles.button}>
             <Text style = {styles.buttonText}>Login with Google</Text>
             </TouchableOpacity>
         </View>
-      </SafeAreaView>
     );
   }
 }
