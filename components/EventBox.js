@@ -4,18 +4,13 @@ import { StyleSheet, Text, View } from "react-native";
 export default class EventBox extends React.Component {
   render() {
     const styled = styles(this.props.color, this.props.background, this.props.height);
-    console.log(this.props.date)
+    console.log(this.props.userName)
     return (
       <View style={styled.block}>
-        <View style={{flexDirection: 'row'}}>
-        <View style={{flex: 1}}>
         <Text style={styled.title}>{this.props.title}</Text>
-        </View>
-        <View style={{flex: 1}}>
-        <Text style={styled.date}>{this.props.date}</Text>
-        </View>
-        </View>
         <Text style={styled.text}>{this.props.text}</Text>
+        <Text style={styled.name}>{this.props.date}</Text>
+        <Text style={styled.date}>{this.props.userName}</Text>
       </View>
     )
   }
@@ -31,7 +26,7 @@ const styles = (color, bg, height) => StyleSheet.create({
     paddingRight: 15,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 3,
+    borderRadius: 15,
     backgroundColor: '#871609',
     width: '100%',
     height: 200,
@@ -52,7 +47,16 @@ const styles = (color, bg, height) => StyleSheet.create({
   },
   date:{
     fontSize: 10,
-    textAlign: 'right',
+    position: 'absolute',
+    marginTop: 170,
+    marginLeft: 10,
+    color
+  },
+  name:{
+    fontSize: 10,
+    position: 'absolute',
+    marginTop: 180,
+    marginLeft: 10,
     color
   }
 })

@@ -6,6 +6,7 @@ import EventsBox from '../EventBox';
 const titles = [];
 const texts = [];
 const dates = [];
+const userNames = [];
 
 export default class AnnouncementsScreen extends React.Component {
 
@@ -13,6 +14,7 @@ export default class AnnouncementsScreen extends React.Component {
 		titles: [],
 		texts: [],
 		dates: [],
+		userNames: []
     };
 
 	componentDidMount() {
@@ -20,7 +22,8 @@ export default class AnnouncementsScreen extends React.Component {
 		this.setState({
 			titles: titles.push(snapshot.val().postTitle),
 			texts: texts.push(snapshot.val().post),
-			dates: dates.push(snapshot.val().postDate)
+			dates: dates.push(snapshot.val().postDate),
+			userNames: userNames.push(snapshot.val().postUserName),
 		});
 	});
 	}
@@ -37,7 +40,8 @@ export default class AnnouncementsScreen extends React.Component {
 				{
 				title: titles[i],
 				text: texts[i],
-				date: dates[i]
+				date: dates[i],
+				userName: userNames[i]
 				}
 			)
 		}
@@ -48,7 +52,7 @@ export default class AnnouncementsScreen extends React.Component {
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						events.map((block, i) => {
-							return <EventsBox background='#7a7a7a' color="white" title={block.title} text={block.text} date={block.date} key={i} />;
+							return <EventsBox background='#7a7a7a' color="white" title={block.title} text={block.text} date={block.date} userName = {block.userName} key={i} />;
 						})
 					}
 				</ScrollView>
