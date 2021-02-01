@@ -304,7 +304,7 @@ export default class ScheduleScreen extends React.Component {
 		}
 
 		return (
-			<SafeAreaView>
+			<SafeAreaView style={{backgroundColor: '#0F182D'}}>
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						scheduleForToday.map((block, i) => {

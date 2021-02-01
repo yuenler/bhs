@@ -6,11 +6,13 @@ import AnnouncementsNavigator from './Announcements.Navigator';
 import FriendsNavigator from './Friends.Navigator';
 import { Ionicons } from '@expo/vector-icons';
 
-
 const Tabs = createBottomTabNavigator();
 
 export default class AppNavigator extends React.Component {
+  
   render() {
+              
+
     return (
   
       <Tabs.Navigator

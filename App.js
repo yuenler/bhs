@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Platform, StatusBar } from 'react-native';
+import { StyleSheet, View, Platform, StatusBar, Alert } from 'react-native';
 import { AppLoading } from 'expo';
 import ApiKeys from './ApiKeys';
 import * as firebase from 'firebase';
@@ -47,7 +47,24 @@ export default class App extends React.Component {
     this.setState({ isAuthenticationReady: true });
     this.setState({ isAuthenticated: !!user });
     this.setState({ user });
+
+    if (user) {
+      var idxBrooklinek12 = user.email.indexOf('@brooklinek12.org');
+        var idxPSBMA = user.email.indexOf('@psbma.org');
+        if (idxBrooklinek12 == -1 && idxPSBMA == -1) {
+          Alert.alert(
+            "Please sign in using your school email address!",
+            "",
+            [
+              { text: "Ok", onPress: () => firebase.auth().signOut()}
+            ],
+            { cancelable: false }
+            );
+        }
+    }
   }
+
+  
 
   _loadResourcesAsync = async () => {
     return Promise.all([
