@@ -29,6 +29,7 @@ export default class CreateAnnouncementsScreen extends React.Component {
 			postTitle: title,
 			postDate: today,
 			post: text,
+			postUserName: user.displayName
 		  });
 		  Alert.alert('You event has been successfully published!')
 	  }

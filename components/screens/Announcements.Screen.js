@@ -20,7 +20,7 @@ export default class AnnouncementsScreen extends React.Component {
 		this.setState({
 			titles: titles.push(snapshot.val().postTitle),
 			texts: texts.push(snapshot.val().post),
-			dates: dates.push(snapshot.val().date)
+			dates: dates.push(snapshot.val().postDate)
 		});
 	});
 	}
