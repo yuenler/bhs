@@ -10,14 +10,16 @@ export default class AnnouncementsScreen extends React.Component {
 
 	state = {
 		titles: [],
-		texts: []
+		texts: [],
+		dates: [],
     };
 
 	componentDidMount() {
-		firebase.database().ref('Events').on('child_added', (snapshot) => {
+		firebase.database().ref('Announcements').on('child_added', (snapshot) => {
 		this.setState({
 			titles: titles.push(snapshot.val().postTitle),
-			texts: texts.push(snapshot.val().post)
+			texts: texts.push(snapshot.val().post),
+			dates: dates.push(snapshot.val().date)
 		});
 	});
 	}
@@ -33,7 +35,8 @@ export default class AnnouncementsScreen extends React.Component {
 			events.push(
 				{
 				title: titles[i],
-				text: texts[i]
+				text: texts[i],
+				date: dates[i]
 				}
 			)
 		}
@@ -44,7 +47,7 @@ export default class AnnouncementsScreen extends React.Component {
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						events.map((block, i) => {
-							return <EventsBox background='#7a7a7a' color="white" title={block.title} text={block.text} key={i} />;
+							return <EventsBox background='#7a7a7a' color="white" title={block.title} text={block.text} date={block.date} key={i} />;
 						})
 					}
 				</ScrollView>
@@ -64,19 +67,19 @@ export default class AnnouncementsScreen extends React.Component {
 const styles = StyleSheet.create({
 	button: {
 		margin: 20,
-		backgroundColor: 'blue',
+		backgroundColor: '#871609',
 		padding: 20,
 		borderRadius: 20,
 		alignItems: "center", 
 	},
 	buttonText: {
-		
+		fontFamily: 'Red Hat Display',
 		fontSize: 20,
     	color: '#fff',
 	},
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: '#0F182D',
 		justifyContent: 'center',
 	},
 });

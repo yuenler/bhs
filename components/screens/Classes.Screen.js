@@ -140,12 +140,14 @@ export default class ClassesScreen extends React.Component {
 const styles = StyleSheet.create({
 	
 	container: {
-		backgroundColor: '#FFFFFF',
+    flex: 1,
+		backgroundColor: '#0F182D',
 		alignItems: 'center',
 		justifyContent: 'center',
     },
+
     button: {
-		backgroundColor: '#0e4bb0',
+		backgroundColor: '#871609',
 		padding: 20,
 		borderRadius: 20,
 		margin: 0,
@@ -153,6 +155,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
 		fontSize: 20,
-    	color: '#fff',
+      color: '#fff',
+      fontFamily: 'Red Hat Display',
 	},
 });

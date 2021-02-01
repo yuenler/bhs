@@ -113,8 +113,8 @@ export default class FriendsScreen extends React.Component {
 					<Text style = {styles.buttonText}>Delete Friend</Text>
 				</TouchableOpacity>
 
-				<View style={{margin: 20}}>
-				<Text style={{color:'#FFFFFF', fontSize: 30}}>Your matched friend is: {this.state.matchName}</Text>
+				<View style={styles.matchAnnouncementContainer}>
+				<Text style={styles.result}>Your matched friend is: {this.state.matchName}</Text>
 				</View>
 
 				<View style = {styles.contactContainer}>
@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#0e4bb0',
 		padding: 20,
 		borderRadius: 20,
-		margin: 20,
 		
 	},
 	deleteFriendButton: {
@@ -166,16 +165,26 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		fontSize: 20,
-    	color: '#fff',
+		color: '#fff',
+		fontFamily: 'Red Hat Display'
 	},
 	container: {
 		flex: 1,
-		backgroundColor: '#818fa6',
+		backgroundColor: '#0F182D',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	contactContainer: {
 		flexDirection: 'row',
 		
+	},
+	matchAnnouncementContainer:{
+		margin: 20,
+	},
+	result: {
+	color:'#FFFFFF', 
+	fontSize: 30, 
+	fontFamily: 'Red Hat Display',
+	textAlign: 'center'
 	}
 });

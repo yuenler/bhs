@@ -30,10 +30,10 @@ export default class CustomizationScreen extends React.Component {
 			<View style={styles.container}>
 				<View style={{flexDirection: 'row'}}>
 				<View style={{flex:1, margin: 20}}>
-					<Text>Block</Text>
+					<Text style = {{color: 'white', fontFamily: 'Red Hat Display'}}>Block</Text>
                  <Picker
                 selectedValue={this.state.block}
-                style={{ height: 50, width: 100 }}
+                style={{ height: 50, width: 100, backgroundColor: 'white'}}
                 onValueChange={(itemValue) => this.setState({ block: itemValue })}>
                 {blocks}
 
@@ -41,10 +41,10 @@ export default class CustomizationScreen extends React.Component {
 				</View>
 
 				<View style={{flex:2, margin: 20}}>
-				<Text>Teacher</Text>
+				<Text style = {{color: 'white', fontFamily: 'Red Hat Display'}}>Teacher</Text>
 				<Picker
                 selectedValue={this.state.teacher}
-                style={{ height: 50, width: 200 }}
+                style={{ height: 50, width: 200, backgroundColor: 'white' }}
                 onValueChange={(itemValue) => this.setState({ teacher: itemValue })}>
                 {teachers}
 
@@ -62,8 +62,9 @@ export default class CustomizationScreen extends React.Component {
 				</TouchableOpacity>
 
 				<View style={{margin: 30}}>
-				<Text>The following field will only be used for the Friends screen of the app.</Text>
+				<Text style={{color: "#FFF", fontFamily: 'Red Hat Display'}}>The following field will only be used for the Friends screen of the app.</Text>
 				</View>
+
 				<TextInput placeholder="Phone number"
 						style={styles.textInput} 
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
@@ -86,17 +87,19 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		fontSize: 20,
-    	color: '#fff',
+		color: '#fff',
+		
 	},
 	container: {
 		flex: 1,
 		alignItems: 'center',
-		backgroundColor: '#fff',
+		backgroundColor: '#0F182D',
 	},
 	textInput: { 
 		width: "80%", 
 		borderRadius: 5, 
 		paddingVertical: 8, 
+		backgroundColor: '#FFFFFF',
 		paddingHorizontal: 16, 
 		borderColor: "rgba(0, 0, 0, 0.2)", 
 		borderWidth: 1, 

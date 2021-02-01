@@ -9,11 +9,25 @@ const { width } = Dimensions.get("window");
 
 export default class CreateAnnouncementsScreen extends React.Component {
 	storeText(title, text) {
+		var today = new Date();
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+		var yyyy = today.getFullYear();
+		var hh = today.getHours();
+		var min = today.getMinutes();
+		var ampm = "AM";
+		if (hh > 12){
+			hh -= 12;
+			ampm = "PM";
+		}
+
+		today = mm + '/' + dd + '/' + yyyy + " " + hh + ":" + min + " " + ampm;
 		firebase
 		  .database()
-		  .ref('Events')
+		  .ref('Announcements')
 		  .push({
 			postTitle: title,
+			postDate: today,
 			post: text,
 		  });
 		  Alert.alert('You event has been successfully published!')
@@ -72,7 +86,7 @@ const styles = StyleSheet.create({
 		flex: 1, 
 		alignItems: "center", 
 		justifyContent: "center", 
-		backgroundColor: "#fff", 
+		backgroundColor: "#0F182D", 
 	}, 
 	viewWrapper: { 
 		flex: 1, 
@@ -88,15 +102,17 @@ const styles = StyleSheet.create({
 		borderColor: "rgba(0, 0, 0, 0.2)", 
 		borderWidth: 1, 
 		marginBottom: 8, 
+		backgroundColor: '#FFF'
 	}, 
 	button: {
-		backgroundColor: 'blue',
+		backgroundColor: '#871609',
 		padding: 20,
 		alignItems: "center", 
 		borderRadius: 20,
 	},
 	buttonText: {
 		fontSize: 20,
-    	color: '#fff',
+		color: '#fff',
+		fontFamily: 'Red Hat Display'
 	},
 });

@@ -6,7 +6,10 @@ export default class EventBox extends React.Component {
     const styled = styles(this.props.color, this.props.background, this.props.height);
     return (
       <View style={styled.block}>
+        <View style={{flexDirection: 'row'}}>
         <Text style={styled.title}>{this.props.title}</Text>
+        <Text style={styled.date}>{this.props.date}</Text>
+        </View>
         <Text style={styled.text}>{this.props.text}</Text>
       </View>
     )
@@ -24,7 +27,7 @@ const styles = (color, bg, height) => StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 3,
-    backgroundColor: bg,
+    backgroundColor: '#871609',
     width: '100%',
     height: 200,
   },

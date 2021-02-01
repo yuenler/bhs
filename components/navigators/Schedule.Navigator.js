@@ -36,7 +36,6 @@ export default class ScheduleNavigator extends React.Component {
             <Button
               onPress={() => this.signOut()}
               title="Sign Out"
-              // color="#00cc00"
             />
           ),
           

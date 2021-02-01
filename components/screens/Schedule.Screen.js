@@ -340,7 +340,7 @@ export default class ScheduleScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	view: {
-		paddingTop: 4.5
+		paddingTop: 4.5,
 	}
 })
 
