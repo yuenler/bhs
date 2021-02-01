@@ -50,6 +50,10 @@ export default class FriendsScreen extends React.Component {
 			if (matchedUID === userUID){
 				available = false;
 			}
+			if (this.state.matchName == ""){
+				available = false;
+				Alert.alert("Please delete your current friend before requesting another!")
+			}
 		}
 		
 		if (available){
@@ -90,6 +94,9 @@ export default class FriendsScreen extends React.Component {
 	deleteFriend(userUID){
 		let userRef = firebase.database().ref('Matches/' + userUID);
 		userRef.remove()
+		this.state.matchName = "";
+		this.state.matchEmail = "";
+		this.state.matchPhoneNumber = "";
 		Alert.alert('Friend successfully deleted!')
 	}
 
