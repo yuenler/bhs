@@ -12,7 +12,8 @@ export default class FriendsScreen extends React.Component {
 	state = {
 		ready: false,
 		matchName: "",
-		matchEmail: ""
+		matchEmail: "",
+		matchPhoneNumber: "555-555-5555"
 	};
 	
 	componentDidMount() {
@@ -96,6 +97,15 @@ export default class FriendsScreen extends React.Component {
 
 	onDelete = () => {this.deleteFriend(user.uid)};
 
+	contact = (link) =>
+	{
+		if (this.state.matchName != ""){
+			Linking.openURL(link)
+		}
+		else{
+			Alert.alert("You need to match with a friend first!")
+		}
+	};
 	
 	render() {
 		if (! this.state.ready){
@@ -114,18 +124,19 @@ export default class FriendsScreen extends React.Component {
 				</TouchableOpacity>
 
 				<View style={styles.matchAnnouncementContainer}>
-				<Text style={styles.result}>Your matched friend is: {this.state.matchName}</Text>
+				<Text style={styles.result}>Your matched friend is:</Text>
+				<Text style={styles.result}>{this.state.matchName}</Text>
 				</View>
 
 				<View style = {styles.contactContainer}>
 					
 				<View style={{flex:1, margin: 20}}>
 
-				<MaterialCommunityIcons.Button backgroundColor="#4287f5" style={styles.contactButton} name='message'  onPress={()=>{ Linking.openURL('sms:' + {phoneNumber})}}>Text</MaterialCommunityIcons.Button>
+				<MaterialCommunityIcons.Button backgroundColor="#4287f5" style={styles.contactButton} name='message'  onPress={() => this.contact('sms:' + this.state.matchPhoneNumber)}>Text</MaterialCommunityIcons.Button>
 				</View>
 
 				<View style={{flex:1, margin: 20}}>
-				<MaterialCommunityIcons.Button backgroundColor="#3b5998" style={styles.contactButton} name='phone'  onPress={()=>{ Linking.openURL('tel:' + {phoneNumber})}}>Call</MaterialCommunityIcons.Button>
+				<MaterialCommunityIcons.Button backgroundColor="#3b5998" style={styles.contactButton} name='phone'  onPress={() => this.contact('tel:' + this.state.matchPhoneNumber)}>Call</MaterialCommunityIcons.Button>
 				</View>
 	
 				</View>
@@ -133,11 +144,11 @@ export default class FriendsScreen extends React.Component {
 				<View style = {styles.contactContainer}>
 
 				<View style={{flex:1, margin: 20}}>
-				<Ionicons.Button backgroundColor="#0cc42a" style={styles.contactButton} name='ios-videocam'  onPress={()=>{ Linking.openURL('facetime:' + {phoneNumber})}}>FaceTime</Ionicons.Button>
+				<Ionicons.Button backgroundColor="#0cc42a" style={styles.contactButton} name='ios-videocam'  onPress={() => this.contact('facetime:' + this.state.matchPhoneNumber)}>FaceTime</Ionicons.Button>
 				</View>
 
 				<View style={{flex:1, margin: 20}}>
-				<MaterialCommunityIcons.Button backgroundColor="#c42e0c" style={styles.contactButton} name='email'  onPress={()=>{ Linking.openURL('mailto:' + this.state.matchEmail)}}>Email</MaterialCommunityIcons.Button>
+				<MaterialCommunityIcons.Button backgroundColor="#c42e0c" style={styles.contactButton} name='email'  onPress={() => this.contact('mailto:' + this.state.matchEmail)}>Email</MaterialCommunityIcons.Button>
 				</View>
 
 				</View>

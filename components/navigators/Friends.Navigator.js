@@ -9,7 +9,18 @@ export default class FriendsNavigator extends React.Component {
   render() {
     return (
       <Stack.Navigator>
-        <Stack.Screen component={FriendsScreen} name="Friends" />
+        <Stack.Screen component={FriendsScreen} name="Friends" 
+        options={{
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+
+        }}
+        />
       </Stack.Navigator>
     )
   }

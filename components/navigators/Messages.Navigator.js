@@ -11,10 +11,28 @@ export default class MessagesNavigator extends React.Component {
   render() {
     return (
       <Stack.Navigator>
-        <Stack.Screen component={ClassesScreen} name="Classes" />
+        <Stack.Screen component={ClassesScreen} name="Classes" 
+        options={{
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+
+        }}
+        />
         <Stack.Screen component={MessagesScreen} name="Messages" 
         options={({ route }) => ({
-          title: route.params.block + ' Block'
+          title: route.params.block + ' Block',
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
         })}
         />
       </Stack.Navigator>

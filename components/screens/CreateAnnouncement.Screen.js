@@ -31,7 +31,7 @@ export default class CreateAnnouncementsScreen extends React.Component {
 			post: text,
 			postUserName: user.displayName
 		  });
-		  Alert.alert('You event has been successfully published!')
+		  Alert.alert('You post has been successfully published!')
 	  }
 
 	handlePost(title, text){
@@ -49,15 +49,19 @@ export default class CreateAnnouncementsScreen extends React.Component {
 	return ( 
 		<SafeAreaView style={styles.screen}> 
 			<StatusBar style="auto" /> 
-				<TextInput placeholder="Event title"
+				<TextInput placeholder="Announcement title (25 char limit)"
 						style={styles.textInput} 
 						onChangeText={title => this.setState({ title })}
-          				value={this.state.title} /> 
-				<TextInput placeholder="Describe your event..."
+          				value={this.state.title} 
+						maxLength={25}
+						  /> 
+				<TextInput placeholder="Describe your announcement... (250 char limit)"
 						multiline
 						style={styles.textInput} 
 						onChangeText={text => this.setState({ text })}
-          				value={this.state.text} /> 
+						  value={this.state.text}
+						  maxLength={250}
+						   /> 
 			<TouchableOpacity style = {styles.button} onPress = {() => {
 					Alert.alert(
 						"Are you sure you want to post?",

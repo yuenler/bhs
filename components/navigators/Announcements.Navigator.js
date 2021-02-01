@@ -10,8 +10,30 @@ export default class AnnouncementsNavigator extends React.Component {
   render() {
     return (
       <Stack.Navigator>
-        <Stack.Screen component={AnnouncementsScreen} name="Announcements" />
-        <Stack.Screen component={CreateAnnouncementsScreen} name="Create Announcement" />
+        <Stack.Screen component={AnnouncementsScreen} name="Announcements"
+        options={{
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+
+        }}
+        />
+        <Stack.Screen component={CreateAnnouncementsScreen} name="Create Announcement" 
+        options={{
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+
+        }}
+        />
       </Stack.Navigator>
     )
   }

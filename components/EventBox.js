@@ -4,7 +4,6 @@ import { StyleSheet, Text, View } from "react-native";
 export default class EventBox extends React.Component {
   render() {
     const styled = styles(this.props.color, this.props.background, this.props.height);
-    console.log(this.props.userName)
     return (
       <View style={styled.block}>
         <Text style={styled.title}>{this.props.title}</Text>
@@ -19,8 +18,8 @@ export default class EventBox extends React.Component {
 const styles = (color, bg, height) => StyleSheet.create({
   block: {
     marginLeft: 9,
-    marginTop: 4.5,
-    marginBottom: 4.5,
+    marginTop: 10,
+    marginBottom: 10,
     marginRight: 9,
     paddingLeft: 15,
     paddingRight: 15,

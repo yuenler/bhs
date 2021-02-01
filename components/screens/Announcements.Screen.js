@@ -48,7 +48,7 @@ export default class AnnouncementsScreen extends React.Component {
 
 		return (
 			
-			<View style={styles.container}>
+			<SafeAreaView style={styles.container}>
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						events.map((block, i) => {
@@ -62,7 +62,7 @@ export default class AnnouncementsScreen extends React.Component {
 				}}>
 					<Text style={styles.buttonText}>Create Announcement Here</Text>
 				</TouchableOpacity>
-			</View>
+			</SafeAreaView>
 		);
 	}
 

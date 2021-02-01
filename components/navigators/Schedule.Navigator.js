@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Alert} from 'react-native';
+import {Button, Alert, View} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import ScheduleScreen from '../screens/Schedule.Screen';
@@ -33,22 +33,41 @@ export default class ScheduleNavigator extends React.Component {
         <Stack.Screen component={ScheduleScreen} name="Schedule" 
           options={{
           headerStyle: {
-            backgroundColor: '#f4511e',
+            backgroundColor: '#871609',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
           headerRight: () => (
+            <View style={{flexDirection: 'row'}}>
+            <View style={{marginTop: 10, marginBottom: 10}}>
+            <Button
+              onPress={() => this.signOut()}
+              title="Customize"
+            />
+            </View>
+            <View style={{margin: 10}}>
             <Button
               onPress={() => this.signOut()}
               title="Sign Out"
             />
-          ),
-          
+            </View>
+            </View>
+          )
           }} 
           />
-        <Stack.Screen component={CustomizationScreen} name="Customize" />
+        <Stack.Screen component={CustomizationScreen} name="Customize"
+        options={{
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+        />
       </Stack.Navigator>
     )
   }
