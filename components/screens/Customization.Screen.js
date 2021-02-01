@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert, TextInput} from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput, Linking} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 
@@ -55,8 +55,9 @@ export default class CustomizationScreen extends React.Component {
 
 				<TouchableOpacity style = {styles.button} onPress = {() => {
 					// handleRecord()
-					this.props.navigation.navigate('Schedule',{block: this.state.block, teacher: this.state.teacher})
-					this.props.navigation.navigate('Customize')
+					// this.props.navigation.navigate('Schedule',{block: this.state.block, teacher: this.state.teacher})
+					// this.props.navigation.navigate('Customize')
+					//THE ABOVE CODE IS WRONG IT SHOULD JUST BE SAVING TO ASYNC
 				}}>
 					<Text style={styles.buttonText}>Record Class</Text>
 				</TouchableOpacity>
@@ -70,7 +71,15 @@ export default class CustomizationScreen extends React.Component {
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
           				value={this.state.phoneNumber} /> 
 
+				<TouchableOpacity style = {styles.button} onPress = {() => {			}}>
+					<Text style={styles.buttonText}>Submit</Text>
+				</TouchableOpacity>
+
+				<Text style={{color: 'white'}}>Creating the Brookline High School App takes time, effort, and money. To help support and give back to the BHS App Development Club, click on the following button to donate.</Text>
 				
+				<TouchableOpacity style = {styles.button} onPress = {() => {Linking.openURL('https://gofundme.com')}}>
+					<Text style={styles.buttonText}>Donate</Text>
+				</TouchableOpacity>
 
             </View>
             
