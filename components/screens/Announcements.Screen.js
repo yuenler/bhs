@@ -4,7 +4,8 @@ import firebase from 'firebase';
 import EventsBox from '../EventBox';
 
 const titles = [];
-const texts = []
+const texts = [];
+const dates = [];
 
 export default class AnnouncementsScreen extends React.Component {
 

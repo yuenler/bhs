@@ -44,5 +44,8 @@ const styles = (color, bg, height) => StyleSheet.create({
     marginLeft: 20,
     marginTop: 50,
     color
+  },
+  date:{
+    
   }
 })
