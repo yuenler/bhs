@@ -6,7 +6,6 @@ import firebase from 'firebase';
 
 
 
-
 class Chat extends React.Component {
 
   state = {
@@ -26,7 +25,11 @@ class Chat extends React.Component {
   }
 
   
+
+  
   componentDidMount() {
+    this.state.block = this.props.route.params.block;
+    this.state.teacher = this.props.route.params.teacher;
     this.refOn(message =>
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, message),
@@ -90,7 +93,6 @@ class Chat extends React.Component {
   
 
   render() {
-    this.state.block = this.props.route.params.block;
     return (
       
       <GiftedChat
@@ -103,7 +105,8 @@ class Chat extends React.Component {
       />
       
     );
-  }
+}
+
 
 }
 

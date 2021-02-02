@@ -25,7 +25,7 @@ export default class MessagesNavigator extends React.Component {
         />
         <Stack.Screen component={MessagesScreen} name="Messages" 
         options={({ route }) => ({
-          title: route.params.block + ' Block',
+          title: route.params.block + ' Block - ' + route.params.teacher,
           headerStyle: {
             backgroundColor: '#871609',
           },

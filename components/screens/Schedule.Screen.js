@@ -2,13 +2,15 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Text, Alert, TouchableOpacity} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class ScheduleScreen extends React.Component {
 
 
 	constructor(props){
 		super(props);
-		this.state = {isCustomized: false,
+		this.state = {
+			ready: false,
 			block: {
 			'A' : '' , 
 
@@ -26,18 +28,30 @@ export default class ScheduleScreen extends React.Component {
 		  }}
 	}
 
-	
+	componentDidMount = () => {
+        this.retrieveData();
+	  };
+	  
 
-	  static getDerivedStateFromProps(props, state) {
-		  if (props.route.params && state.block[props.route.params.block] !== props.route.params.teacher){
-			let newBlock = {...state.block,
-				[props.route.params.block] : props.route.params.teacher
-			}
-			  return ({block:newBlock})
-		  }
-
-		return null;
+	  retrieveData = async()  => {
+        try{
+			this.state.block['A'] = await AsyncStorage.getItem('Aclass');
+			this.state.block['B'] = await AsyncStorage.getItem('Bclass');
+			this.state.block['C'] = await AsyncStorage.getItem('Cclass');
+			this.state.block['D'] = await AsyncStorage.getItem('Dclass');
+			this.state.block['E'] = await AsyncStorage.getItem('Eclass');
+			this.state.block['F'] = await AsyncStorage.getItem('Fclass');
+			this.state.block['G'] = await AsyncStorage.getItem('Gclass');
+			this.state.block['T'] = await AsyncStorage.getItem('Tclass');
+			this.state.block['X'] = await AsyncStorage.getItem('Xclass');
+			this.setState({ready: true})
+        }
+        catch(error){
+            console.info(error);
+		}
 	  }
+
+
 
 	scrollRef = null;
 	block = 0;
@@ -303,6 +317,7 @@ export default class ScheduleScreen extends React.Component {
 			}
 		}
 
+		if (this.state.ready){
 		return (
 			<SafeAreaView style={{backgroundColor: '#0F182D'}}>
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
@@ -314,6 +329,8 @@ export default class ScheduleScreen extends React.Component {
 				</ScrollView>
 			</SafeAreaView>
 		);
+		}
+		return null;
 	}
 
 	componentDidMount() {

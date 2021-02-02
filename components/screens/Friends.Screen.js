@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import user from '../User';
 import firebase from 'firebase';
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -11,9 +12,11 @@ export default class FriendsScreen extends React.Component {
 
 	state = {
 		ready: false,
+		phoneNumberLoaded: false,
+		phoneNumber: "",
 		matchName: "",
 		matchEmail: "",
-		matchPhoneNumber: "555-555-5555"
+		matchPhoneNumber: ""
 	};
 	
 	componentDidMount() {
@@ -30,13 +33,29 @@ export default class FriendsScreen extends React.Component {
 			}
 		
 	});
-
+	
 	this.setState({ready:true});
 	}
 
 
+	retrieveData = async()  => {
+        try{
+	  this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
+
+      this.setState({phoneNumberLoaded: true})
+        }
+        catch(error){
+            console.info(error);
+    }
+    }
+
 
 	makeFriend(userName, userEmail, userUID){
+
+		if(this.state.phoneNumber == null){
+		  Alert.alert('Hi')
+		}
+
 		let available = false;
 		let matchedName = "";
 		let matchedUID = "";
@@ -63,7 +82,8 @@ export default class FriendsScreen extends React.Component {
 			.ref('Matches/' + matchedUID)
 			.set({
 			  matchName: userName,
-			  matchEmail: userEmail 
+			  matchEmail: userEmail,
+			  matchPhoneNumber: userPhoneNumber 
 			});
 			firebase
 			.database()
@@ -73,18 +93,19 @@ export default class FriendsScreen extends React.Component {
 			});
 		}
 		else{
-			this.postFriend(userName, userEmail, userUID)
+			this.postFriend(userName, userEmail, userPhoneNumber, userUID)
 		}
 	}
 
 
-	postFriend(userName, userEmail, userUID) {
+	postFriend(userName, userEmail, userPhoneNumber, userUID) {
 	  firebase
 	    .database()
 	    .ref('Friends')
 	    .set({
 		  name: userName,
 		  email: userEmail,
+		  phoneNumber: userPhoneNumber,
 		  uid: userUID,
 		  matched: false 
 		});
@@ -100,7 +121,7 @@ export default class FriendsScreen extends React.Component {
 		Alert.alert('Friend successfully deleted!')
 	}
 
-	onPress = () => {this.makeFriend(user.displayName, user.email, user.uid)};
+	onPress = () => {this.makeFriend(user.displayName, user.email, this.state.phoneNumber, user.uid)};
 
 	onDelete = () => {this.deleteFriend(user.uid)};
 
@@ -115,7 +136,7 @@ export default class FriendsScreen extends React.Component {
 	};
 	
 	render() {
-		if (! this.state.ready){
+		if (! this.state.ready || ! this.state.phoneNumberLoaded){
 			return(<View><Text>Loading...</Text></View>)
 		}
 
