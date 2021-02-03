@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, Alert, TouchableOpacity} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, Alert, TouchableOpacity, View} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -28,10 +28,8 @@ export default class ScheduleScreen extends React.Component {
 		  }}
 	}
 
-	componentDidMount = () => {
-        this.retrieveData();
-	  };
-	  
+	
+	
 
 	  retrieveData = async()  => {
         try{
@@ -44,6 +42,8 @@ export default class ScheduleScreen extends React.Component {
 			this.state.block['G'] = await AsyncStorage.getItem('Gclass');
 			this.state.block['T'] = await AsyncStorage.getItem('Tclass');
 			this.state.block['X'] = await AsyncStorage.getItem('Xclass');
+			
+
 			this.setState({ready: true})
         }
         catch(error){
@@ -57,6 +57,27 @@ export default class ScheduleScreen extends React.Component {
 	block = 0;
 
 	render() {
+
+		let letters = ['A','B','C','D','E','F','G']
+		for (let i=0; i<letters.length; i++){
+			if (this.state.block[letters[i]] == null){
+				this.state.block[letters[i]] = "";
+				Alert.alert(
+					"You have not customized your classes yet!",
+					"",
+					[
+					  {
+						text: "Cancel",
+						style: "cancel"
+					  },
+					  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize') }
+					],
+					{ cancelable: false }
+				  );
+				
+			}
+		}
+
 		const schedule = [
 			[
 				{
@@ -293,7 +314,8 @@ export default class ScheduleScreen extends React.Component {
 		let minutes = today.getMinutes();
 
 		let time = parseInt(`${today.getHours()}${minutes < 10 ? '0' + minutes : minutes}`);
-
+		// time = 1001;	
+		day = 1;
 		if (day === 1 || day === 4) {
 			scheduleForToday = schedule[0];
 		}
@@ -326,6 +348,7 @@ export default class ScheduleScreen extends React.Component {
 							return <Block background={colors[block.color]} title={block.title} color="white" starts={block.starts} ends={block.ends} key={i} height={(block.numbers.duration) * 3} />;
 						})
 					}
+					{/* <View style={{height: 1000}}></View> */}
 				</ScrollView>
 			</SafeAreaView>
 		);
@@ -333,26 +356,25 @@ export default class ScheduleScreen extends React.Component {
 		return null;
 	}
 
-	componentDidMount() {
-		if (! this.state.isCustomized){
-			Alert.alert(
-				"You have not customized your classes yet!",
-				"",
-				[
-				  {
-					text: "Cancel",
-					style: "cancel"
-				  },
-				  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize') }
-				],
-				{ cancelable: false }
-			  );
-		}
+	// componentDidMount = () => {
 
-		setTimeout(() => {
-			this.scrollRef.scrollTo({ y: this.block, animate: true });
-		}, 0);
+	// 	setTimeout(() => {
+	// 		this.scrollRef.scrollTo({ y: this.block, animate: true });
+	// 	}, 0);
+	// 	alert(this.scrollRef)
+	// }
+
+	componentDidMount() {
+		
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+			this.retrieveData();
+		  });
+		  this.retrieveData();	  
 	}
+	
+	componentWillUnmount() {
+		  this._unsubscribe();
+		}
 }
 
 const styles = StyleSheet.create({
