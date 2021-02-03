@@ -16,33 +16,45 @@ export default class FriendsScreen extends React.Component {
 		phoneNumber: "",
 		matchName: "",
 		matchEmail: "",
-		matchPhoneNumber: ""
+		matchPhoneNumber: "",
+		matchUID: "",
+
 	};
 	
 	componentDidMount() {
-		
-		firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
-
-			if (snapshot.hasChild("matchName")){
-
-				this.setState({
-					matchName: snapshot.val().matchName,
-					matchEmail: snapshot.val().matchEmail
-				});
+		this._unsubscribe = this.props.navigation.addListener('focus', () => {
+			this.retrieveData();
+			firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
 	
-			}
-		
-	});
+				if (snapshot.hasChild("matchName")){
 	
-	this.setState({ready:true});
+					this.setState({
+						matchName: snapshot.val().matchName,
+						matchEmail: snapshot.val().matchEmail,
+						matchPhoneNumber: snapshot.val().matchPhoneNumber,
+						matchUID: snapshot.val().matchUID,
+					});
+		
+				}
+			
+		});
+		
+		this.setState({ready:true});
+		});
+		
 	}
-
+		
+	  
+  
+	  componentWillUnmount() {
+		this._unsubscribe();
+	  }
 
 	retrieveData = async()  => {
         try{
-	  this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
+			this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
 
-      this.setState({phoneNumberLoaded: true})
+			this.setState({phoneNumberLoaded: true})
         }
         catch(error){
             console.info(error);
@@ -50,32 +62,41 @@ export default class FriendsScreen extends React.Component {
     }
 
 
-	makeFriend(userName, userEmail, userUID){
+	makeFriend(userName, userEmail, userPhoneNumber, userUID){
 
 		if(this.state.phoneNumber == null){
-		  Alert.alert('Hi')
+		  Alert.alert('We encourage XXXXX')
 		}
 
 		let available = false;
 		let matchedName = "";
 		let matchedUID = "";
+		let matchedEmail = "";
+		let matchedPhoneNumber = ""; 
 		firebase.database().ref('Friends').on('value', (snapshot) => {
 			available = ! snapshot.val().matched
 			matchedName = snapshot.val().name
 			matchedUID = snapshot.val().uid
+			matchedEmail = snapshot.val().email
+			matchedPhoneNumber = snapshot.val().phoneNumber
 		});
 		//so that you don't match with yourself
 		if (available == true){
 			if (matchedUID === userUID){
 				available = false;
+				Alert.alert(
+					"Your friend request has already been sent!",
+				  );
 			}
-			if (this.state.matchName == ""){
+			if (this.state.matchName != ""){
 				available = false;
-				Alert.alert("Please delete your current friend before requesting another!")
+				Alert.alert(
+					"Error",
+					"Please delete your current friend before requesting another!",
+				  );
 			}
 		}
-		
-		if (available){
+		else if (available){
 			Alert.alert('You have matched with ' + matchedName + "!")
 			firebase
 			.database()
@@ -83,7 +104,17 @@ export default class FriendsScreen extends React.Component {
 			.set({
 			  matchName: userName,
 			  matchEmail: userEmail,
-			  matchPhoneNumber: userPhoneNumber 
+			  matchPhoneNumber: userPhoneNumber,
+			  matchUID: userUID
+			});
+			firebase
+			.database()
+			.ref('Matches/' + user.uid)
+			.set({
+			  matchName: matchedName,
+			  matchEmail: matchedEmail,
+			  matchPhoneNumber: matchedPhoneNumber, 
+			  matchUID: matchedUID,
 			});
 			firebase
 			.database()
@@ -91,6 +122,10 @@ export default class FriendsScreen extends React.Component {
 			.set({
 			  matched: true 
 			});
+			this.state.matchName = matchedName;
+			this.state.matchEmail = matchedEmail;
+			this.state.matchPhoneNumber = matchedPhoneNumber;
+			this.state.matchUID = matchedUID;
 		}
 		else{
 			this.postFriend(userName, userEmail, userPhoneNumber, userUID)
@@ -115,9 +150,14 @@ export default class FriendsScreen extends React.Component {
 	deleteFriend(userUID){
 		let userRef = firebase.database().ref('Matches/' + userUID);
 		userRef.remove()
+		let matchUserRef = firebase.database().ref('Matches/' + this.state.matchUID);
+		matchUserRef.remove()
+
+
 		this.state.matchName = "";
 		this.state.matchEmail = "";
 		this.state.matchPhoneNumber = "";
+		this.state.matchUID = "";
 		Alert.alert('Friend successfully deleted!')
 	}
 
