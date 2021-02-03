@@ -38,6 +38,21 @@ export default class FriendsScreen extends React.Component {
 				}
 			
 		});
+		if(this.state.phoneNumber == null){
+			this.state.phoneNumber = "555-555-5555"
+			Alert.alert(
+				"Warning!",
+				"We encourage you to enter your phone number in the Customization screen first so that your matched friend can easily contact you.",
+				[
+				  {
+					text: "Cancel",
+					style: "cancel"
+				  },
+				  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize')}
+				],
+				{ cancelable: false }
+			  );
+		}
 		
 		this.setState({ready:true});
 		});
@@ -64,10 +79,6 @@ export default class FriendsScreen extends React.Component {
 
 	makeFriend(userName, userEmail, userPhoneNumber, userUID){
 
-		if(this.state.phoneNumber == null){
-		  Alert.alert('We encourage XXXXX')
-		}
-
 		let available = false;
 		let matchedName = "";
 		let matchedUID = "";
@@ -81,21 +92,19 @@ export default class FriendsScreen extends React.Component {
 			matchedPhoneNumber = snapshot.val().phoneNumber
 		});
 		//so that you don't match with yourself
-		if (available == true){
-			if (matchedUID === userUID){
+		if (available && matchedUID === userUID){
 				available = false;
 				Alert.alert(
 					"Your friend request has already been sent!",
 				  );
 			}
-			if (this.state.matchName != ""){
+		else if (available && this.state.matchName != ""){
 				available = false;
 				Alert.alert(
 					"Error",
 					"Please delete your current friend before requesting another!",
 				  );
 			}
-		}
 		else if (available){
 			Alert.alert('You have matched with ' + matchedName + "!")
 			firebase
