@@ -67,6 +67,7 @@ export default class ClassesScreen extends React.Component {
       this._unsubscribe = this.props.navigation.addListener('focus', () => {
         this.retrieveData();
       });
+      this.retrieveData();
       
     }
 

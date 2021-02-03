@@ -20,6 +20,9 @@ export default class CreateAnnouncementsScreen extends React.Component {
 			hh -= 12;
 			ampm = "PM";
 		}
+		if (min < 10){
+			min = "0" + min
+		}
 
 		today = mm + '/' + dd + '/' + yyyy + " " + hh + ":" + min + " " + ampm;
 		firebase

@@ -21,13 +21,11 @@ export default class FriendsScreen extends React.Component {
 	};
 	
 	componentDidMount() {
-		this._unsubscribe = this.props.navigation.addListener('focus', () => {
 			this.retrieveData();
 			
 			firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
 	
 				if (snapshot.hasChild("matchName")){
-	
 					this.setState({
 						matchName: snapshot.val().matchName,
 						matchEmail: snapshot.val().matchEmail,
@@ -38,6 +36,8 @@ export default class FriendsScreen extends React.Component {
 				}
 			
 		});
+
+		
 		if(this.state.phoneNumber == null){
 			this.state.phoneNumber = "555-555-5555"
 			Alert.alert(
@@ -53,15 +53,9 @@ export default class FriendsScreen extends React.Component {
 				{ cancelable: false }
 			  );
 		}
-		});
 		
 	}
 		
-	  
-  
-	componentWillUnmount() {
-		this._unsubscribe();
-	  }
 
 	retrieveData = async()  => {
         try{
