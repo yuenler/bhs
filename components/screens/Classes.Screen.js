@@ -56,12 +56,11 @@ export default class ClassesScreen extends React.Component {
       this.state.Zteacher = await AsyncStorage.getItem('Zteacher');
       this.state.Tteacher = await AsyncStorage.getItem('Tteacher');
       this.state.Xteacher = await AsyncStorage.getItem('Xteacher');
-
-      this.setState({ready: true})
         }
         catch(error){
             console.info(error);
     }
+    this.setState({ready: true})
     }
 
     componentDidMount() {

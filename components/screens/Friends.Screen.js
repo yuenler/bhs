@@ -12,7 +12,6 @@ export default class FriendsScreen extends React.Component {
 
 	state = {
 		ready: false,
-		phoneNumberLoaded: false,
 		phoneNumber: "",
 		matchName: "",
 		matchEmail: "",
@@ -24,6 +23,7 @@ export default class FriendsScreen extends React.Component {
 	componentDidMount() {
 		this._unsubscribe = this.props.navigation.addListener('focus', () => {
 			this.retrieveData();
+			
 			firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
 	
 				if (snapshot.hasChild("matchName")){
@@ -53,27 +53,24 @@ export default class FriendsScreen extends React.Component {
 				{ cancelable: false }
 			  );
 		}
-		
-		this.setState({ready:true});
 		});
 		
 	}
 		
 	  
   
-	  componentWillUnmount() {
+	componentWillUnmount() {
 		this._unsubscribe();
 	  }
 
 	retrieveData = async()  => {
         try{
 			this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
-
-			this.setState({phoneNumberLoaded: true})
         }
         catch(error){
             console.info(error);
-    }
+	}
+	this.setState({ready: true})
     }
 
 
@@ -98,7 +95,7 @@ export default class FriendsScreen extends React.Component {
 					"Your friend request has already been sent!",
 				  );
 			}
-		else if (available && this.state.matchName != ""){
+		else if (this.state.matchName != ""){
 				available = false;
 				Alert.alert(
 					"Error",
@@ -157,17 +154,24 @@ export default class FriendsScreen extends React.Component {
 	} 
 
 	deleteFriend(userUID){
+
+		if (this.state.matchName === ""){
+			Alert.alert("You don't have any friends to delete!")
+		}
+		else{
 		let userRef = firebase.database().ref('Matches/' + userUID);
 		userRef.remove()
 		let matchUserRef = firebase.database().ref('Matches/' + this.state.matchUID);
 		matchUserRef.remove()
 
-
-		this.state.matchName = "";
-		this.state.matchEmail = "";
-		this.state.matchPhoneNumber = "";
-		this.state.matchUID = "";
+		this.setState({
+			matchName: "",
+			matchEmail: "",
+			matchPhoneNumber: "",
+			matchUID: "",
+		});
 		Alert.alert('Friend successfully deleted!')
+		}
 	}
 
 	onPress = () => {this.makeFriend(user.displayName, user.email, this.state.phoneNumber, user.uid)};
@@ -185,10 +189,9 @@ export default class FriendsScreen extends React.Component {
 	};
 	
 	render() {
-		if (! this.state.ready || ! this.state.phoneNumberLoaded){
-			return(<View><Text>Loading...</Text></View>)
-		}
-
+		if (!this.state.ready){
+			return(null);
+		  }
 		return (
 			
 			<View style={styles.container}>
