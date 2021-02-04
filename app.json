@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bhs-student",
-    "slug": "bhs-student",
+    "name": "BHS",
+    "slug": "bhs",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,12 +17,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.bhsappdev.bhs",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0F182D"
+        "backgroundColor": "#0F182D",
+        "package": "com.bhsappdev.bhs",
+        "versionCode": 1
       },
       "useNextNotificationsApi": true
     },
