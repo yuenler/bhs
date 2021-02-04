@@ -51,8 +51,6 @@ export default class ScheduleScreen extends React.Component {
 		}
 	  }
 
-
-
 	scrollRef = null;
 	block = 0;
 
@@ -314,8 +312,6 @@ export default class ScheduleScreen extends React.Component {
 		let minutes = today.getMinutes();
 
 		let time = parseInt(`${today.getHours()}${minutes < 10 ? '0' + minutes : minutes}`);
-		// time = 1001;	
-		day = 1;
 		if (day === 1 || day === 4) {
 			scheduleForToday = schedule[0];
 		}
@@ -330,46 +326,53 @@ export default class ScheduleScreen extends React.Component {
 			scheduleForToday = []
 		}
 
+		//traversing each block that has passed to calculate scroll amount
+		this.block = 0
 		for (let i = 0, len = scheduleForToday.length; i < len; ++i) {
 			const block = scheduleForToday[i];
-			if (time > block.numbers.starts) {
-				if (i - 1 in scheduleForToday) {
-					this.block += scheduleForToday[i - 1].numbers.duration * 3 + 9;
-				}
+			if (time > block.numbers.ends) {
+				console.log('called')
+				this.block += scheduleForToday[i].numbers.duration * 3 + 9;
 			}
 		}
-
 		if (this.state.ready){
+			
 		return (
 			<SafeAreaView style={{backgroundColor: '#0F182D'}}>
-				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
+				<ScrollView
+				ref={ref => {
+					this.scrollRef = ref;
+				  }}>
 					{
 						scheduleForToday.map((block, i) => {
 							return <Block background={colors[block.color]} title={block.title} color="white" starts={block.starts} ends={block.ends} key={i} height={(block.numbers.duration) * 3} />;
 						})
 					}
-					{/* <View style={{height: 1000}}></View> */}
+					<View style={{height: 1000}}></View>
+					
+					
 				</ScrollView>
+				
 			</SafeAreaView>
 		);
 		}
 		return null;
 	}
 
-	// componentDidMount = () => {
-
-	// 	setTimeout(() => {
-	// 		this.scrollRef.scrollTo({ y: this.block, animate: true });
-	// 	}, 0);
-	// 	alert(this.scrollRef)
-	// }
-
 	componentDidMount() {
-		
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
 			this.retrieveData();
 		  });
-		  this.retrieveData();	  
+		  this.retrieveData();	
+
+		  setTimeout(() => {
+			if (this.scrollRef !== null) {
+				this.scrollRef.scrollTo({
+					y: this.block,
+					animated: true
+				});
+			}
+		}, 100);  
 	}
 	
 	componentWillUnmount() {
