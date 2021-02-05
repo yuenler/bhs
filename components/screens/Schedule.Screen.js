@@ -24,7 +24,9 @@ export default class ScheduleScreen extends React.Component {
 
 			'F' : '' , 
 
-			'G' : ''
+			'G' : '',
+			'T' : '',
+			'X' : ''
 		  }}
 	}
 
@@ -70,7 +72,7 @@ export default class ScheduleScreen extends React.Component {
 				// 	  },
 				// 	  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize') }
 				// 	],
-				// 	{ cancelable: false }
+				// 	{ cancelable: true }
 				//   );
 				
 			}
