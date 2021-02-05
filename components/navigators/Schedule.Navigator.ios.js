@@ -41,13 +41,13 @@ export default class ScheduleNavigator extends React.Component {
           },
           headerRight: () => (
             <View style={{flexDirection: 'row'}}>
-            <View style={{marginTop: 10, marginBottom: 10}}>
+            <View style={{marginTop: 0, marginBottom: 0}}>
             <Button
               onPress={() => this.props.navigation.navigate("Customize")}
               title="Customize"
             />
             </View>
-            <View style={{margin: 10}}>
+            <View style={{margin: 0}}>
             <Button
               onPress={() => this.signOut()}
               title="Sign Out"
