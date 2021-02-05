@@ -363,6 +363,14 @@ export default class ScheduleScreen extends React.Component {
 	componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
 			this.retrieveData();
+			setTimeout(() => {
+				if (this.scrollRef !== null) {
+					this.scrollRef.scrollTo({
+						y: this.block,
+						animated: true
+					});
+				}
+			}, 100);  
 		  });
 		  this.retrieveData();	
 
