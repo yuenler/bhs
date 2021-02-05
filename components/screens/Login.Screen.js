@@ -68,6 +68,7 @@ export default class LoginScreen extends React.Component {
       const result = await Google.logInAsync({
         androidClientId: ApiKeys.GoogleConfig.androidClientId,
         iosClientId: ApiKeys.GoogleConfig.iosClientId,
+        androidStandaloneAppClientId: ApiKeys.GoogleConfig.androidStandaloneAppClientId,
         scopes: ["profile", "email"]
       });
 
@@ -77,13 +78,22 @@ export default class LoginScreen extends React.Component {
         firebase.auth()
           .signInWithCredential(credential)
           .catch(error => {
-            Alert.alert('Couldn\'t sign in with Google: ' + error);
+            Alert.alert(
+              "Couldn\'t sign in with Google",
+              error.toString(),
+              );
           });
       } else {
-        Alert.alert('Couldn\'t sign in with Google');
+        Alert.alert(
+          "Couldn\'t sign in with Google",
+          error.toString(),
+          );
       }
     } catch (err) {
-      Alert.alert('Couldn\'t sign in with Google: ' + err);
+      Alert.alert(
+        "Couldn\'t sign in with Google",
+        err.toString(),
+        );
     }
   }
 

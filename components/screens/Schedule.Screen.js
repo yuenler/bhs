@@ -60,18 +60,18 @@ export default class ScheduleScreen extends React.Component {
 		for (let i=0; i<letters.length; i++){
 			if (this.state.block[letters[i]] == null){
 				this.state.block[letters[i]] = "";
-				Alert.alert(
-					"You have not customized your classes yet!",
-					"",
-					[
-					  {
-						text: "Cancel",
-						style: "cancel"
-					  },
-					  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize') }
-					],
-					{ cancelable: false }
-				  );
+				// Alert.alert(
+				// 	"You have not customized your classes yet!",
+				// 	"",
+				// 	[
+				// 	  {
+				// 		text: "Cancel",
+				// 		style: "cancel"
+				// 	  },
+				// 	  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize') }
+				// 	],
+				// 	{ cancelable: false }
+				//   );
 				
 			}
 		}
@@ -331,7 +331,6 @@ export default class ScheduleScreen extends React.Component {
 		for (let i = 0, len = scheduleForToday.length; i < len; ++i) {
 			const block = scheduleForToday[i];
 			if (time > block.numbers.ends) {
-				console.log('called')
 				this.block += scheduleForToday[i].numbers.duration * 3 + 9;
 			}
 		}
