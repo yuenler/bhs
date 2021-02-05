@@ -101,13 +101,7 @@ export default class CustomizationScreen extends React.Component {
             ]}
         />
 		</View>
-		<Picker
-                selectedValue={this.state.block}
-                style={{ height: 50, width: 100, backgroundColor: 'white'}}
-                onValueChange={(block) => this.setState({ block})}>
-                {blocks}
-
-                </Picker>
+		
 				</View>
 
 				<View style={{flex:2, margin: 20}}>
