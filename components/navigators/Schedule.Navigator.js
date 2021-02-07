@@ -47,7 +47,7 @@ export default class ScheduleNavigator extends React.Component {
               title="Customize"
             />
             </View>
-            <View style={{margin: 0}}>
+            <View style={{marginLeft: 10}}>
             <Button
               onPress={() => this.signOut()}
               title="Sign Out"

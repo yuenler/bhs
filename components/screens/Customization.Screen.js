@@ -168,7 +168,7 @@ export default class CustomizationScreen extends React.Component {
 							<Text style = {{color: 'white', fontFamily: 'Red Hat Display'}}>Block</Text>
 							<View style={{ height: 50, width: 100, backgroundColor: 'white' }}>
 							<RNPickerSelect
-					
+					placeholder={{ label: "Block", value: null }}
 					onValueChange={(block) => this.blockValueChange(block)}
 					value ={this.state.block}
 					style={ {inputAndroid: {color: 'black'} }}
@@ -183,6 +183,7 @@ export default class CustomizationScreen extends React.Component {
 				<View style={{ height: 50, width: 200, backgroundColor: 'white' }}>
 				
 				<RNPickerSelect
+				placeholder={{ label: "Select teacher", value: null }}
 				style={ {inputAndroid: {color: 'black'} }}
 				onValueChange={(teacher) => this.setState({ teacher })}
 				value  = {this.state.teacher}
@@ -210,7 +211,7 @@ export default class CustomizationScreen extends React.Component {
 				</View>
 				</View>
 
-				<View style={{marginTop: 30, marginHorizontal: 30}}>
+				<View style={{marginTop: 30, marginBottom:10, marginHorizontal: 30}}>
 				<Text style={{color: "#FFF", fontFamily: 'Red Hat Display'}}>The following field will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
 				</View>
 				
@@ -228,15 +229,6 @@ export default class CustomizationScreen extends React.Component {
 				</TouchableOpacity>
 				</View>
 				</View>
-
-				<View style={{margin: 20}}>
-				<Text style={{color: 'white'}}>Creating the Brookline High School App takes time, effort, and money. To help support and give back to the BHS App Development Club, click on the following button to donate.</Text>
-				</View>
-
-				<TouchableOpacity style = {styles.button} onPress = {() => {Linking.openURL('https://gofundme.com')}}>
-					<Text style={styles.buttonText}>Donate</Text>
-				</TouchableOpacity>
-
 
             </View>
             

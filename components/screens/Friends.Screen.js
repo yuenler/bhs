@@ -21,6 +21,9 @@ export default class FriendsScreen extends React.Component {
 	};
 	
 	componentDidMount() {
+		this._unsubscribe = this.props.navigation.addListener('focus', () => {
+			this.retrieveData();
+		  });
 			this.retrieveData();
 			
 			firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
@@ -36,26 +39,13 @@ export default class FriendsScreen extends React.Component {
 				}
 			
 		});
-
-		
-		if(this.state.phoneNumber == null){
-			this.state.phoneNumber = "555-555-5555"
-			Alert.alert(
-				"Warning!",
-				"We encourage you to enter your phone number in the Customization screen first so that your matched friend can easily contact you.",
-				[
-				  {
-					text: "Cancel",
-					style: "cancel"
-				  },
-				  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize')}
-				],
-				{ cancelable: false }
-			  );
-		}
-		
 	}
-		
+
+		  componentWillUnmount() {
+			this._unsubscribe();
+		  }
+	  
+
 
 	retrieveData = async()  => {
         try{
@@ -69,7 +59,21 @@ export default class FriendsScreen extends React.Component {
 
 
 	makeFriend(userName, userEmail, userPhoneNumber, userUID){
-
+		if(userPhoneNumber == null){
+			Alert.alert(
+				"You need to add your phone number!",
+				"You need to enter your phone number in the Customization screen first so that your matched friend can easily contact you. If you do not feel comfortable sending out your phone number, please enter 555-555-5555 in the phone number field in the customization screen. Note that this will mean that your matched friend will only be able to contact you through your school email.",
+				[
+				  {
+					text: "Cancel",
+					style: "cancel"
+				  },
+				  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize')}
+				],
+				{ cancelable: false }
+			  );
+		}
+		else{
 		let available = false;
 		let matchedName = "";
 		let matchedUID = "";
@@ -130,6 +134,7 @@ export default class FriendsScreen extends React.Component {
 		else{
 			this.postFriend(userName, userEmail, userPhoneNumber, userUID)
 		}
+	}
 	}
 
 
