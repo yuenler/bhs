@@ -166,7 +166,7 @@ export default class CustomizationScreen extends React.Component {
 				<View style={{flexDirection: 'row'}}>
 					<View style={{flex:1, margin: 20}}>
 							<Text style = {{color: 'white', fontFamily: 'Red Hat Display'}}>Block</Text>
-							<View style={{ height: 50, width: 100, backgroundColor: 'white' }}>
+							<View style={{ height: 50, width: 100, backgroundColor: 'white', borderRadius: 20 }}>
 							<RNPickerSelect
 					placeholder={{ label: "Block", value: null }}
 					onValueChange={(block) => this.blockValueChange(block)}
@@ -180,7 +180,7 @@ export default class CustomizationScreen extends React.Component {
 
 				<View style={{flex:2, margin: 20}}>
 				<Text style = {{color: 'white', fontFamily: 'Red Hat Display'}}>Teacher</Text>
-				<View style={{ height: 50, width: 200, backgroundColor: 'white' }}>
+				<View style={{ height: 50, width: 200, backgroundColor: 'white', borderRadius: 25 }}>
 				
 				<RNPickerSelect
 				placeholder={{ label: "Select teacher", value: null }}
@@ -211,10 +211,7 @@ export default class CustomizationScreen extends React.Component {
 				</View>
 				</View>
 
-				<View style={{marginTop: 30, marginBottom:10, marginHorizontal: 30}}>
-				<Text style={{color: "#FFF", fontFamily: 'Red Hat Display'}}>The following field will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
-				</View>
-				
+				<View>
 				<View style={{flexDirection: 'row'}}>
 				<View style={{flex:2}}>
 				<TextInput placeholder="Phone number"
@@ -222,14 +219,18 @@ export default class CustomizationScreen extends React.Component {
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
 						  value={this.state.phoneNumber}
 						  keyboardType='number-pad' /> 
-				</View>
-				<View style={{flex:1}}>
-				<TouchableOpacity style = {styles.button} onPress = {() => {this.savePhoneNumber(this.state.phoneNumber)}}>
-					<Text style={styles.buttonText}>Submit</Text>
-				</TouchableOpacity>
-				</View>
+					</View>
+					<View style={{ flex: 1 }}>
+						<TouchableOpacity style={styles.button} onPress={() => { this.savePhoneNumber(this.state.phoneNumber) }}>
+							<Text style={styles.buttonText}>Submit</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
 
+				<View style={{ marginTop: 30, marginBottom: 10, marginHorizontal: 30 }}>
+					<Text style={{ color: "#FFF", fontFamily: 'Red Hat Display' }}>The following field will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
+					</View>
+				</View>
             </View>
             
 		);
@@ -245,8 +246,8 @@ const styles = StyleSheet.create({
 	buttonText: {
 		fontSize: 15,
 		color: '#fff',
-		textAlign: 'center'
-		
+		textAlign: 'center',
+		fontFamily: 'Red Hat Display'
 	},
 	container: {
 		flex: 1,
@@ -254,13 +255,13 @@ const styles = StyleSheet.create({
 		backgroundColor: '#0F182D',
 	},
 	textInput: { 
-		// width: "100%",
-		borderRadius: 5, 
+		borderRadius: 20, 
 		paddingVertical: 8, 
 		backgroundColor: '#FFFFFF',
 		paddingHorizontal: 16, 
 		borderColor: "rgba(0, 0, 0, 0.2)", 
 		borderWidth: 1, 
 		marginHorizontal: 20,
+		fontFamily: 'Red Hat Display'
 	}, 
 });
