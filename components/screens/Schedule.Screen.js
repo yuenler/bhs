@@ -62,18 +62,6 @@ export default class ScheduleScreen extends React.Component {
 		for (let i=0; i<letters.length; i++){
 			if (this.state.block[letters[i]] == null){
 				this.state.block[letters[i]] = "";
-				// Alert.alert(
-				// 	"You have not customized your classes yet!",
-				// 	"",
-				// 	[
-				// 	  {
-				// 		text: "Cancel",
-				// 		style: "cancel"
-				// 	  },
-				// 	  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize') }
-				// 	],
-				// 	{ cancelable: true }
-				//   );
 				
 			}
 		}
@@ -312,7 +300,7 @@ export default class ScheduleScreen extends React.Component {
 		let today = new Date();
 		let day = today.getDay();
 		let minutes = today.getMinutes();
-
+		day= 1
 		let time = parseInt(`${today.getHours()}${minutes < 10 ? '0' + minutes : minutes}`);
 		if (day === 1 || day === 4) {
 			scheduleForToday = schedule[0];
@@ -349,7 +337,9 @@ export default class ScheduleScreen extends React.Component {
 							return <Block background={colors[block.color]} title={block.title} color="white" starts={block.starts} ends={block.ends} key={i} height={(block.numbers.duration) * 3} />;
 						})
 					}
-					<View style={{height: 1000}}></View>
+					<View style={{height: 900}}>
+						<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: 'white'}}>School is over!</Text>
+					</View>
 					
 					
 				</ScrollView>

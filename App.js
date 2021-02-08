@@ -51,7 +51,7 @@ export default class App extends React.Component {
     if (user) {
       var idxBrooklinek12 = user.email.indexOf('@brooklinek12.org');
         var idxPSBMA = user.email.indexOf('@psbma.org');
-        if (idxBrooklinek12 == -1 && idxPSBMA == -1) {
+        if (idxBrooklinek12 == -1 && idxPSBMA == -1 && user.email != "theofficialbhsapptesting@gmail.com") {
           Alert.alert(
             "Please sign in using your school email address!",
             "",

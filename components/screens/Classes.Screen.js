@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import { Text, View, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
+import user from '../User'
 
 
 
@@ -81,6 +82,15 @@ export default class ClassesScreen extends React.Component {
     if (!this.state.ready){
       return(null);
     }
+    var idxPSBMA = user.email.indexOf('@psbma.org');
+    if(this.state.ready && idxPSBMA > -1){
+      return(
+            <View style={styles.container}>
+              <Text style={{color: 'white', margin: 30}}>This screen is only available for students with brooklinek12.org domain emails.</Text>
+              </View>
+              );
+    }
+    else{
 		return (
 			
 			<View style={styles.container}>
@@ -167,6 +177,7 @@ export default class ClassesScreen extends React.Component {
                 
 			</View>
 		);
+    }
 	}
 }
 

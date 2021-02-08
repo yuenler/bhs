@@ -191,6 +191,16 @@ export default class FriendsScreen extends React.Component {
 		if (!this.state.ready){
 			return(null);
 		  }
+
+		  var idxPSBMA = user.email.indexOf('@psbma.org');
+		  if(this.state.ready && idxPSBMA > -1){
+			return(
+			<View style={styles.container}>
+			  <Text style={{color: 'white', margin: 30}}>This screen is only available for students with brooklinek12.org domain emails.</Text>
+			  </View>
+			);
+		  }
+		  else{
 		return (
 			
 			<View style={styles.container}>
@@ -233,6 +243,7 @@ export default class FriendsScreen extends React.Component {
 				</View>
 			</View>
 		);
+		  }
 	}
 }
 
