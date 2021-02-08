@@ -210,8 +210,9 @@ export default class CustomizationScreen extends React.Component {
 				</TouchableOpacity>
 				</View>
 				</View>
-
-				<View>
+				<View style={{ marginTop: 30, marginBottom: 10, marginHorizontal: 30 }}>
+					<Text style={{ color: "#FFF", fontFamily: 'Red Hat Display' }}>The following field will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
+					</View>
 				<View style={{flexDirection: 'row'}}>
 				<View style={{flex:2}}>
 				<TextInput placeholder="Phone number"
@@ -227,10 +228,7 @@ export default class CustomizationScreen extends React.Component {
 					</View>
 				</View>
 
-				<View style={{ marginTop: 30, marginBottom: 10, marginHorizontal: 30 }}>
-					<Text style={{ color: "#FFF", fontFamily: 'Red Hat Display' }}>The following field will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
-					</View>
-				</View>
+				
             </View>
             
 		);

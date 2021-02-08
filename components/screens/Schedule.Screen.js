@@ -45,12 +45,12 @@ export default class ScheduleScreen extends React.Component {
 			this.state.block['T'] = await AsyncStorage.getItem('Tclass');
 			this.state.block['X'] = await AsyncStorage.getItem('Xclass');
 			
-
-			this.setState({ready: true})
         }
         catch(error){
             console.info(error);
 		}
+		this.setState({ready: true})
+
 	  }
 
 	scrollRef = null;
@@ -91,37 +91,16 @@ export default class ScheduleScreen extends React.Component {
 					}
 				},
 				{
-					title: 'C - 1/2  ' + this.state.block['C'],
+					title: 'C  ' + this.state.block['C'],
 					starts: '11:30',
-					ends: '12:05 pm',
-					color: 'C',
-					numbers: {
-						starts: 1130,
-						ends: 1205,
-						duration: 35
-					}
-				},
-				{
-					title: 'Lunch',
-					starts: '12:10',
-					ends: '12:40 pm',
-					color: 'L',
-					numbers: {
-						starts: 1210,
-						ends: 1240,
-						duration: 30
-					}
-				},
-				{
-					title: 'C - 2/2  ' + this.state.block['C'],
-					starts: '12:45',
 					ends: '1:25 pm',
 					color: 'C',
 					numbers: {
-						starts: 1245,
+						starts: 1130,
 						ends: 1325,
-						duration: 40
+						duration: 115
 					}
+				
 				},
 				{
 					title: 'D  ' + this.state.block['D'],
@@ -170,37 +149,17 @@ export default class ScheduleScreen extends React.Component {
 					}
 				},
 				{
-					title: 'F - 1/2  ' + this.state.block['F'],
+					title: 'F ' + this.state.block['F'],
 					starts: '11:30',
-					ends: '12:05 pm',
-					color: 'F',
-					numbers: {
-						starts: 1130,
-						ends: 1205,
-						duration: 35
-					}
-				},
-				{
-					title: 'Lunch',
-					starts: '12:10',
-					ends: '12:40 pm',
-					color: 'L',
-					numbers: {
-						starts: 1210,
-						ends: 1240,
-						duration: 30
-					}
-				},
-				{
-					title: 'F - 2/2  ' + this.state.block['F'],
-					starts: '12:45',
 					ends: '1:25 pm',
 					color: 'F',
 					numbers: {
-						starts: 1245,
+						starts: 1130,
 						ends: 1325,
-						duration: 40
+						duration: 115
 					}
+				
+					
 				},
 				{
 					title: 'G  ' + this.state.block['G'],
@@ -326,7 +285,11 @@ export default class ScheduleScreen extends React.Component {
 		}
 		if (this.state.ready){
 			
+			if (!this.state.ready){
+				return(null)
+			}
 		return (
+			
 			<SafeAreaView style={{backgroundColor: '#0F182D'}}>
 				<ScrollView
 				ref={ref => {
@@ -360,18 +323,18 @@ export default class ScheduleScreen extends React.Component {
 						animated: true
 					});
 				}
-			}, 100);  
+			}, 1000);  
 		  });
 		  this.retrieveData();	
 
 		  setTimeout(() => {
-			if (this.scrollRef !== null) {
+			if (this.scrollRef !== null && this.state.ready) {
 				this.scrollRef.scrollTo({
 					y: this.block,
 					animated: true
 				});
 			}
-		}, 100);  
+		}, 1000);  
 	}
 	
 	componentWillUnmount() {
