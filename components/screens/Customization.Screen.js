@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert, TextInput, Linking} from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput, Linking, Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -226,6 +226,17 @@ export default class CustomizationScreen extends React.Component {
 							<Text style={styles.buttonText}>Submit</Text>
 						</TouchableOpacity>
 					</View>
+				</View>
+
+				<View>
+					<Text>This app was made by the BHS App Development Club.</Text>
+					<TouchableOpacity style={styles.button} onPress={() => {Linking.openURL("https://www.paypal.com/qrcodes/venmocs/800a33bd-3d93-4d38-98c1-a38c384ffbec") }}>
+						<Image
+						// style={styles.tinyLogo}
+						source={require('../../vemno.png')}
+						/>
+						<Text style={styles.buttonText}>Vemno</Text>
+					</TouchableOpacity>
 				</View>
 
 				

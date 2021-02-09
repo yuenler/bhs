@@ -259,7 +259,6 @@ export default class ScheduleScreen extends React.Component {
 		let today = new Date();
 		let day = today.getDay();
 		let minutes = today.getMinutes();
-		day= 1
 		let time = parseInt(`${today.getHours()}${minutes < 10 ? '0' + minutes : minutes}`);
 		if (day === 1 || day === 4) {
 			scheduleForToday = schedule[0];
@@ -323,7 +322,7 @@ export default class ScheduleScreen extends React.Component {
 						animated: true
 					});
 				}
-			}, 1000);  
+			}, 0);  
 		  });
 		  this.retrieveData();	
 
@@ -334,7 +333,7 @@ export default class ScheduleScreen extends React.Component {
 					animated: true
 				});
 			}
-		}, 1000);  
+		}, 500);  
 	}
 	
 	componentWillUnmount() {

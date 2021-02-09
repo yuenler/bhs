@@ -17,6 +17,11 @@ export default class FriendsScreen extends React.Component {
 		matchEmail: "",
 		matchPhoneNumber: "",
 		matchUID: "",
+		available: false,
+		potentialName: "",
+		potentialEmail: "",
+		potentialPhoneNumber: "",
+		potentialUID: "",
 
 	};
 	
@@ -39,6 +44,16 @@ export default class FriendsScreen extends React.Component {
 				}
 			
 		});
+
+		firebase.database().ref('Friends').on('value', (snapshot) => {
+			this.state.available = ! snapshot.val().matched
+			this.state.potentialName = snapshot.val().name
+			this.state.potentialUID = snapshot.val().uid
+			this.state.potentialEmail = snapshot.val().email
+			this.state.potentialPhoneNumber = snapshot.val().phoneNumber
+		});
+
+		
 	}
 
 		  componentWillUnmount() {
@@ -74,20 +89,9 @@ export default class FriendsScreen extends React.Component {
 			  );
 		}
 		else{
-		let available = false;
-		let matchedName = "";
-		let matchedUID = "";
-		let matchedEmail = "";
-		let matchedPhoneNumber = ""; 
-		firebase.database().ref('Friends').on('value', (snapshot) => {
-			available = ! snapshot.val().matched
-			matchedName = snapshot.val().name
-			matchedUID = snapshot.val().uid
-			matchedEmail = snapshot.val().email
-			matchedPhoneNumber = snapshot.val().phoneNumber
-		});
+		
 		//so that you don't match with yourself
-		if (available && matchedUID === userUID){
+		if (this.state.available && this.state.potentialUID === userUID){
 				available = false;
 				Alert.alert(
 					"Your friend request has already been sent!",
@@ -100,11 +104,11 @@ export default class FriendsScreen extends React.Component {
 					"Please delete your current friend before requesting another!",
 				  );
 			}
-		else if (available){
-			Alert.alert('You have matched with ' + matchedName + "!")
+		else if (this.state.available){
+			Alert.alert('You have matched with ' + this.state.potentialName + "!")
 			firebase
 			.database()
-			.ref('Matches/' + matchedUID)
+			.ref('Matches/' + this.state.potentialUID)
 			.set({
 			  matchName: userName,
 			  matchEmail: userEmail,
@@ -115,10 +119,10 @@ export default class FriendsScreen extends React.Component {
 			.database()
 			.ref('Matches/' + user.uid)
 			.set({
-			  matchName: matchedName,
-			  matchEmail: matchedEmail,
-			  matchPhoneNumber: matchedPhoneNumber, 
-			  matchUID: matchedUID,
+			  matchName: this.state.potentialName,
+			  matchEmail: this.state.potentialEmail,
+			  matchPhoneNumber: this.state.potentialPhoneNumber, 
+			  matchUID: this.state.potentialUID,
 			});
 			firebase
 			.database()
@@ -126,10 +130,10 @@ export default class FriendsScreen extends React.Component {
 			.set({
 			  matched: true 
 			});
-			this.state.matchName = matchedName;
-			this.state.matchEmail = matchedEmail;
-			this.state.matchPhoneNumber = matchedPhoneNumber;
-			this.state.matchUID = matchedUID;
+			this.state.matchName = this.state.potentialName;
+			this.state.matchEmail = this.state.potentialEmail;
+			this.state.matchPhoneNumber = this.state.potentialPhoneNumber;
+			this.state.matchUID = this.state.potentialUID;
 		}
 		else{
 			this.postFriend(userName, userEmail, userPhoneNumber, userUID)
@@ -188,12 +192,12 @@ export default class FriendsScreen extends React.Component {
 	};
 	
 	render() {
+		var idxPSBMA = user.email.indexOf('@psbma.org');
+
 		if (!this.state.ready){
 			return(null);
 		  }
-
-		  var idxPSBMA = user.email.indexOf('@psbma.org');
-		  if(this.state.ready && idxPSBMA > -1){
+		  else if(this.state.ready && idxPSBMA > -1){
 			return(
 			<View style={styles.container}>
 			  <Text style={{color: 'white', margin: 30}}>This screen is only available for students with brooklinek12.org domain emails.</Text>
