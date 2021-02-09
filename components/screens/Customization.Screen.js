@@ -228,14 +228,13 @@ export default class CustomizationScreen extends React.Component {
 					</View>
 				</View>
 
-				<View>
-					<Text>This app was made by the BHS App Development Club.</Text>
-					<TouchableOpacity style={styles.button} onPress={() => {Linking.openURL("https://www.paypal.com/qrcodes/venmocs/800a33bd-3d93-4d38-98c1-a38c384ffbec") }}>
+				<View style={{alignItems: 'center', margin: 30}}>
+					<Text style = {{color:'white', fontFamily: 'Red Hat Display', textAlign: 'center'}}>This app was made by the BHS App Development Club. Click below to donate.</Text>
+					<TouchableOpacity onPress={() => {Linking.openURL("https://www.paypal.com/qrcodes/venmocs/800a33bd-3d93-4d38-98c1-a38c384ffbec") }}>
 						<Image
-						// style={styles.tinyLogo}
+						style={styles.vemno}
 						source={require('../../vemno.png')}
 						/>
-						<Text style={styles.buttonText}>Vemno</Text>
 					</TouchableOpacity>
 				</View>
 
@@ -251,6 +250,10 @@ const styles = StyleSheet.create({
 		backgroundColor: '#871609',
 		padding: 10,
 		borderRadius: 20,
+	},
+	vemno: {
+		width: 225,
+		height: 75
 	},
 	buttonText: {
 		fontSize: 15,
