@@ -68,7 +68,7 @@ export default class CreateAnnouncementsScreen extends React.Component {
 			<TouchableOpacity style = {styles.button} onPress = {() => {
 					Alert.alert(
 						"Are you sure you want to post?",
-						"If you continue, your post, along with your full name and the date/time you post on, will be publicly viewable by everyone who has downloaded this app. By continuing, you acknowledge that your post is relevant and appropriate for the Brookline High School community. If our team deems that your post does not satisfy these conditions, we reserve the right to remove your post from our app. ",
+						"If you continue, your post, along with your full name and the date/time you post on, will be publicly viewable by everyone who has downloaded this app. You will not be able to delete it. By continuing, you acknowledge that your post is relevant and appropriate for the Brookline High School community. If our team deems that your post does not satisfy these conditions, we reserve the right to remove your post from our app. ",
 						[
 						  {
 							text: "Cancel",
