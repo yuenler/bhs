@@ -164,9 +164,8 @@ export default class CustomizationScreen extends React.Component {
 			<View style={styles.container}>
 
 				<View style={{flexDirection: 'row'}}>
-					<View style={{flex:1, margin: 20}}>
-							<Text style = {{color: 'white', fontFamily: 'Red Hat Display'}}>Block</Text>
-							<View style={{ height: 50, width: 100, backgroundColor: 'white', borderRadius: 20 }}>
+					<View style={{flex:1, marginVertical: 20, marginHorizontal: 20}}>
+							<View style={{ height: 50, width: 120, backgroundColor: 'white', borderRadius: 20 }}>
 							<RNPickerSelect
 					placeholder={{ label: "Block", value: null }}
 					onValueChange={(block) => this.blockValueChange(block)}
@@ -178,12 +177,11 @@ export default class CustomizationScreen extends React.Component {
 		
 				</View>
 
-				<View style={{flex:2, margin: 20}}>
-				<Text style = {{color: 'white', fontFamily: 'Red Hat Display'}}>Teacher</Text>
+				<View style={{flex:2, marginVertical: 20, marginHorizontal: 10}}>
 				<View style={{ height: 50, width: 200, backgroundColor: 'white', borderRadius: 25 }}>
 				
 				<RNPickerSelect
-				placeholder={{ label: "Select teacher", value: null }}
+				placeholder={{ label: "Teacher", value: null }}
 				style={ {inputAndroid: {color: 'black'} }}
 				onValueChange={(teacher) => this.setState({ teacher })}
 				value  = {this.state.teacher}
@@ -228,7 +226,7 @@ export default class CustomizationScreen extends React.Component {
 					</View>
 				</View>
 
-				<View style={{alignItems: 'center', margin: 100}}>
+				<View style={{alignItems: 'center', marginLeft: 70, marginRight: 70, marginTop: 30}}>
 					<Text style = {{color:'white', fontFamily: 'Red Hat Display', textAlign: 'center'}}>This app was made by the BHS App Development Club. Click below to donate.</Text>
 					<TouchableOpacity onPress={() => {Linking.openURL("https://www.paypal.com/qrcodes/venmocs/800a33bd-3d93-4d38-98c1-a38c384ffbec") }}>
 						<Image
@@ -250,10 +248,11 @@ const styles = StyleSheet.create({
 		backgroundColor: '#871609',
 		padding: 10,
 		borderRadius: 20,
+		marginRight: 10
 	},
 	vemno: {
-		width: 225,
-		height: 75
+		width: 180,
+		height: 60
 	},
 	buttonText: {
 		fontSize: 15,
