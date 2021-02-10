@@ -27,50 +27,7 @@ export default class ScheduleNavigator extends React.Component {
   }
 
   render() {    
-    if (Platform.OS === 'ios') {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen component={ScheduleScreen} name="Schedule" 
-          options={{
-          headerStyle: {
-            backgroundColor: '#871609',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerRight: () => (
-            <View style={{flexDirection: 'row'}}>
-            <View style={{marginTop: 0, marginBottom: 0}}>
-            <Button
-              onPress={() => this.props.navigation.navigate("Customize")}
-              title="Customize"
-            />
-            </View>
-            <View style={{marginLeft: 200}}>
-            <Button
-              onPress={() => this.signOut()}
-              title="Sign Out"
-            />
-            </View>
-            </View>
-          )
-          }} 
-          />
-        <Stack.Screen component={CustomizationScreen} name="Customize"
-        options={{
-          headerStyle: {
-            backgroundColor: '#871609',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-        />
-      </Stack.Navigator>
-    )
-  } if (Platform.OS === 'android') {
+
     return (
       <Stack.Navigator>
         <Stack.Screen component={ScheduleScreen} name="Schedule" 
@@ -115,4 +72,3 @@ export default class ScheduleNavigator extends React.Component {
     )
   }
 }
-} 
