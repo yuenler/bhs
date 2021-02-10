@@ -27,7 +27,7 @@ const styles = (color, bg, height) => StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 15,
     backgroundColor: '#871609',
-    width: '100%',
+    width: '95%',
     height: 200,
   },
   title: {
