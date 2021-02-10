@@ -163,9 +163,13 @@ export default class FriendsScreen extends React.Component {
 		}
 		else{
 		let userRef = firebase.database().ref('Matches/' + userUID);
-		userRef.remove()
+		userRef.set({
+			matched: false
+		  });
 		let matchUserRef = firebase.database().ref('Matches/' + this.state.matchUID);
-		matchUserRef.remove()
+		matchUserRef.set({
+			matched: false 
+		  });
 
 		this.setState({
 			matchName: "",
