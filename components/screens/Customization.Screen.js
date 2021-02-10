@@ -211,7 +211,7 @@ export default class CustomizationScreen extends React.Component {
 				</View>
 				</View>
 				<View style={{ marginTop: 30, marginBottom: 10, marginHorizontal: 30 }}>
-					<Text style={{ color: "#FFF", fontFamily: 'Red Hat Display' }}>The following field will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
+					<Text style={{ color: "#FFF", fontFamily: 'Red Hat Display' }}>Your phone number will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
 					</View>
 				<View style={{flexDirection: 'row'}}>
 				<View style={{flex:2}}>
@@ -228,7 +228,7 @@ export default class CustomizationScreen extends React.Component {
 					</View>
 				</View>
 
-				<View style={{alignItems: 'center', margin: 30}}>
+				<View style={{alignItems: 'center', margin: 100}}>
 					<Text style = {{color:'white', fontFamily: 'Red Hat Display', textAlign: 'center'}}>This app was made by the BHS App Development Club. Click below to donate.</Text>
 					<TouchableOpacity onPress={() => {Linking.openURL("https://www.paypal.com/qrcodes/venmocs/800a33bd-3d93-4d38-98c1-a38c384ffbec") }}>
 						<Image
