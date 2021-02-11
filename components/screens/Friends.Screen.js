@@ -220,13 +220,17 @@ export default class FriendsScreen extends React.Component {
 		return (
 			
 			<View style={styles.container}>
+				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
 					<Text style = {styles.buttonText}>Make a Friend</Text>
 				</TouchableOpacity>
+				</View>
 
+				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.deleteFriendButton} onPress={this.onDelete}>
 					<Text style = {styles.buttonText}>Delete Friend</Text>
 				</TouchableOpacity>
+				</View>
 
 				<View style={styles.matchAnnouncementContainer}>
 				<Text style={styles.result}>Your matched friend is:</Text>
@@ -235,12 +239,12 @@ export default class FriendsScreen extends React.Component {
 
 				<View style = {styles.contactContainer}>
 					
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, marginHorizontal: 20}}>
 
 				<MaterialCommunityIcons.Button backgroundColor="#4287f5" style={styles.contactButton} name='message'  onPress={() => this.contact('sms:' + this.state.matchPhoneNumber)}>Text</MaterialCommunityIcons.Button>
 				</View>
 
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, marginHorizontal: 20}}>
 				<MaterialCommunityIcons.Button backgroundColor="#3b5998" style={styles.contactButton} name='phone'  onPress={() => this.contact('tel:' + this.state.matchPhoneNumber)}>Call</MaterialCommunityIcons.Button>
 				</View>
 	
@@ -248,11 +252,11 @@ export default class FriendsScreen extends React.Component {
 
 				<View style = {styles.contactContainer}>
 
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, marginHorizontal: 20}}>
 				<Ionicons.Button backgroundColor="#0cc42a" style={styles.contactButton} name='ios-videocam'  onPress={() => this.contact('facetime:' + this.state.matchPhoneNumber)}>FaceTime</Ionicons.Button>
 				</View>
 
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, marginHorizontal: 20}}>
 				<MaterialCommunityIcons.Button backgroundColor="#c42e0c" style={styles.contactButton} name='email'  onPress={() => this.contact('mailto:' + this.state.matchEmail)}>Email</MaterialCommunityIcons.Button>
 				</View>
 
@@ -274,7 +278,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#c90606',
 		padding: 20,
 		borderRadius: 20,
-		margin: 20
 	},
 	contactButton: {
 		padding: 20,
@@ -287,16 +290,22 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
+		flexDirection: 'column',
 		backgroundColor: '#0F182D',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	contactContainer: {
 		flexDirection: 'row',
+		flex: 1,
+		alignItems: 'center',
+		 justifyContent: 'center'
 		
 	},
 	matchAnnouncementContainer:{
-		margin: 20,
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	result: {
 	color:'#FFFFFF', 

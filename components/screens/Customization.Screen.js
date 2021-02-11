@@ -163,9 +163,9 @@ export default class CustomizationScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 
-				<View style={{flexDirection: 'row'}}>
-					<View style={{flex:1, marginVertical: 20, marginHorizontal: 20}}>
-							<View style={{ height: 50, width: 120, backgroundColor: 'white', borderRadius: 20 }}>
+				<View style={{flexDirection: 'row', flex: 1}}>
+					<View style={{flex:1, marginVertical: 20, marginHorizontal: 10}}>
+							<View style={{ height: 50, backgroundColor: 'white', borderRadius: 20 }}>
 							<RNPickerSelect
 					placeholder={{ label: "Block", value: null }}
 					onValueChange={(block) => this.blockValueChange(block)}
@@ -177,8 +177,8 @@ export default class CustomizationScreen extends React.Component {
 		
 				</View>
 
-				<View style={{flex:2, marginVertical: 20, marginHorizontal: 10}}>
-				<View style={{ height: 50, width: 200, backgroundColor: 'white', borderRadius: 25 }}>
+				<View style={{flex:2, marginVertical: 20, marginRight: 10}}>
+				<View style={{ height: 50, backgroundColor: 'white', borderRadius: 25 }}>
 				
 				<RNPickerSelect
 				placeholder={{ label: "Teacher", value: null }}
@@ -192,7 +192,7 @@ export default class CustomizationScreen extends React.Component {
 				</View>
 				</View>
 
-				<View style={{flexDirection: 'row'}}>
+				<View style={{flexDirection: 'row', flex: 1}}>
 				<View style={{flex: 3}}>
 				<TextInput placeholder="Class Name"
 						style={styles.textInput} 
@@ -208,7 +208,9 @@ export default class CustomizationScreen extends React.Component {
 				</TouchableOpacity>
 				</View>
 				</View>
-				<View style={{ marginTop: 30, marginBottom: 10, marginHorizontal: 30 }}>
+				
+				<View style={{flex:2}}>
+				<View style={{marginHorizontal: 30, marginBottom: 10}}>
 					<Text style={{ color: "#FFF", fontFamily: 'Red Hat Display' }}>Your phone number will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
 					</View>
 				<View style={{flexDirection: 'row'}}>
@@ -225,8 +227,9 @@ export default class CustomizationScreen extends React.Component {
 						</TouchableOpacity>
 					</View>
 				</View>
+				</View>
 
-				<View style={{alignItems: 'center', marginLeft: 70, marginRight: 70, marginTop: 30}}>
+				<View style={{alignItems: 'center', marginLeft: 50, marginRight: 50, flex: 2}}>
 					<Text style = {{color:'white', fontFamily: 'Red Hat Display', textAlign: 'center'}}>This app was made by the BHS App Development Club. Click below to donate.</Text>
 					<TouchableOpacity onPress={() => {Linking.openURL("https://www.paypal.com/qrcodes/venmocs/800a33bd-3d93-4d38-98c1-a38c384ffbec") }}>
 						<Image
@@ -262,6 +265,7 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
+		flexDirection: 'column',
 		alignItems: 'center',
 		backgroundColor: '#0F182D',
 	},

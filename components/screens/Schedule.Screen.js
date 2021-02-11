@@ -320,7 +320,7 @@ export default class ScheduleScreen extends React.Component {
 		return (
 			
 			<SafeAreaView style={{backgroundColor: '#0F182D'}}>
-				<View style={{  backgroundColor: 'white', borderRadius: 20, marginHorizontal: 20}}>
+				<View style={{  backgroundColor: '#aaabb5', borderRadius: 20, marginHorizontal: 30, marginVertical: 10}}>
 				<RNPickerSelect
 				placeholder={{}}
 				style={ {inputAndroid: {color: 'black'} }}
@@ -362,7 +362,7 @@ export default class ScheduleScreen extends React.Component {
 						animated: true
 					});
 				}
-			}, 500);  
+			}, 100);  
 		  });
 		  
 		  this.retrieveData();	

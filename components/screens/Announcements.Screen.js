@@ -72,13 +72,13 @@ const styles = StyleSheet.create({
 	button: {
 		margin: 20,
 		backgroundColor: '#871609',
-		padding: 20,
+		padding: 10,
 		borderRadius: 20,
 		alignItems: "center", 
 	},
 	buttonText: {
 		fontFamily: 'Red Hat Display',
-		fontSize: 20,
+		fontSize: 15,
     	color: '#fff',
 	},
 	container: {

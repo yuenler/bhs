@@ -40,7 +40,7 @@ export default class AppNavigator extends React.Component {
           activeTintColor: 'white',
           inactiveTintColor: 'gray',
           style: {
-            backgroundColor: '#12061f',
+            backgroundColor: '#000000',
         },
         }}
         

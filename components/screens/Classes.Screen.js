@@ -94,15 +94,15 @@ export default class ClassesScreen extends React.Component {
 		return (
 			
 			<View style={styles.container}>
-                <View style = {{flexDirection: 'row'}}> 
+                <View style = {{flexDirection: 'row', flex: 1}}> 
 
-                <View style={{flex:1, margin: 20}}>
+                <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('A')}>
 					<Text style = {styles.buttonText}>A Block</Text>
 				</TouchableOpacity>
                 </View>
 
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('B')}>
 					<Text style = {styles.buttonText}>B Block</Text>
 				</TouchableOpacity>
@@ -110,15 +110,15 @@ export default class ClassesScreen extends React.Component {
 
                 </View>
 
-                <View style = {{flexDirection: 'row'}}> 
+                <View style = {{flexDirection: 'row', flex: 1}}> 
 
-                <View style={{flex:1, margin: 20}}>
+                <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('C')}>
 					<Text style = {styles.buttonText}>C Block</Text>
 				</TouchableOpacity>
                 </View>
 
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('D')}>
 					<Text style = {styles.buttonText}>D Block</Text>
 				</TouchableOpacity>
@@ -126,15 +126,15 @@ export default class ClassesScreen extends React.Component {
 
                 </View>
 
-                <View style = {{flexDirection: 'row'}}> 
+                <View style = {{flexDirection: 'row', flex: 1}}> 
 
-                <View style={{flex:1, margin: 20}}>
+                <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('E')}>
 					<Text style = {styles.buttonText}>E Block</Text>
 				</TouchableOpacity>
                 </View>
 
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('F')}>
 					<Text style = {styles.buttonText}>F Block</Text>
 				</TouchableOpacity>
@@ -142,15 +142,15 @@ export default class ClassesScreen extends React.Component {
 
                 </View>
 
-                <View style = {{flexDirection: 'row'}}> 
+                <View style = {{flexDirection: 'row', flex: 1}}> 
 
-                <View style={{flex:1, margin: 20}}>
+                <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('G')}>
 					<Text style = {styles.buttonText}>G Block</Text>
 				</TouchableOpacity>
                 </View>
 
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('Z')}>
 					<Text style = {styles.buttonText}>Z Block</Text>
 				</TouchableOpacity>
@@ -158,15 +158,15 @@ export default class ClassesScreen extends React.Component {
 
                 </View>
 
-                <View style = {{flexDirection: 'row'}}> 
+                <View style = {{flexDirection: 'row', flex: 1}}> 
 
-                <View style={{flex:1, margin: 20}}>
+                <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('T')}>
 					<Text style = {styles.buttonText}>T Block</Text>
 				</TouchableOpacity>
                 </View>
 
-				<View style={{flex:1, margin: 20}}>
+				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('X')}>
 					<Text style = {styles.buttonText}>X Block</Text>
 				</TouchableOpacity>
@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
 	
 	container: {
     flex: 1,
+    flexDirection: 'column',
 		backgroundColor: '#0F182D',
 		alignItems: 'center',
 		justifyContent: 'center',
