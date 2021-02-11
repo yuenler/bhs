@@ -1,11 +1,8 @@
-import { StatusBar } from "expo-status-bar"; 
 import React, { useState } from "react"; 
 import firebase from "firebase";
 import user from "../User";
 import { Button, SafeAreaView, StyleSheet, Modal, View, TextInput, Dimensions, TouchableOpcaity, Text, Alert} from "react-native"; 
 import { TouchableOpacity } from "react-native-gesture-handler";
-
-const { width } = Dimensions.get("window"); 
 
 export default class CreateAnnouncementsScreen extends React.Component {
 	storeText(title, text) {
@@ -50,8 +47,7 @@ export default class CreateAnnouncementsScreen extends React.Component {
 
 	render() {
 	return ( 
-		<SafeAreaView style={styles.screen}> 
-			<StatusBar style="auto" /> 
+		<SafeAreaView style={styles.container}> 
 				<TextInput placeholder="Announcement title (25 char limit)"
 						style={styles.textInput} 
 						onChangeText={title => this.setState({ title })}
@@ -90,17 +86,11 @@ export default class CreateAnnouncementsScreen extends React.Component {
 
 // These are user defined styles 
 const styles = StyleSheet.create({ 
-	screen: { 
+	container: { 
 		flex: 1, 
 		alignItems: "center", 
 		justifyContent: "center", 
 		backgroundColor: "#0F182D", 
-	}, 
-	viewWrapper: { 
-		flex: 1, 
-		alignItems: "center", 
-		justifyContent: "center", 
-		backgroundColor: "rgba(0, 0, 0, 0.2)", 
 	}, 
 	textInput: { 
 		width: "80%", 

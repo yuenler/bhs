@@ -11,6 +11,7 @@ export default class ScheduleScreen extends React.Component {
 		super(props);
 		this.state = {
 			ready: false,
+			endOfSchool: "",
 			block: {
 			'A' : '' , 
 
@@ -280,6 +281,9 @@ export default class ScheduleScreen extends React.Component {
 			const block = scheduleForToday[i];
 			if (time > block.numbers.ends) {
 				this.block += scheduleForToday[i].numbers.duration * 3 + 9;
+				if (i == len-1){
+					this.state.endOfSchool = "School is Over!";
+				}
 			}
 		}
 		if (this.state.ready){
@@ -300,7 +304,7 @@ export default class ScheduleScreen extends React.Component {
 						})
 					}
 					<View style={{height: 900}}>
-						<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: 'white'}}>School is over!</Text>
+						<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: 'white'}}>{this.state.endOfSchool}</Text>
 					</View>
 					
 					

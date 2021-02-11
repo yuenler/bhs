@@ -37,8 +37,11 @@ export default class AppNavigator extends React.Component {
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'tomato',
+          activeTintColor: 'white',
           inactiveTintColor: 'gray',
+          style: {
+            backgroundColor: '#12061f',
+        },
         }}
         
       >

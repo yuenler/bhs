@@ -94,7 +94,8 @@ class Chat extends React.Component {
 
   render() {
     return (
-      
+      <View style={{backgroundColor: '#0F182D', flex: 1}}>
+
       <GiftedChat
         
         renderUsernameOnMessage={true}
@@ -104,6 +105,7 @@ class Chat extends React.Component {
         timeTextStyle={{ left: { color: 'red' }, right: { color: 'yellow' } }}
       />
       
+      </View>
     );
 }
 

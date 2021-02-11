@@ -47,7 +47,6 @@ export default class AnnouncementsScreen extends React.Component {
 		}
 
 		return (
-			
 			<SafeAreaView style={styles.container}>
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{

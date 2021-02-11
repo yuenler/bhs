@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default class FriendsScreen extends React.Component {
 
 	state = {
+		available: false,
 		ready: false,
 		phoneNumber: "",
 		matchName: "",
@@ -92,13 +93,11 @@ export default class FriendsScreen extends React.Component {
 		
 		//so that you don't match with yourself
 		if (this.state.available && this.state.potentialUID === userUID){
-				available = false;
 				Alert.alert(
 					"Your friend request has already been sent!",
 				  );
 			}
 		else if (this.state.matchName != ""){
-				available = false;
 				Alert.alert(
 					"Error",
 					"Please delete your current friend before requesting another!",
@@ -153,7 +152,10 @@ export default class FriendsScreen extends React.Component {
 		  uid: userUID,
 		  matched: false 
 		});
-		Alert.alert('Friend request sent!')
+		Alert.alert(
+			"Friend request sent!",
+			"Your friend request has been sent to our database. You will be matched with the next BHS student that also requests a friend.",
+		  );
 	} 
 
 	deleteFriend(userUID){
