@@ -3,6 +3,8 @@ import { SafeAreaView, StyleSheet, Text, Alert, TouchableOpacity, View} from 're
 import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
 import AsyncStorage from '@react-native-community/async-storage';
+import RNPickerSelect from 'react-native-picker-select';
+
 
 export default class ScheduleScreen extends React.Component {
 
@@ -12,6 +14,7 @@ export default class ScheduleScreen extends React.Component {
 		this.state = {
 			ready: false,
 			endOfSchool: "",
+			day: "",
 			block: {
 			'A' : '' , 
 
@@ -31,8 +34,9 @@ export default class ScheduleScreen extends React.Component {
 		  }}
 	}
 
-	
-	
+	options = {
+		days:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+	}
 
 	  retrieveData = async()  => {
         try{
@@ -50,8 +54,21 @@ export default class ScheduleScreen extends React.Component {
         catch(error){
             console.info(error);
 		}
+		let today = new Date();
+		this.state.day = today.getDay().toString();
 		this.setState({ready: true})
 
+	  }
+
+	  dayChange(day){
+		this.setState(day)
+		let today = new Date();
+		if (this.scrollRef !== null && this.state.ready && this.state.day != today.getDay().toString()) {
+			this.scrollRef.scrollTo({
+				y: 0,
+				animated: true
+			});
+		}
 	  }
 
 	scrollRef = null;
@@ -258,7 +275,7 @@ export default class ScheduleScreen extends React.Component {
 
 		let scheduleForToday;
 		let today = new Date();
-		let day = today.getDay();
+		let day = parseInt(this.state.day);
 		let minutes = today.getMinutes();
 		let time = parseInt(`${today.getHours()}${minutes < 10 ? '0' + minutes : minutes}`);
 		if (day === 1 || day === 4) {
@@ -277,15 +294,24 @@ export default class ScheduleScreen extends React.Component {
 
 		//traversing each block that has passed to calculate scroll amount
 		this.block = 0
+		this.state.endOfSchool = "";
 		for (let i = 0, len = scheduleForToday.length; i < len; ++i) {
 			const block = scheduleForToday[i];
 			if (time > block.numbers.ends) {
-				this.block += scheduleForToday[i].numbers.duration * 3 + 9;
+				this.block += scheduleForToday[i].numbers.duration * 3 + 8;
 				if (i == len-1){
 					this.state.endOfSchool = "School is Over!";
 				}
 			}
 		}
+		
+		let days = [];
+		for (let i = 1; i <= 5; i++) {
+			let day = this.options.days[i-1]
+			days.push({label: day, value: i.toString() })
+		}
+
+
 		if (this.state.ready){
 			
 			if (!this.state.ready){
@@ -294,6 +320,16 @@ export default class ScheduleScreen extends React.Component {
 		return (
 			
 			<SafeAreaView style={{backgroundColor: '#0F182D'}}>
+				<View style={{  backgroundColor: 'white', borderRadius: 20, marginHorizontal: 20}}>
+				<RNPickerSelect
+				placeholder={{}}
+				style={ {inputAndroid: {color: 'black'} }}
+				onValueChange={(day) => this.dayChange({ day })}
+				value  = {this.state.day}
+				items={days}		
+        		/>
+				</View>
+
 				<ScrollView
 				ref={ref => {
 					this.scrollRef = ref;
@@ -326,8 +362,9 @@ export default class ScheduleScreen extends React.Component {
 						animated: true
 					});
 				}
-			}, 0);  
+			}, 500);  
 		  });
+		  
 		  this.retrieveData();	
 
 		  setTimeout(() => {
