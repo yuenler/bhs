@@ -63,7 +63,7 @@ export default class ScheduleScreen extends React.Component {
 	  dayChange(day){
 		this.setState(day)
 		let today = new Date();
-		if (this.scrollRef !== null && this.state.ready && this.state.day != today.getDay().toString()) {
+		if (this.scrollRef !== null && this.state.ready) {
 			this.scrollRef.scrollTo({
 				y: 0,
 				animated: true
@@ -298,7 +298,7 @@ export default class ScheduleScreen extends React.Component {
 		for (let i = 0, len = scheduleForToday.length; i < len; ++i) {
 			const block = scheduleForToday[i];
 			if (time > block.numbers.ends) {
-				this.block += scheduleForToday[i].numbers.duration * 3 + 8;
+				this.block += scheduleForToday[i].numbers.duration * 3 + 9;
 				if (i == len-1){
 					this.state.endOfSchool = "School is Over!";
 				}
@@ -323,7 +323,7 @@ export default class ScheduleScreen extends React.Component {
 				<View style={{  backgroundColor: '#FFFFFF', borderRadius: 20, marginHorizontal: 30, marginVertical: 10}}>
 				<RNPickerSelect
 				placeholder={{}}
-				style={ {inputAndroid: {color: 'black'} }}
+				style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10} }}
 				onValueChange={(day) => this.dayChange({ day })}
 				value  = {this.state.day}
 				items={days}		

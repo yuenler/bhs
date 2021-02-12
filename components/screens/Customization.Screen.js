@@ -170,7 +170,7 @@ export default class CustomizationScreen extends React.Component {
 					placeholder={{ label: "Block", value: null }}
 					onValueChange={(block) => this.blockValueChange(block)}
 					value ={this.state.block}
-					style={ {inputAndroid: {color: 'black'} }}
+					style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10}}}
 					items={blocks}
 				/>
 				</View>
@@ -182,7 +182,7 @@ export default class CustomizationScreen extends React.Component {
 				
 				<RNPickerSelect
 				placeholder={{ label: "Teacher", value: null }}
-				style={ {inputAndroid: {color: 'black'} }}
+				style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10} }}
 				onValueChange={(teacher) => this.setState({ teacher })}
 				value  = {this.state.teacher}
 				items={teachers}		
