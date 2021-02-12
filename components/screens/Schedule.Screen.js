@@ -320,7 +320,7 @@ export default class ScheduleScreen extends React.Component {
 		return (
 			
 			<SafeAreaView style={{backgroundColor: '#0F182D'}}>
-				<View style={{  backgroundColor: '#aaabb5', borderRadius: 20, marginHorizontal: 30, marginVertical: 10}}>
+				<View style={{  backgroundColor: '#FFFFFF', borderRadius: 20, marginHorizontal: 30, marginVertical: 10}}>
 				<RNPickerSelect
 				placeholder={{}}
 				style={ {inputAndroid: {color: 'black'} }}
