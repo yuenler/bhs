@@ -62,7 +62,6 @@ export default class ScheduleScreen extends React.Component {
 
 	  dayChange(day){
 		this.setState(day)
-		let today = new Date();
 		if (this.scrollRef !== null && this.state.ready) {
 			this.scrollRef.scrollTo({
 				y: 0,
