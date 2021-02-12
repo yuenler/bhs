@@ -35,7 +35,7 @@ export default class ScheduleScreen extends React.Component {
 	}
 
 	options = {
-		days:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+		days:['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday'],
 	}
 
 	  retrieveData = async()  => {
@@ -304,10 +304,14 @@ export default class ScheduleScreen extends React.Component {
 				}
 			}
 		}
+
+		if (day == 6 || day == 0){
+			this.state.endOfSchool = "No school on weekends!"
+		}
 		
 		let days = [];
-		for (let i = 1; i <= 5; i++) {
-			let day = this.options.days[i-1]
+		for (let i = 0; i < 7; i++) {
+			let day = this.options.days[i]
 			days.push({label: day, value: i.toString() })
 		}
 
