@@ -28,7 +28,7 @@
       },
       "useNextNotificationsApi": true,
       "package": "com.bhsappdev.bhs",
-        "versionCode": 1
+        "versionCode": 1.1
         
     },
     "web": {
