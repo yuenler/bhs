@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Platform, StatusBar, Alert } from 'react-native';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 import ApiKeys from './ApiKeys';
 import * as firebase from 'firebase';
 import NotLoggedInScreen from './components/screens/NotLoggedIn.Screen';
