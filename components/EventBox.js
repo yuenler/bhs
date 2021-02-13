@@ -32,7 +32,7 @@ const styles = (color, bg, height) => StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 15,
     width: '95%',
-    height: 200,
+    height: 210,
   },
   title: {
     fontSize: 25,
@@ -51,14 +51,14 @@ const styles = (color, bg, height) => StyleSheet.create({
   date:{
     fontSize: 10,
     position: 'absolute',
-    marginTop: 170,
+    marginTop: 180,
     marginLeft: 10,
     color
   },
   name:{
     fontSize: 10,
     position: 'absolute',
-    marginTop: 180,
+    marginTop: 190,
     marginLeft: 10,
     color
   }
