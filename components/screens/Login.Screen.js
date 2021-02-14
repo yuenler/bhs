@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     marginHorizontal: 10,
-    marginBottom: 100
+    marginBottom: 80
   },
   tinyLogo: {
     width: 50,
@@ -69,6 +69,7 @@ export default class LoginScreen extends React.Component {
         androidClientId: ApiKeys.GoogleConfig.androidClientId,
         iosClientId: ApiKeys.GoogleConfig.iosClientId,
         androidStandaloneAppClientId: ApiKeys.GoogleConfig.androidStandaloneAppClientId,
+        iosStandaloneAppClientId: Apikeys.GoogleConfig.iosStandaloneAppClientId,
         scopes: ["profile", "email"]
       });
 
@@ -85,9 +86,7 @@ export default class LoginScreen extends React.Component {
           });
       } else {
         Alert.alert(
-          "Couldn\'t sign in with Google",
-          error.toString(),
-          );
+          "Couldn\'t sign in with Google");
       }
     } catch (err) {
       Alert.alert(
