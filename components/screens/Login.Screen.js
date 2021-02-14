@@ -69,7 +69,7 @@ export default class LoginScreen extends React.Component {
         androidClientId: ApiKeys.GoogleConfig.androidClientId,
         iosClientId: ApiKeys.GoogleConfig.iosClientId,
         androidStandaloneAppClientId: ApiKeys.GoogleConfig.androidStandaloneAppClientId,
-        iosStandaloneAppClientId: Apikeys.GoogleConfig.iosStandaloneAppClientId,
+        iosStandaloneAppClientId: ApiKeys.GoogleConfig.iosStandaloneAppClientId,
         scopes: ["profile", "email"]
       });
 
