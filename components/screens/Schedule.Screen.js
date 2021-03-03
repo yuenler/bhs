@@ -155,7 +155,7 @@ export default class ScheduleScreen extends React.Component {
 					}
 				},
 				{
-					title: 'X',
+					title: 'X ' + this.state.block['X'],
 					starts: '10:40',
 					ends: '11:15 am',
 					color: 'X',
