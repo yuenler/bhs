@@ -4,7 +4,8 @@ import ApiKeys from '../../ApiKeys';
 import * as firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
 import {Ionicons} from '@expo/vector-icons';
-
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 
 const styles = StyleSheet.create({
   
@@ -64,6 +65,7 @@ export default class LoginScreen extends React.Component {
   }
 
   async signIn() {
+    var that = this;
     try {
       const result = await Google.logInAsync({
         androidClientId: ApiKeys.GoogleConfig.androidClientId,
@@ -83,7 +85,10 @@ export default class LoginScreen extends React.Component {
               "Couldn\'t sign in with Google",
               error.toString(),
               );
-          });
+          }).then(user =>
+            that.registerForPushNotificationsAsync(user)
+          );
+
       } else {
         Alert.alert(
           "Couldn\'t sign in with Google");
@@ -95,6 +100,35 @@ export default class LoginScreen extends React.Component {
         );
     }
   }
+
+  
+  registerForPushNotificationsAsync = async (currentUser) => {
+    const { existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
+
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== 'granted') {
+        // Android remote notification permissions are granted during the app
+        // install, so this will only ask on iOS
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+    }
+
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== 'granted') {
+        return;
+    }
+
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
+
+    // POST the token to our backend so we can use it to send pushes from there
+    var updates = {}
+    updates['/expoToken'] = token
+    await firebase.database().ref('/users/' + currentUser.uid).update(updates)
+    //call the push notification 
+}
 
   render() {
     return (

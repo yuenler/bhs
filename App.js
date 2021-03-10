@@ -35,8 +35,6 @@ export default class App extends React.Component {
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
   }
 
-
-
   _loadFonts() {
     return Font.loadAsync({
       'Red Hat Display': require('./assets/fonts/RedHatDisplay-Medium.ttf')
@@ -79,6 +77,8 @@ export default class App extends React.Component {
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
+
+
 
   render() {
     if ((!this.state.isLoadingComplete || !this.state.isAuthenticationReady) && !this.props.skipLoadingScreen) {
