@@ -23,7 +23,7 @@ export default class FriendsScreen extends React.Component {
 		potentialEmail: "",
 		potentialPhoneNumber: "",
 		potentialUID: "",
-
+		deleteButton: "Delete Friend"
 	};
 	
 	componentDidMount() {
@@ -53,6 +53,10 @@ export default class FriendsScreen extends React.Component {
 			this.state.potentialEmail = snapshot.val().email
 			this.state.potentialPhoneNumber = snapshot.val().phoneNumber
 		});
+
+		if (this.state.matchUID != ""){
+			this.state.deleteButton = "Delete Friend"
+		}
 
 		
 	}
@@ -156,12 +160,20 @@ export default class FriendsScreen extends React.Component {
 			"Friend request sent!",
 			"Your friend request has been sent to our database. You will be matched with the next BHS student that also requests a friend.",
 		  );
+		this.state.deleteButton = "Delete Friend Request"
 	} 
 
 	deleteFriend(userUID){
-
-		if (this.state.matchName === ""){
-			Alert.alert("You don't have any friends to delete!")
+		if (userUID === this.setState.potentialUID){
+			firebase
+			.database()
+			.ref('Friends')
+			.set({
+			  matched: true 
+			});
+		}
+		else if (this.state.matchName === ""){
+			Alert.alert("You don't have any friends or friends requests to delete!")
 		}
 		else{
 		let userRef = firebase.database().ref('Matches/' + userUID);
@@ -228,7 +240,7 @@ export default class FriendsScreen extends React.Component {
 
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.deleteFriendButton} onPress={this.onDelete}>
-					<Text style = {styles.buttonText}>Delete Friend</Text>
+					<Text style = {styles.buttonText}>{this.state.deleteButton}</Text>
 				</TouchableOpacity>
 				</View>
 
