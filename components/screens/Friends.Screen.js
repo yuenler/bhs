@@ -54,8 +54,8 @@ export default class FriendsScreen extends React.Component {
 			this.state.potentialPhoneNumber = snapshot.val().phoneNumber
 		});
 
-		if (this.state.matchUID != ""){
-			this.state.deleteButton = "Delete Friend"
+		if (this.state.potentialUID === user.uid){
+			this.state.deleteButton = "Delete Friend Request"
 		}
 
 		
@@ -160,20 +160,22 @@ export default class FriendsScreen extends React.Component {
 			"Friend request sent!",
 			"Your friend request has been sent to our database. You will be matched with the next BHS student that also requests a friend.",
 		  );
-		this.state.deleteButton = "Delete Friend Request"
+		this.setState({deleteButton: "Delete Friend Request"})
 	} 
 
 	deleteFriend(userUID){
-		if (userUID === this.setState.potentialUID){
+		if (userUID === this.state.potentialUID){
 			firebase
 			.database()
 			.ref('Friends')
 			.set({
 			  matched: true 
 			});
+			this.setState({deleteButton: "Delete Friend"})
+			Alert.alert("Friend request deleted!")
 		}
 		else if (this.state.matchName === ""){
-			Alert.alert("You don't have any friends or friends requests to delete!")
+			Alert.alert("You don't have any friends or friend requests to delete!")
 		}
 		else{
 		let userRef = firebase.database().ref('Matches/' + userUID);
