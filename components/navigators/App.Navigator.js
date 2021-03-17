@@ -5,12 +5,14 @@ import MessagesNavigator from './Messages.Navigator';
 import AnnouncementsNavigator from './Announcements.Navigator';
 import FriendsNavigator from './Friends.Navigator';
 import ProfileNavigator from './Profile.Navigator';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
+
 
 const Tabs = createBottomTabNavigator();
 
 export default class AppNavigator extends React.Component {
   
+
   render() {
               
 
@@ -27,13 +29,14 @@ export default class AppNavigator extends React.Component {
               iconName = 'ios-chatbubbles';
             }
             else if (route.name === 'Announcements') {
-              iconName = 'ios-happy';
+              iconName = 'bell';
+              return <FontAwesome name={iconName} size={size} color={color} />;
             }
             else if (route.name === 'Friends') {
               iconName = 'ios-people';
             }
             else if (route.name === 'Profile') {
-              iconName = 'ios-profile';
+              iconName = 'ios-person';
             }
 
             // You can return any component that you like here!
@@ -43,6 +46,7 @@ export default class AppNavigator extends React.Component {
         tabBarOptions={{
           activeTintColor: 'white',
           inactiveTintColor: 'gray',
+          showLabel: false,
           style: {
             backgroundColor: '#000000',
         },
