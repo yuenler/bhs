@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#fff',
     height: 60,
-    borderRadius: 5,
+    borderRadius: 10,
     margin: 5,
     padding: 5
   },
@@ -137,7 +137,7 @@ export default class LoginScreen extends React.Component {
           <View style={styles.imageContainer}>
           <Image
               style={styles.bhsLogo}
-              source={require('../../bhs.png')}
+              source={require('../../assets/bhs.png')}
             />
           </View>
 
@@ -150,7 +150,7 @@ export default class LoginScreen extends React.Component {
           <TouchableOpacity  onPress={() => this.signIn()} style = {styles.button}>
               <Image
               style={styles.tinyLogo}
-              source={require('../../google.jpg')}
+              source={require('../../assets/google.jpg')}
             />
 
             <Text style = {styles.buttonText}>Sign in with Google</Text>

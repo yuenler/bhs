@@ -236,7 +236,7 @@ export default class FriendsScreen extends React.Component {
 			<View style={styles.container}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
-					<Text style = {styles.buttonText}>Make a Friend</Text>
+					<Text style = {styles.buttonText}>Add Friend</Text>
 				</TouchableOpacity>
 				</View>
 
@@ -247,7 +247,7 @@ export default class FriendsScreen extends React.Component {
 				</View>
 
 				<View style={styles.matchAnnouncementContainer}>
-				<Text style={styles.result}>Your matched friend is:</Text>
+				<Text style={styles.result}>Suggested Friend:</Text>
 				<Text style={styles.result}>{this.state.matchName}</Text>
 				</View>
 
@@ -255,11 +255,11 @@ export default class FriendsScreen extends React.Component {
 					
 				<View style={{flex:1, marginHorizontal: 20}}>
 
-				<MaterialCommunityIcons.Button backgroundColor="#4287f5" style={styles.contactButton} name='message'  onPress={() => this.contact('sms:' + this.state.matchPhoneNumber)}>Text</MaterialCommunityIcons.Button>
+				<MaterialCommunityIcons.Button backgroundColor="#871609" style={styles.contactButton} name='message'  onPress={() => this.contact('sms:' + this.state.matchPhoneNumber)}>Text</MaterialCommunityIcons.Button>
 				</View>
 
 				<View style={{flex:1, marginHorizontal: 20}}>
-				<MaterialCommunityIcons.Button backgroundColor="#3b5998" style={styles.contactButton} name='phone'  onPress={() => this.contact('tel:' + this.state.matchPhoneNumber)}>Call</MaterialCommunityIcons.Button>
+				<MaterialCommunityIcons.Button backgroundColor="#871609" style={styles.contactButton} name='phone'  onPress={() => this.contact('tel:' + this.state.matchPhoneNumber)}>Call</MaterialCommunityIcons.Button>
 				</View>
 	
 				</View>
@@ -267,11 +267,11 @@ export default class FriendsScreen extends React.Component {
 				<View style = {styles.contactContainer}>
 
 				<View style={{flex:1, marginHorizontal: 20}}>
-				<Ionicons.Button backgroundColor="#0cc42a" style={styles.contactButton} name='ios-videocam'  onPress={() => this.contact('facetime:' + this.state.matchPhoneNumber)}>FaceTime</Ionicons.Button>
+				<Ionicons.Button backgroundColor="#871609" style={styles.contactButton} name='ios-videocam'  onPress={() => this.contact('facetime:' + this.state.matchPhoneNumber)}>Video</Ionicons.Button>
 				</View>
 
 				<View style={{flex:1, marginHorizontal: 20}}>
-				<MaterialCommunityIcons.Button backgroundColor="#c42e0c" style={styles.contactButton} name='email'  onPress={() => this.contact('mailto:' + this.state.matchEmail)}>Email</MaterialCommunityIcons.Button>
+				<MaterialCommunityIcons.Button backgroundColor="#871609" style={styles.contactButton} name='email'  onPress={() => this.contact('mailto:' + this.state.matchEmail)}>Email</MaterialCommunityIcons.Button>
 				</View>
 
 				</View>
@@ -285,17 +285,17 @@ const styles = StyleSheet.create({
 	button: {
 		backgroundColor: '#0e4bb0',
 		padding: 20,
-		borderRadius: 20,
+		borderRadius: 10,
 		
 	},
 	deleteFriendButton: {
-		backgroundColor: '#c90606',
+		backgroundColor: '#871609',
 		padding: 20,
-		borderRadius: 20,
+		borderRadius: 10,
 	},
 	contactButton: {
 		padding: 20,
-		borderRadius: 20,
+		borderRadius: 10,
 	},
 	buttonText: {
 		fontSize: 20,

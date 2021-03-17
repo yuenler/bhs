@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
 	}, 
 	textInput: { 
 		width: "80%", 
-		borderRadius: 5, 
+		borderRadius: 10, 
 		paddingVertical: 8, 
 		paddingHorizontal: 16, 
 		borderColor: "rgba(0, 0, 0, 0.2)", 

@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
 	}, 
 	textInput: { 
 		width: "80%", 
-		borderRadius: 5, 
+		borderRadius: 10, 
 		paddingVertical: 8, 
 		paddingHorizontal: 16, 
 		borderColor: "rgba(0, 0, 0, 0.2)", 
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		paddingHorizontal: 30,
 		alignItems: "center", 
-		borderRadius: 20,
+		borderRadius: 10,
 	},
 	buttonText: {
 		fontSize: 20,

@@ -23,7 +23,7 @@ const styles = (color, bg, height) => StyleSheet.create({
     paddingRight: 15,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 3,
+    borderRadius: 10,
     backgroundColor: bg,
     height
   },
