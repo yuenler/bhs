@@ -4,6 +4,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
+import firebase from "firebase";
+import user from "../User";
 
 export default class CustomizationScreen extends React.Component {
     state = {
@@ -88,6 +90,7 @@ export default class CustomizationScreen extends React.Component {
 			await AsyncStorage.setItem(block+"class", className)
 		  } catch (e) {
 			error = true;
+			alert(e)
 		  }
 
 		  if (error){
@@ -101,6 +104,14 @@ export default class CustomizationScreen extends React.Component {
 			  );
 			  
 		  }
+		  //save user onto database so that messages screen knows who is in what class
+		  firebase
+		  .database()
+		  .ref('Classes/' + block + '/' + teacher)
+		  .push({
+			name: user.displayName,
+		  });
+		  
 		  this.state.teachers[block] = teacher
 		  this.state.classNames[block] = className
 		
