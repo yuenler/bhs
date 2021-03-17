@@ -8,7 +8,7 @@ export default class EventBox extends React.Component {
     return (
       <LinearGradient
         // Button Linear Gradient
-        colors={['#5a5e82', '#4a5087', '#1d2a99']}
+        colors={['#871609', '#871609', '#871609']}
         style={styled.block}>
         <Text style={styled.title}>{this.props.title}</Text>
         <Text style={styled.text}>{this.props.text}</Text>
@@ -22,15 +22,15 @@ export default class EventBox extends React.Component {
 
 const styles = (color, bg, height) => StyleSheet.create({
   block: {
-    marginLeft: 9,
+    marginLeft: 10,
     marginTop: 10,
     marginBottom: 10,
-    marginRight: 9,
+    marginRight: 10,
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 15,
+    borderRadius: 10,
     width: '95%',
     height: 210,
   },

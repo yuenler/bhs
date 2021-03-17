@@ -56,7 +56,7 @@ export default class ScheduleNavigator extends React.Component {
         <Stack.Screen component={CustomizationScreen} name="Customize"
         options={{
           headerStyle: {
-            backgroundColor: '#871609',
+            backgroundColor: '#u71609',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -86,7 +86,7 @@ export default class ScheduleNavigator extends React.Component {
               title="Customize"
             />
             </View>
-            <View style={{marginLeft: 10}}>
+            <View style={{marginLeft: 10, marginRight: 10}}>
             <Button
               onPress={() => this.signOut()}
               title="Sign Out"
