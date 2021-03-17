@@ -4,6 +4,7 @@ import ScheduleNavigator from './Schedule.Navigator';
 import MessagesNavigator from './Messages.Navigator';
 import AnnouncementsNavigator from './Announcements.Navigator';
 import FriendsNavigator from './Friends.Navigator';
+import ProfileNavigator from './Profile.Navigator';
 import { Ionicons } from '@expo/vector-icons';
 
 const Tabs = createBottomTabNavigator();
@@ -31,6 +32,9 @@ export default class AppNavigator extends React.Component {
             else if (route.name === 'Friends') {
               iconName = 'ios-people';
             }
+            else if (route.name === 'Profile') {
+              iconName = 'ios-profile';
+            }
 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -50,6 +54,7 @@ export default class AppNavigator extends React.Component {
         <Tabs.Screen name="Messages" component={MessagesNavigator} />
         <Tabs.Screen name="Announcements" component={AnnouncementsNavigator} />
         <Tabs.Screen name="Friends" component={FriendsNavigator} />
+        <Tabs.Screen name="Profile" component={ProfileNavigator} />
       </Tabs.Navigator>
 
 

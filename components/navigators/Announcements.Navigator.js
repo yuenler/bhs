@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Button} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AnnouncementsScreen from '../screens/Announcements.Screen';
 import CreateAnnouncementsScreen from '../screens/CreateAnnouncement.Screen';
@@ -21,6 +21,12 @@ export default class AnnouncementsNavigator extends React.Component {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          headerRight: () => (
+            <Button
+              onPress={() => this.props.navigation.navigate('Create Announcement')}
+              title="+"
+            />
+          )
 
         }}
         />
