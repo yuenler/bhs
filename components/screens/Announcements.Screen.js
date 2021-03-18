@@ -55,12 +55,6 @@ export default class AnnouncementsScreen extends React.Component {
 						})
 					}
 				</ScrollView>
-
-				<TouchableOpacity style = {styles.button} onPress = {() => {
-					this.props.navigation.navigate('Create Announcement')
-				}}>
-					<Text style={styles.buttonText}>Create Announcement Here</Text>
-				</TouchableOpacity>
 			</SafeAreaView>
 		);
 	}
@@ -69,18 +63,6 @@ export default class AnnouncementsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	button: {
-		margin: 20,
-		backgroundColor: '#871609',
-		padding: 10,
-		borderRadius: 10,
-		alignItems: "center", 
-	},
-	buttonText: {
-		fontFamily: 'Red Hat Display',
-		fontSize: 15,
-    	color: '#fff',
-	},
 	container: {
 		flex: 1,
 		backgroundColor: '#0F182D',

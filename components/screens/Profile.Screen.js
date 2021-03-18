@@ -1,30 +1,40 @@
-import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert, Linking } from 'react-native';
+import React, { useReducer, useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Alert, Linking, Image, Button } from 'react-native';
 import user from "../User";
 import AsyncStorage from '@react-native-community/async-storage';
+import * as ImagePicker from 'expo-image-picker';
 
 
 export default class ProfileScreen extends React.Component {
 
 	state = {
 		ready: false,
-		block: {
+	  teachers: {
 		'A' : '' , 
-
 		'B' : '' , 
-
 		'C' : '' , 
-
 		'D' : '' , 
-
 		'E' : '' , 
-
 		'F' : '' , 
-
 		'G' : '',
+		'Z' : '',
 		'T' : '',
 		'X' : ''
-	  }
+	  },
+	  classNames: {
+		'A' : '' , 
+		'B' : '' , 
+		'C' : '' , 
+		'D' : '' , 
+		'E' : '' , 
+		'F' : '' , 
+		'G' : '',
+		'Z' : '',
+		'T' : '',
+		'X' : ''
+	  },
+	  activities: '',
+	  image: null,
 	}
 
 
@@ -50,6 +60,8 @@ export default class ProfileScreen extends React.Component {
 			this.state.classNames['Z'] = await AsyncStorage.getItem('Zclass');
 			this.state.classNames['T'] = await AsyncStorage.getItem('Tclass');
 			this.state.classNames['X'] = await AsyncStorage.getItem('Xclass');
+			this.state.activities = await AsyncStorage.getItem('activities');
+
 			
         }
         catch(error){
@@ -62,8 +74,37 @@ export default class ProfileScreen extends React.Component {
 	  componentDidMount() {
 		  this.retrieveData();
 	  }
+
+	  pickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+		mediaTypes: ImagePicker.MediaTypeOptions.All,
+		allowsEditing: true,
+		aspect: [4, 3],
+		quality: 1,
+		});
+
+		console.log(result);
+
+		if (!result.cancelled) {
+			this.setState({image: result.uri})
+		}
+	};
+	  
 	
 	render() {
+
+		// useEffect(() => {
+		// 	(async () => {
+		// 	if (Platform.OS !== 'web') {
+		// 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+		// 		if (status !== 'granted') {
+		// 		alert('Sorry, we need camera roll permissions to make this work!');
+		// 		}
+		// 	}
+		// 	})();
+		// }, []);
+
+		
 
 		let letters = ['A','B','C','D','E','F','G']
 		let printedClasses = ""
@@ -80,12 +121,16 @@ export default class ProfileScreen extends React.Component {
 			<View style={styles.container}>
 				<Image
 					style={styles.pfp}
-					source={user.photoURL}
+					source={{uri: user.photoURL}}
 					/>
-				<Text>{user.displayName}</Text>
-				<Text>{activities}</Text>
-				<Text>Schedule</Text>
-				<Text>{printedClasses}</Text>
+				 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+				<Button title="Pick an image from camera roll" onPress={() => this.pickImage()} />
+				{this.state.image && <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />}
+				</View>
+				<Text style={styles.displayName}>{user.displayName}</Text>
+				<Text>{this.state.activities}</Text>
+				<Text style= {styles.scheduleText}>Schedule</Text>
+				<Text style= {styles.scheduleText}>{printedClasses}</Text>
 				
 
 			</View>
@@ -102,8 +147,16 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: '#0F182D',
 	},
+	displayName: {
+		color: 'white'
+	},
+	scheduleText: {
+		color: 'white'
+	},
 	pfp:{
 		width: 150,
     	height: 150,
-	}
+		borderRadius: 100
+	},
+
 });
