@@ -13,6 +13,7 @@ export default class CustomizationScreen extends React.Component {
         block: "",
 		teacher: "",
 		className: "",
+		activities: "",
 		phoneNumber: "",
 		teachers: {
 			'A' : '' , 
@@ -70,6 +71,7 @@ export default class CustomizationScreen extends React.Component {
 			this.state.classNames['Z'] = await AsyncStorage.getItem('Zclass');
 			this.state.classNames['T'] = await AsyncStorage.getItem('Tclass');
 			this.state.classNames['X'] = await AsyncStorage.getItem('Xclass');
+			this.state.activities = await AsyncStorage.getItem('activities');
 			this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
 			this.setState({ready: true})
         }
@@ -218,6 +220,14 @@ export default class CustomizationScreen extends React.Component {
 					<Text style={styles.buttonText}>Record Class</Text>
 				</TouchableOpacity>
 				</View>
+				</View>
+
+				<View>
+				<TextInput placeholder="Activities"
+						style={styles.textInput} 
+						onChangeText={activities => this.setState({ activities })}
+						value={this.state.activities}
+				/> 
 				</View>
 				
 				<View style={{flex:4}}>
