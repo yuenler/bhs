@@ -4,7 +4,7 @@ import user from "../User";
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-export default class ProfileScreen extends React.Component {
+export default class ClubProfileScreen extends React.Component {
 
 	state = {
 		ready: false,
@@ -128,14 +128,8 @@ export default class ProfileScreen extends React.Component {
 				</View>
 
 				<View>
-					<TouchableOpacity onPress={() => this.props.navigation.navigate('Customize')}>
+					<TouchableOpacity onPress={() => this.props.navigation.navigate('Create Club Profile')}>
 						<Text style={{color: 'white'}}>Edit Profile</Text>
-					</TouchableOpacity>
-				</View>
-
-				<View>
-					<TouchableOpacity onPress={() => this.props.navigation.navigate('Club Profile')}>
-						<Text style={{color: 'white'}}>Club Profile</Text>
 					</TouchableOpacity>
 				</View>
 				
