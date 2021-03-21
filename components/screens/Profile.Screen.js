@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Alert, Linking, Image, Button } from 'react-nat
 import user from "../User";
 import AsyncStorage from '@react-native-community/async-storage';
 import * as ImagePicker from 'expo-image-picker';
-
+import { MaterialIcons} from '@expo/vector-icons';
 
 export default class ProfileScreen extends React.Component {
 
@@ -34,7 +34,7 @@ export default class ProfileScreen extends React.Component {
 		'X' : ''
 	  },
 	  activities: '',
-	  image: null,
+	  image: user.photoURL,
 	}
 
 
@@ -61,14 +61,29 @@ export default class ProfileScreen extends React.Component {
 			this.state.classNames['T'] = await AsyncStorage.getItem('Tclass');
 			this.state.classNames['X'] = await AsyncStorage.getItem('Xclass');
 			this.state.activities = await AsyncStorage.getItem('activities');
-
-			
+			var pfp = await AsyncStorage.getItem('pfp')
+			if (pfp == null){
+				this.state.image = user.photoURL
+			}
+			else{
+				this.state.image = pfp
+			}
+						
         }
         catch(error){
             console.info(error);
 		}
 		this.setState({ready: true})
 
+	  }
+
+	  saveImage = async (uri)  => {
+		  try{
+			await AsyncStorage.setItem('pfp', uri)
+		  }
+		  catch(error){
+			  console.log(error)
+		  }
 	  }
 
 	  componentDidMount() {
@@ -79,14 +94,12 @@ export default class ProfileScreen extends React.Component {
 		let result = await ImagePicker.launchImageLibraryAsync({
 		mediaTypes: ImagePicker.MediaTypeOptions.All,
 		allowsEditing: true,
-		aspect: [4, 3],
+		aspect: [1, 1],
 		quality: 1,
 		});
-
-		console.log(result);
-
 		if (!result.cancelled) {
 			this.setState({image: result.uri})
+			this.saveImage(result.uri)
 		}
 	};
 	  
@@ -106,7 +119,7 @@ export default class ProfileScreen extends React.Component {
 
 		
 
-		let letters = ['A','B','C','D','E','F','G']
+		let letters = ['A','B','C','D','E','F','G','Z','T','X']
 		let printedClasses = ""
 		for (let i=0; i<letters.length; i++){
 			printedClasses += letters[i] + " Block: " + this.state.classNames[letters[i]] + " - " + this.state.teachers[letters[i]]
@@ -119,19 +132,20 @@ export default class ProfileScreen extends React.Component {
 		}
 		return (
 			<View style={styles.container}>
-				<Image
-					style={styles.pfp}
-					source={{uri: user.photoURL}}
-					/>
-				 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-				<Button title="Pick an image from camera roll" onPress={() => this.pickImage()} />
-				{this.state.image && <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />}
+				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+				 {this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
+				<View style={styles.editContainer}>
+				<MaterialIcons.Button borderRadius={100} style={styles.edit} name="edit" onPress={() => this.pickImage()} />
 				</View>
 				<Text style={styles.displayName}>{user.displayName}</Text>
+
+				</View>
+				
+				<View style={{flex: 1}}>
 				<Text>{this.state.activities}</Text>
 				<Text style= {styles.scheduleText}>Schedule</Text>
 				<Text style= {styles.scheduleText}>{printedClasses}</Text>
-				
+				</View>
 
 			</View>
 					
@@ -158,5 +172,12 @@ const styles = StyleSheet.create({
     	height: 150,
 		borderRadius: 100
 	},
+	editContainer:{
+		marginLeft: 100,
+		marginTop: -35,	
+	},
+	edit:{
+		paddingRight: 0,
+	}
 
 });
