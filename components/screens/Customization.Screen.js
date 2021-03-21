@@ -1,11 +1,13 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert, TextInput, Linking, Image} from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput, Linking, Image, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from "firebase";
 import user from "../User";
+import * as ImagePicker from 'expo-image-picker';
+import { MaterialIcons} from '@expo/vector-icons';
 
 export default class CustomizationScreen extends React.Component {
     state = {
@@ -38,7 +40,11 @@ export default class CustomizationScreen extends React.Component {
 			'Z' : "",
 			'T' : '',
 			'X' : ''
-		  }
+		  },
+		  image: null,
+		  name: null,
+		  grade: null,
+		  activities: null,
 	};
 
 	options = {
@@ -72,7 +78,27 @@ export default class CustomizationScreen extends React.Component {
 			this.state.classNames['T'] = await AsyncStorage.getItem('Tclass');
 			this.state.classNames['X'] = await AsyncStorage.getItem('Xclass');
 			this.state.activities = await AsyncStorage.getItem('activities');
+			this.state.grade = await AsyncStorage.getItem('grade');
 			this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
+			var pfp = await AsyncStorage.getItem('pfp')
+			if (pfp == null){
+				this.state.image = user.photoURL
+			}
+			else{
+				this.state.image = pfp
+			}
+
+			var name = await AsyncStorage.getItem('name')
+			if (name == null){
+				this.state.name = user.displayName
+			}
+			else{
+				this.state.name = name
+			}
+
+			
+
+
 			this.setState({ready: true})
         }
         catch(error){
@@ -119,10 +145,13 @@ export default class CustomizationScreen extends React.Component {
 		
 	  }
 
-	  savePhoneNumber = async (phoneNumber) => {
+	  saveProfile = async () => {
 		let error = false;
 		try {
-		  await AsyncStorage.setItem('phoneNumber', phoneNumber)
+			await AsyncStorage.setItem('name', this.state.name)
+			await AsyncStorage.setItem('grade', this.state.grade)
+			await AsyncStorage.setItem('activities', this.state.activities)
+		  	await AsyncStorage.setItem('phoneNumber', this.state.phoneNumber)
 		} catch (e) {
 		  error = true;
 		}
@@ -132,7 +161,7 @@ export default class CustomizationScreen extends React.Component {
 		}
 		else{
 		  Alert.alert(
-			  "Your phone number has been saved: " + phoneNumber
+			  "Your profile has successfully been saved."
 			);
 			
 		}
@@ -152,6 +181,27 @@ export default class CustomizationScreen extends React.Component {
 		}
 		}
 
+		pickImage = async () => {
+			let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [1, 1],
+			quality: 1,
+			});
+			if (!result.cancelled) {
+				this.setState({image: result.uri})
+				this.saveImage(result.uri)
+			}
+		};
+		 
+		saveImage = async (uri)  => {
+			try{
+			  await AsyncStorage.setItem('pfp', uri)
+			}
+			catch(error){
+				console.log(error)
+			}
+		}
 		
 	
 
@@ -174,83 +224,107 @@ export default class CustomizationScreen extends React.Component {
 		}
 
 		return (
-			<View style={styles.container}>
-
-				<View style={{flexDirection: 'row', flex: 1}}>
-					<View style={{flex:1, marginVertical: 20, marginHorizontal: 10}}>
-							<View style={{ height: 50, backgroundColor: 'white', borderRadius: 20 }}>
-							<RNPickerSelect
-					placeholder={{ label: "Block", value: null }}
-					onValueChange={(block) => this.blockValueChange(block)}
-					value ={this.state.block}
-					style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10}}}
-					items={blocks}
-				/>
-				</View>
-		
-				</View>
-
-				<View style={{flex:2, marginVertical: 20, marginRight: 10}}>
-				<View style={{ height: 50, backgroundColor: 'white', borderRadius: 25 }}>
+			<ScrollView style={styles.container}>
 				
-				<RNPickerSelect
-				placeholder={{ label: "Teacher", value: null }}
-				style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10} }}
-				onValueChange={(teacher) => this.setState({ teacher })}
-				value  = {this.state.teacher}
-				items={teachers}		
-        		/>
-		
+				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
+				{this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
+				<View style={styles.editContainer}>
+				<MaterialIcons.Button borderRadius={100} style={styles.edit} name="edit" onPress={() => this.pickImage()} />
 				</View>
-				</View>
-				</View>
-
-				<View style={{flexDirection: 'row', flex: 1}}>
-				<View style={{flex: 3}}>
-				<TextInput placeholder="Class Name"
-						style={styles.textInput} 
-						onChangeText={className => this.setState({ className })}
-          				value={this.state.className} /> 
 				</View>
 
 				<View style={{flex: 1}}>
-				<TouchableOpacity style = {styles.button} onPress = {() => {
-					this.saveClass(this.state.block, this.state.teacher, this.state.className)
-				}}>
-					<Text style={styles.buttonText}>Record Class</Text>
-				</TouchableOpacity>
-				</View>
+				<Text style={styles.textLabel}>Name</Text>
+				<TextInput placeholder="John Doe"
+						style={styles.textInput} 
+						onChangeText={name => this.setState({ name })}
+						value={this.state.name}
+					/> 
 				</View>
 
-				<View>
-				<TextInput placeholder="Activities"
+				<View style={{flex: 1}}>
+				<Text style={styles.textLabel}>Grade</Text>
+				<TextInput placeholder="10"
+						style={styles.textInput} 
+						onChangeText={grade => this.setState({ grade })}
+						value={this.state.grade}
+						keyboardType='number-pad'
+				/> 
+				</View>
+
+				<View style={{flex: 1}}>
+				<Text style={styles.textLabel}>Activities</Text>
+				<TextInput placeholder="App Dev. Club, Drama, Cross Country"
 						style={styles.textInput} 
 						onChangeText={activities => this.setState({ activities })}
 						value={this.state.activities}
 				/> 
 				</View>
-				
-				<View style={{flex:4}}>
-				<View style={{marginHorizontal: 30, marginBottom: 10}}>
-					<Text style={{ color: "#FFF", fontFamily: 'Red Hat Display' }}>Your phone number will be stored locally on your device unless you request a friend on the Friends Screen.</Text>
-					</View>
-				<View style={{flexDirection: 'row'}}>
-				<View style={{flex:2}}>
+
+				<View style={{flex: 1}}>
+				<Text style={styles.textLabel} onPress={() => Alert.alert('','Your phone number will be stored locally on your device unless you request a friend on the Friends Screen.')}>Phone Number</Text>
 				<TextInput placeholder="Phone number"
 						style={styles.textInput} 
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
 						  value={this.state.phoneNumber}
-						  keyboardType='number-pad' /> 
-					</View>
-					<View style={{ flex: 1 }}>
-						<TouchableOpacity style={styles.button} onPress={() => { this.savePhoneNumber(this.state.phoneNumber) }}>
-							<Text style={styles.buttonText}>Submit</Text>
-						</TouchableOpacity>
-					</View>
+						  keyboardType='number-pad' /> 				
 				</View>
+
+				<View style={{ flex: 1, marginTop: 5, marginHorizontal: 20 }}>
+						<TouchableOpacity style={styles.button} onPress={() => { this.saveProfile() }}>
+							<Text style={styles.buttonText}>Save</Text>
+						</TouchableOpacity>
+				</View>
+
+				<View style={{flex: 1, margin: 10, padding: 10, backgroundColor: 'orange', borderRadius: 10}}>
+					<View style={{flexDirection: 'row'}}>
+						<View style={{flex:1, marginVertical: 20, marginHorizontal: 10}}>
+								<View style={{ height: 50, backgroundColor: 'white', borderRadius: 20 }}>
+								<RNPickerSelect
+						placeholder={{ label: "Block", value: null }}
+						onValueChange={(block) => this.blockValueChange(block)}
+						value ={this.state.block}
+						style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10}}}
+						items={blocks}
+					/>
+					</View>
+			
+					</View>
+
+						<View style={{flex:2, marginVertical: 20, marginRight: 10}}>
+						<View style={{ height: 50, backgroundColor: 'white', borderRadius: 25 }}>
+						
+						<RNPickerSelect
+						placeholder={{ label: "Teacher", value: null }}
+						style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10} }}
+						onValueChange={(teacher) => this.setState({ teacher })}
+						value  = {this.state.teacher}
+						items={teachers}		
+						/>
+				
+						</View>
+						</View>
+						</View>
+						<View style={{flexDirection: 'row'}}>
+					<View style={{flex: 3}}>
+					<TextInput placeholder="Class Name"
+							style={styles.textInput} 
+							onChangeText={className => this.setState({ className })}
+							value={this.state.className} /> 
+					</View>
+
+
+					<View style={{flex: 1}}>
+					<TouchableOpacity style = {styles.button} onPress = {() => {
+						this.saveClass(this.state.block, this.state.teacher, this.state.className)
+					}}>
+						<Text style={styles.buttonText}>Record Class</Text>
+					</TouchableOpacity>
+					</View>
+					</View>
 				</View>
 				
-            </View>
+            </ScrollView>
             
 		);
 	}
@@ -261,7 +335,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#871609',
 		padding: 10,
 		borderRadius: 10,
-		marginRight: 10
 	},
 	venmo: {
 		width: 180,
@@ -276,7 +349,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'column',
-		alignItems: 'center',
 		backgroundColor: '#0F182D',
 	},
 	textInput: { 
@@ -287,6 +359,27 @@ const styles = StyleSheet.create({
 		borderColor: "rgba(0, 0, 0, 0.2)", 
 		borderWidth: 1, 
 		marginHorizontal: 20,
+		marginBottom: 10,
 		fontFamily: 'Red Hat Display'
 	}, 
+	pfp:{
+		width: 150,
+    	height: 150,
+		borderRadius: 100
+	},
+	editContainer:{
+		marginLeft: 100,
+		marginTop: -35,	
+	},
+	edit:{
+		paddingRight: 0,
+	},
+	textLabel:{
+		color: 'white',
+		marginLeft: 20
+	},
+	scheduleSection:{
+		margin: 100,
+		backgroundColor: 'white',
+	}
 });

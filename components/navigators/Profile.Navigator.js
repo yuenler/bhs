@@ -29,7 +29,6 @@ export default class ProfileNavigator extends React.Component {
 
   render() {
 
-    if (Platform.OS === 'ios') {
       return (
         <Stack.Navigator>
           <Stack.Screen component={ProfileScreen} name="Profile" 
@@ -41,12 +40,6 @@ export default class ProfileNavigator extends React.Component {
             headerTitleStyle: {
               fontWeight: 'bold',
             },
-            headerLeft:() => (
-              <Button
-                onPress={() => this.props.navigation.navigate("Customize")}
-                title="Customize"
-              />
-            ),
             headerRight: () => (
               <Button
                 onPress={() => this.signOut()}
@@ -67,50 +60,7 @@ export default class ProfileNavigator extends React.Component {
 
         }}
         />
-        </Stack.Navigator>
-      )
-    } if (Platform.OS === 'android') {
-      return (
-        <Stack.Navigator>
-          <Stack.Screen component={ProfileScreen} name="Profile" 
-            options={{
-            headerStyle: {
-              backgroundColor: '#871609',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerRight: () => (
-              <View style={{flexDirection: 'row'}}>
-              <View style={{marginTop: 0, marginBottom: 0}}>
-              <Button
-                onPress={() => this.props.navigation.navigate("Customize")}
-                title="Customize"
-              />
-              </View>
-              <View style={{marginLeft: 10, marginRight: 10}}>
-              <Button
-                onPress={() => this.signOut()}
-                title="Sign Out"
-              />
-              </View>
-              </View>
-            )
-            }} 
-            />
-          <Stack.Screen component={CustomizationScreen} name="Customize"
-          options={{
-            headerStyle: {
-              backgroundColor: '#871609',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          />
-          <Stack.Screen component={CreateClubProfileScreen} name="Create Club Profile" 
+        <Stack.Screen component={CustomizationScreen} name="Customize" 
         options={{
           headerStyle: {
             backgroundColor: '#871609',
@@ -124,7 +74,7 @@ export default class ProfileNavigator extends React.Component {
         />
         </Stack.Navigator>
       )
-    }
+    
 
 
 
