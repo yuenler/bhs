@@ -128,8 +128,8 @@ export default class ProfileScreen extends React.Component {
 				</View>
 
 				<View>
-					<TouchableOpacity onPress={() => this.props.navigation.navigate('Customize')}>
-						<Text style={{color: 'white'}}>Edit Profile</Text>
+					<TouchableOpacity style={styles.editProfileButton} onPress={() => this.props.navigation.navigate('Customize')}>
+						<Text style={styles.buttonText}>Edit Profile</Text>
 					</TouchableOpacity>
 				</View>
 
@@ -170,6 +170,17 @@ const styles = StyleSheet.create({
 		width: 150,
     	height: 150,
 		borderRadius: 100
+	},
+	editProfileButton: {
+		backgroundColor: '#871609',
+		padding: 10,
+		borderRadius: 10,
+	},
+	buttonText: {
+		fontSize: 15,
+		color: '#fff',
+		textAlign: 'center',
+		fontFamily: 'Red Hat Display'
 	},
 	
 

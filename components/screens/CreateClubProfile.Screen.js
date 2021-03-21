@@ -11,40 +11,13 @@ import { MaterialIcons} from '@expo/vector-icons';
 
 export default class CreateClubProfileScreen extends React.Component {
     state = {
-		ready: false,
-        block: "",
-		teacher: "",
-		className: "",
-		activities: "",
-		phoneNumber: "",
-		teachers: {
-			'A' : '' , 
-			'B' : '' , 
-			'C' : '' , 
-			'D' : '' , 
-			'E' : '' , 
-			'F' : '' , 
-			'G' : '',
-			'Z' : "",
-			'T' : '',
-			'X' : ''
-		  },
-		  classNames: {
-			'A' : '' , 
-			'B' : '' , 
-			'C' : '' , 
-			'D' : '' , 
-			'E' : '' , 
-			'F' : '' , 
-			'G' : '',
-			'Z' : "",
-			'T' : '',
-			'X' : ''
-		  },
-		  image: null,
-		  name: null,
-		  grade: null,
-		  activities: null,
+		ready: false,        
+		  name: "",
+		  meetingTime: "",
+		  advisor: "",
+		  room: "",
+		  pfp: ""
+
 	};
 
 	options = {
@@ -57,48 +30,10 @@ export default class CreateClubProfileScreen extends React.Component {
 
 	retrieveData = async()  => {
         try{
-			this.state.teachers['A'] = await AsyncStorage.getItem('Ateacher');
-			this.state.teachers['B'] = await AsyncStorage.getItem('Bteacher');
-			this.state.teachers['C'] = await AsyncStorage.getItem('Cteacher');
-			this.state.teachers['D'] = await AsyncStorage.getItem('Dteacher');
-			this.state.teachers['E'] = await AsyncStorage.getItem('Eteacher');
-			this.state.teachers['F'] = await AsyncStorage.getItem('Fteacher');
-			this.state.teachers['G'] = await AsyncStorage.getItem('Gteacher');
-			this.state.teachers['Z'] = await AsyncStorage.getItem('Zteacher');
-			this.state.teachers['T'] = await AsyncStorage.getItem('Tteacher');
-			this.state.teachers['X'] = await AsyncStorage.getItem('Xteacher');
-			this.state.classNames['A'] = await AsyncStorage.getItem('Aclass');
-			this.state.classNames['B'] = await AsyncStorage.getItem('Bclass');
-			this.state.classNames['C'] = await AsyncStorage.getItem('Cclass');
-			this.state.classNames['D'] = await AsyncStorage.getItem('Dclass');
-			this.state.classNames['E'] = await AsyncStorage.getItem('Eclass');
-			this.state.classNames['F'] = await AsyncStorage.getItem('Fclass');
-			this.state.classNames['G'] = await AsyncStorage.getItem('Gclass');
-			this.state.classNames['Z'] = await AsyncStorage.getItem('Zclass');
-			this.state.classNames['T'] = await AsyncStorage.getItem('Tclass');
-			this.state.classNames['X'] = await AsyncStorage.getItem('Xclass');
-			this.state.activities = await AsyncStorage.getItem('activities');
-			this.state.grade = await AsyncStorage.getItem('grade');
-			this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
-			var pfp = await AsyncStorage.getItem('pfp')
-			if (pfp == null){
-				this.state.image = user.photoURL
-			}
-			else{
-				this.state.image = pfp
-			}
-
-			var name = await AsyncStorage.getItem('name')
-			if (name == null){
-				this.state.name = user.displayName
-			}
-			else{
-				this.state.name = name
-			}
-
-			
-
-
+			this.state.name = await AsyncStorage.getItem('clubName');
+			this.state.block = await AsyncStorage.getItem('block');
+			this.state.advisor = await AsyncStorage.getItem('advisor');
+			this.state.pfp = await AsyncStorage.getItem('pfp');
 			this.setState({ready: true})
         }
         catch(error){
@@ -106,45 +41,7 @@ export default class CreateClubProfileScreen extends React.Component {
 		}
 	  }
 
-	saveClass = async (block, teacher, className) => {
-		let error = false
-		try {
-		  await AsyncStorage.setItem(block+"teacher", teacher)
-		} catch (e) {
-			error = true;
-		}
-
-		try {
-			await AsyncStorage.setItem(block+"class", className)
-		  } catch (e) {
-			error = true;
-			alert(e)
-		  }
-
-		  if (error){
-			  Alert.alert("Error saving changes. Please try again.")
-		  }
-		  else{
-			Alert.alert(
-				"The following class has successfully been saved!",
-				block + " Block: " + className + " - " + teacher
-				
-			  );
-			  
-		  }
-		  //save user onto database so that messages screen knows who is in what class
-		  firebase
-		  .database()
-		  .ref('Classes/' + block + '/' + teacher)
-		  .push({
-			name: user.displayName,
-		  });
-		  
-		  this.state.teachers[block] = teacher
-		  this.state.classNames[block] = className
-		
-	  }
-
+	
 	  saveProfile = async () => {
 		let error = false;
 		try {
@@ -167,20 +64,6 @@ export default class CreateClubProfileScreen extends React.Component {
 		}
 	  }
 	
-	  blockValueChange(block){
-		this.setState({block: block});
-		this.state.teacher = this.state.teachers[block]
-		if (this.state.teacher == null)
-		{
-			this.state.teacher = "";
-		}
-		this.state.className = this.state.classNames[block]
-		if (this.state.className == null)
-		{
-			this.state.className = "";
-		}
-		}
-
 		pickImage = async () => {
 			let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -234,8 +117,8 @@ export default class CreateClubProfileScreen extends React.Component {
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Name</Text>
-				<TextInput placeholder="John Doe"
+				<Text style={styles.textLabel}>Club Name</Text>
+				<TextInput placeholder="App Development Club"
 						style={styles.textInput} 
 						onChangeText={name => this.setState({ name })}
 						value={this.state.name}
@@ -243,85 +126,46 @@ export default class CreateClubProfileScreen extends React.Component {
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Grade</Text>
-				<TextInput placeholder="10"
+				<Text style={styles.textLabel}>Meeting time</Text>
+				<TextInput placeholder="Monday and Wednesdays 3-4pm"
 						style={styles.textInput} 
-						onChangeText={grade => this.setState({ grade })}
-						value={this.state.grade}
-						keyboardType='number-pad'
+						onChangeText={meetingTime => this.setState({ meetingTime })}
+						value={this.state.meetingTime}
 				/> 
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Activities</Text>
-				<TextInput placeholder="App Dev. Club, Drama, Cross Country"
+				<Text style={styles.textLabel}>Club Advisor</Text>
+				<TextInput placeholder="Mr. Smith"
 						style={styles.textInput} 
-						onChangeText={activities => this.setState({ activities })}
-						value={this.state.activities}
+						onChangeText={advisor => this.setState({ advisor })}
+						value={this.state.advisor}
 				/> 
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel} onPress={() => Alert.alert('','Your phone number will be stored locally on your device unless you request a friend on the Friends Screen.')}>Phone Number</Text>
-				<TextInput placeholder="Phone number"
+				<Text style={styles.textLabel}>Meeting location</Text>
+				<TextInput placeholder="Room 336"
 						style={styles.textInput} 
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
 						  value={this.state.phoneNumber}
-						  keyboardType='number-pad' /> 				
+						 /> 				
+				</View>
+
+				<View style={{flex: 1}}>
+				<Text style={styles.textLabel}>Club Description</Text>
+				<TextInput placeholder="Enter description here..."
+						multiline
+						style={styles.textInput} 
+						onChangeText={phoneNumber => this.setState({ phoneNumber })}
+						  value={this.state.phoneNumber}
+						 /> 				
 				</View>
 
 				<View style={{ flex: 1, marginTop: 5, marginHorizontal: 20 }}>
 						<TouchableOpacity style={styles.button} onPress={() => { this.saveProfile() }}>
 							<Text style={styles.buttonText}>Save</Text>
 						</TouchableOpacity>
-				</View>
-
-				<View style={{flex: 1, margin: 10, padding: 10, backgroundColor: 'orange', borderRadius: 10}}>
-					<View style={{flexDirection: 'row'}}>
-						<View style={{flex:1, marginVertical: 20, marginHorizontal: 10}}>
-								<View style={{ height: 50, backgroundColor: 'white', borderRadius: 20 }}>
-								<RNPickerSelect
-						placeholder={{ label: "Block", value: null }}
-						onValueChange={(block) => this.blockValueChange(block)}
-						value ={this.state.block}
-						style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10}}}
-						items={blocks}
-					/>
-					</View>
-			
-					</View>
-
-						<View style={{flex:2, marginVertical: 20, marginRight: 10}}>
-						<View style={{ height: 50, backgroundColor: 'white', borderRadius: 25 }}>
-						
-						<RNPickerSelect
-						placeholder={{ label: "Teacher", value: null }}
-						style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10} }}
-						onValueChange={(teacher) => this.setState({ teacher })}
-						value  = {this.state.teacher}
-						items={teachers}		
-						/>
-				
-						</View>
-						</View>
-						</View>
-						<View style={{flexDirection: 'row'}}>
-					<View style={{flex: 3}}>
-					<TextInput placeholder="Class Name"
-							style={styles.textInput} 
-							onChangeText={className => this.setState({ className })}
-							value={this.state.className} /> 
-					</View>
-
-
-					<View style={{flex: 1}}>
-					<TouchableOpacity style = {styles.button} onPress = {() => {
-						this.saveClass(this.state.block, this.state.teacher, this.state.className)
-					}}>
-						<Text style={styles.buttonText}>Record Class</Text>
-					</TouchableOpacity>
-					</View>
-					</View>
 				</View>
 				
             </ScrollView>
