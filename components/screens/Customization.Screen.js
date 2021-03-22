@@ -132,12 +132,19 @@ export default class CustomizationScreen extends React.Component {
 			  );
 			  
 		  }
-		  //save user onto database so that messages screen knows who is in what class
+
 		  firebase
 		  .database()
 		  .ref('Classes/' + block + '/' + teacher)
 		  .push({
-			name: user.displayName,
+			uid: user.uid,
+		  });
+
+		  firebase
+		  .database()
+		  .ref('Users/' + user.uid)
+		  .update({
+			[block]: teacher,
 		  });
 		  
 		  this.state.teachers[block] = teacher
@@ -152,6 +159,7 @@ export default class CustomizationScreen extends React.Component {
 			await AsyncStorage.setItem('grade', this.state.grade)
 			await AsyncStorage.setItem('activities', this.state.activities)
 		  	await AsyncStorage.setItem('phoneNumber', this.state.phoneNumber)
+			await AsyncStorage.setItem('pfp', this.state.image)
 		} catch (e) {
 		  error = true;
 		}
@@ -165,6 +173,15 @@ export default class CustomizationScreen extends React.Component {
 			);
 			
 		}
+
+		firebase
+		  .database()
+		  .ref('Users/' + user.uid)
+		  .update({
+			name: this.state.name,
+			grades: this.state.grade,
+			activities: this.state.activities,
+		  });
 	  }
 	
 	  blockValueChange(block){
@@ -190,18 +207,8 @@ export default class CustomizationScreen extends React.Component {
 			});
 			if (!result.cancelled) {
 				this.setState({image: result.uri})
-				this.saveImage(result.uri)
 			}
 		};
-		 
-		saveImage = async (uri)  => {
-			try{
-			  await AsyncStorage.setItem('pfp', uri)
-			}
-			catch(error){
-				console.log(error)
-			}
-		}
 		
 	
 

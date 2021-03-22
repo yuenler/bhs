@@ -21,7 +21,7 @@ export default class AppNavigator extends React.Component {
   }
 
   componentDidMount(){
-    this.retrieveData()
+    // this.retrieveData()
   }
 
   retrieveData(){

@@ -27,7 +27,7 @@
         "backgroundColor": "#0F182D"
       },
       "useNextNotificationsApi": true,
-      "package": "com.bhsappdev.bhs",
+      "package": "com.bhsappdev.bhsV2",
         "versionCode": 3
         
     },

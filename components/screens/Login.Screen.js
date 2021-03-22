@@ -6,6 +6,8 @@ import * as Google from 'expo-google-app-auth';
 import {Ionicons} from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
+import user from "../User";
+
 
 const styles = StyleSheet.create({
   
@@ -102,7 +104,7 @@ export default class LoginScreen extends React.Component {
   }
 
   
-  registerForPushNotificationsAsync = async (currentUser) => {
+  registerForPushNotificationsAsync = async () => {
     const { existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     let finalStatus = existingStatus;
 
@@ -126,7 +128,7 @@ export default class LoginScreen extends React.Component {
     // POST the token to our backend so we can use it to send pushes from there
     var updates = {}
     updates['/expoToken'] = token
-    await firebase.database().ref('/users/' + currentUser.uid).update(updates)
+    await firebase.database().ref('/Users/' + user.uid).update(updates)
     //call the push notification 
 }
 
