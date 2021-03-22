@@ -25,6 +25,7 @@ export default class ClassesScreen extends React.Component {
 
     onPress(block){
         if (this.state[block + 'teacher'] != null){
+        console.log('classes' + block)
         this.props.navigation.navigate('Messages', {block: block, teacher: this.state[block + 'teacher'] })
         }
         else{
