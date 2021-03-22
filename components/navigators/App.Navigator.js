@@ -6,15 +6,61 @@ import AnnouncementsNavigator from './Announcements.Navigator';
 import FriendsNavigator from './Friends.Navigator';
 import ProfileNavigator from './Profile.Navigator';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import firebase from 'firebase'
+import AsyncStorage from '@react-native-community/async-storage';
+import user from "../User";
+
 
 
 const Tabs = createBottomTabNavigator();
 
 export default class AppNavigator extends React.Component {
   
+  state = {
+    name: null
+  }
+
+  componentDidMount(){
+    this.retrieveData()
+  }
+
+  retrieveData(){
+    let blocks = ['A', 'B', 'C', 'D', 'E', 'F','G','Z','T','X']
+    let keys = []
+    for (let i = 0; i<blocks.length; i++){
+      keys.push(blocks[i] + 'teacher')
+      keys.push(blocks[i] + 'class')
+    }
+    keys = keys.concat(['activities','grade','pfp'])
+    AsyncStorage.multiGet(keys).then(response => {
+        this.saveInDatabase(response);
+  })
+    this.state.name = AsyncStorage.getItem('name')
+  }
+
+  saveInDatabase(response){
+    for (let i = 0; i < response.length; i++){
+      if (response[i][0].indexOf('teacher') !== -1){
+
+        let names = [];
+        firebase.database().ref('Classes/' + response[i][0].charAt(0) + '/' + response[i][1]).on('child_added', (snapshot) => {
+            names.push(snapshot.val().name)      
+        });
+        console.log(names)
+
+        //need to change, from now on we should always identify someone with only uid and all info is under the users branch
+        // if(!names.includes(this.state.name))
+        // firebase
+        // .database()
+        // .ref('Classes/' + response[i][0].charAt(0) + '/' + response[i][1])
+        // .push({
+        // name: user.displayName,
+        // });
+      }
+    }
+  }
 
   render() {
-              
 
     return (
   
