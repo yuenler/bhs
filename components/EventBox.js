@@ -3,6 +3,12 @@ import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default class EventBox extends React.Component {
+  
+  
+  viewProfile(uid){
+    this.props.navigation.navigate('View Profile', {uid: uid })
+  }
+
   render() {
     const styled = styles(this.props.color, this.props.background, this.props.height);
     return (
@@ -12,8 +18,8 @@ export default class EventBox extends React.Component {
         style={styled.block}>
         <Text style={styled.title}>{this.props.title}</Text>
         <Text style={styled.text}>{this.props.text}</Text>
-        <Text style={styled.name}>{this.props.date}</Text>
-        <Text style={styled.date}>{this.props.userName}</Text>
+        <Text style={styled.date}>{this.props.date}</Text>
+        <Text style={styled.name} onPress={() => this.viewProfile(this.props.uid)}>{this.props.userName}</Text>
       </LinearGradient>
       
     )
@@ -48,14 +54,14 @@ const styles = (color, bg, height) => StyleSheet.create({
     marginTop: 50,
     color
   },
-  date:{
+  name:{
     fontSize: 10,
     position: 'absolute',
     marginTop: 180,
     marginLeft: 10,
     color
   },
-  name:{
+  date:{
     fontSize: 10,
     position: 'absolute',
     marginTop: 190,

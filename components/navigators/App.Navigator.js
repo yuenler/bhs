@@ -97,6 +97,7 @@ export default class AppNavigator extends React.Component {
             backgroundColor: '#000000',
         },
         }}
+        lazy={false}
         
       >
 

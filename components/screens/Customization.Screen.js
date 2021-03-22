@@ -179,7 +179,7 @@ export default class CustomizationScreen extends React.Component {
 		  .ref('Users/' + user.uid)
 		  .update({
 			name: this.state.name,
-			grades: this.state.grade,
+			grade: this.state.grade,
 			activities: this.state.activities,
 		  });
 	  }

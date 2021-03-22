@@ -12,16 +12,24 @@ const Stack = createStackNavigator();
 export default class MessagesNavigator extends React.Component {
   
   state = {
+    uids: [],
     names: [],
   }
 
   viewClassmates(block, teacher){
     const names = [];
+    const uids = [];
     firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
       this.setState({
-        names: names.push(snapshot.val().name),    
+        uids: uids.push(snapshot.val().uid),    
       });
     });
+    for (let i = 0; i < uids.length; i++){
+      firebase.database().ref('Users/' + uids[i]).on('value', (snapshot) => {
+        this.setState({names: names.push(snapshot.val().name)})
+      });
+    }
+
     let printedNames = ""
     for (let i = 0; i < names.length; i++){
       printedNames += names[i]

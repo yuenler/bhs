@@ -35,6 +35,7 @@ export default class ProfileScreen extends React.Component {
 	  activities: '',
 	  grade: '',
 	  image: null,
+	  name: null,
 	}
 
 
@@ -62,7 +63,13 @@ export default class ProfileScreen extends React.Component {
 			this.state.classNames['X'] = await AsyncStorage.getItem('Xclass');
 			this.state.activities = await AsyncStorage.getItem('activities');
 			this.state.grade = await AsyncStorage.getItem('grade');
-
+			var name = await AsyncStorage.getItem('name');
+			if (name == null){
+				this.state.name = user.displayName
+			}
+			else{
+				this.state.name = name
+			}
 			var pfp = await AsyncStorage.getItem('pfp')
 			if (pfp == null){
 				this.state.image = user.photoURL
@@ -123,7 +130,7 @@ export default class ProfileScreen extends React.Component {
 			<View style={styles.container}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				{this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
-				<Text style={styles.displayName}>{user.displayName}</Text>
+				<Text style={styles.displayName}>{this.state.name}</Text>
 
 				</View>
 
