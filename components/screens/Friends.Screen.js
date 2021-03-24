@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: '#0F182D',
+		backgroundColor: '#ededed',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},

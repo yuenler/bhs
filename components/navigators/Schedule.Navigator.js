@@ -15,7 +15,7 @@ export default class ScheduleNavigator extends React.Component {
       <Stack.Screen component={ScheduleScreen} name="Schedule" 
             options={{
             headerStyle: {
-              backgroundColor: '#871609',
+              backgroundColor: '#27187E',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {

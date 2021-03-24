@@ -4,6 +4,23 @@ import {Ionicons} from '@expo/vector-icons';
 
 
 export default class Block extends React.Component {
+
+  state={
+    timer: '',
+  };
+
+  componentDidMount() {
+    if (this.props.timer){
+      setInterval(() => this.setState({ timer: this.determineTimer()}), 100);
+    }
+  }
+
+  determineTimer(){
+    var currentDate = new Date();
+    //code to determine ....not done yet so it's just returning current date for now
+    return currentDate.getSeconds();
+  }
+
   render() {
     const styled = styles(this.props.color, this.props.background, this.props.height);
     return (
@@ -11,6 +28,9 @@ export default class Block extends React.Component {
         <View style={{flexDirection: 'row', flex: 2}}>
         <View style={{flex: 1}}>
         <Text style={styled.title}>{this.props.title}</Text>
+        </View>
+        <View style={styled.timeContainer}>
+            <Text style={styled.time}>{this.state.timer}</Text>
         </View>
         <View style={styled.buttonContainer}>
         <Ionicons.Button
@@ -38,6 +58,8 @@ const styles = (color, bg, height) => StyleSheet.create({
     paddingRight: 15,
     paddingTop: 10,
     paddingBottom: 10,
+    borderColor: '#27187E',
+    borderWidth: 3,
     borderRadius: 10,
     backgroundColor: bg,
     flexDirection: 'column',
@@ -47,7 +69,7 @@ const styles = (color, bg, height) => StyleSheet.create({
     fontSize: 25,
     marginTop: 7.5,
     fontFamily: 'Red Hat Display',
-    color
+    color: '#454545'
   },
   times: {
     fontSize: 14,
@@ -55,7 +77,7 @@ const styles = (color, bg, height) => StyleSheet.create({
     position: 'absolute',
     width: '100%',
     textAlign: 'right',
-    color
+    color: "#454545"
   },
   button: {
     paddingVertical: 2,
@@ -64,5 +86,15 @@ const styles = (color, bg, height) => StyleSheet.create({
   },
   buttonContainer:{
     alignItems: 'flex-end',
+  },
+  time:{
+    fontFamily: 'Red Hat Display',
+    color: "#000000"
+  
+  },
+  timeContainer:{
+    flex: 1,
+
   }
+
 })

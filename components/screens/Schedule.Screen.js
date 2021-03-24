@@ -5,6 +5,194 @@ import Block from '../schedule/Block';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 
+const schedule = [
+	[
+		{
+			title: 'A',
+			starts: '8:20',
+			ends: '9:40 am',
+			color: 'A',
+			numbers: {
+				starts: 820,
+				ends: 940,
+				duration: 80
+			}
+		},
+		{
+			title: 'B',
+			starts: '9:55',
+			ends: '11:15 am',
+			color: 'B',
+			numbers: {
+				starts: 955,
+				ends: 1115,
+				duration: 80
+			}
+		},
+		{
+			title: 'C',
+			starts: '11:30',
+			ends: '1:25 pm',
+			color: 'C',
+			numbers: {
+				starts: 1130,
+				ends: 1325,
+				duration: 115
+			}
+		
+		},
+		{
+			title: 'D',
+			starts: '1:40',
+			ends: '3:00 pm',
+			color: 'D',
+			numbers: {
+				starts: 1340,
+				ends: 1500,
+				duration: 80
+			}
+		}
+	],
+	[
+		{
+			title: 'E',
+			starts: '8:20',
+			ends: '9:40 am',
+			color: 'E',
+			numbers: {
+				starts: 820,
+				ends: 940,
+				duration: 80
+			}
+		},
+		{
+			title: 'Advisory',
+			starts: '9:55',
+			ends: '10:30 am',
+			color: 'T',
+			numbers: {
+				starts: 955,
+				ends: 1030,
+				duration: 35
+			}
+		},
+		{
+			title: 'X',
+			starts: '10:40',
+			ends: '11:15 am',
+			color: 'X',
+			numbers: {
+				starts: 1040,
+				ends: 1115,
+				duration: 35
+			}
+		},
+		{
+			title: 'F',
+			starts: '11:30',
+			ends: '1:25 pm',
+			color: 'F',
+			numbers: {
+				starts: 1130,
+				ends: 1325,
+				duration: 115
+			}
+		
+			
+		},
+		{
+			title: 'G',
+			starts: '1:40',
+			ends: '3:00 pm',
+			color: 'G',
+			numbers: {
+				starts: 1340,
+				ends: 1500,
+				duration: 80
+			}
+		}
+	],
+	[
+		{
+			title: 'A',
+			starts: '8:20',
+			ends: '8:45 am',
+			color: 'A',
+			numbers: {
+				starts: 820,
+				ends: 845,
+				duration: 25
+			}
+		},
+		{
+			title: 'B',
+			starts: '8:55',
+			ends: '9:20 am',
+			color: 'B',
+			numbers: {
+				starts: 855,
+				ends: 920,
+				duration: 25
+			}
+		},
+		{
+			title: 'C',
+			starts: '9:30',
+			ends: '9:55 am',
+			color: 'C',
+			numbers: {
+				starts: 930,
+				ends: 955,
+				duration: 25
+			}
+		},
+		{
+			title: 'D',
+			starts: '10:05',
+			ends: '10:30 am',
+			color: 'D',
+			numbers: {
+				starts: 1005,
+				ends: 1030,
+				duration: 25
+			}
+		},
+		{
+			title: 'E',
+			starts: '10:40',
+			ends: '11:05 am',
+			color: 'E',
+			numbers: {
+				starts: 1040,
+				ends: 1105,
+				duration: 25
+			}
+		},
+		{
+			title: 'F',
+			starts: '11:15',
+			ends: '11:40 am',
+			color: 'F',
+			numbers: {
+				starts: 1115,
+				ends: 1140,
+				duration: 25
+			}
+		},
+		{
+			title: 'G',
+			starts: '11:50',
+			ends: '12:15 pm',
+			color: 'G',
+			numbers: {
+				starts: 1150,
+				ends: 1215,
+				duration: 25
+			}
+		},
+	]
+]
+
 
 export default class ScheduleScreen extends React.Component {
 
@@ -15,6 +203,7 @@ export default class ScheduleScreen extends React.Component {
 			ready: false,
 			endOfSchool: "",
 			day: "",
+			timer: "",
 			block: {
 			'A' : '' , 
 
@@ -70,6 +259,8 @@ export default class ScheduleScreen extends React.Component {
 		}
 	  }
 
+
+
 	scrollRef = null;
 	block = 0;
 
@@ -82,194 +273,6 @@ export default class ScheduleScreen extends React.Component {
 				
 			}
 		}
-
-		const schedule = [
-			[
-				{
-					title: 'A  ' + this.state.block['A'],
-					starts: '8:20',
-					ends: '9:40 am',
-					color: 'A',
-					numbers: {
-						starts: 820,
-						ends: 940,
-						duration: 80
-					}
-				},
-				{
-					title: 'B  ' + this.state.block['B'],
-					starts: '9:55',
-					ends: '11:15 am',
-					color: 'B',
-					numbers: {
-						starts: 955,
-						ends: 1115,
-						duration: 80
-					}
-				},
-				{
-					title: 'C  ' + this.state.block['C'],
-					starts: '11:30',
-					ends: '1:25 pm',
-					color: 'C',
-					numbers: {
-						starts: 1130,
-						ends: 1325,
-						duration: 115
-					}
-				
-				},
-				{
-					title: 'D  ' + this.state.block['D'],
-					starts: '1:40',
-					ends: '3:00 pm',
-					color: 'D',
-					numbers: {
-						starts: 1340,
-						ends: 1500,
-						duration: 80
-					}
-				}
-			],
-			[
-				{
-					title: 'E  ' + this.state.block['E'],
-					starts: '8:20',
-					ends: '9:40 am',
-					color: 'E',
-					numbers: {
-						starts: 820,
-						ends: 940,
-						duration: 80
-					}
-				},
-				{
-					title: 'Advisory',
-					starts: '9:55',
-					ends: '10:30 am',
-					color: 'T',
-					numbers: {
-						starts: 955,
-						ends: 1030,
-						duration: 35
-					}
-				},
-				{
-					title: 'X ' + this.state.block['X'],
-					starts: '10:40',
-					ends: '11:15 am',
-					color: 'X',
-					numbers: {
-						starts: 1040,
-						ends: 1115,
-						duration: 35
-					}
-				},
-				{
-					title: 'F ' + this.state.block['F'],
-					starts: '11:30',
-					ends: '1:25 pm',
-					color: 'F',
-					numbers: {
-						starts: 1130,
-						ends: 1325,
-						duration: 115
-					}
-				
-					
-				},
-				{
-					title: 'G  ' + this.state.block['G'],
-					starts: '1:40',
-					ends: '3:00 pm',
-					color: 'G',
-					numbers: {
-						starts: 1340,
-						ends: 1500,
-						duration: 80
-					}
-				}
-			],
-			[
-				{
-					title: 'A  ' + this.state.block['A'],
-					starts: '8:20',
-					ends: '8:45 am',
-					color: 'A',
-					numbers: {
-						starts: 820,
-						ends: 845,
-						duration: 25
-					}
-				},
-				{
-					title: 'B  ' + this.state.block['B'],
-					starts: '8:55',
-					ends: '9:20 am',
-					color: 'B',
-					numbers: {
-						starts: 855,
-						ends: 920,
-						duration: 25
-					}
-				},
-				{
-					title: 'C  ' + this.state.block['C'],
-					starts: '9:30',
-					ends: '9:55 am',
-					color: 'C',
-					numbers: {
-						starts: 930,
-						ends: 955,
-						duration: 25
-					}
-				},
-				{
-					title: 'D  ' + this.state.block['D'],
-					starts: '10:05',
-					ends: '10:30 am',
-					color: 'D',
-					numbers: {
-						starts: 1005,
-						ends: 1030,
-						duration: 25
-					}
-				},
-				{
-					title: 'E  ' + this.state.block['E'],
-					starts: '10:40',
-					ends: '11:05 am',
-					color: 'E',
-					numbers: {
-						starts: 1040,
-						ends: 1105,
-						duration: 25
-					}
-				},
-				{
-					title: 'F  ' + this.state.block['F'],
-					starts: '11:15',
-					ends: '11:40 am',
-					color: 'F',
-					numbers: {
-						starts: 1115,
-						ends: 1140,
-						duration: 25
-					}
-				},
-				{
-					title: 'G  ' + this.state.block['G'],
-					starts: '11:50',
-					ends: '12:15 pm',
-					color: 'G',
-					numbers: {
-						starts: 1150,
-						ends: 1215,
-						duration: 25
-					}
-				},
-			]
-		]
 
 
 		let scheduleForToday;
@@ -294,14 +297,21 @@ export default class ScheduleScreen extends React.Component {
 		//traversing each block that has passed to calculate scroll amount
 		this.block = 0
 		this.state.endOfSchool = "";
+		var currentBlock = "";
 		for (let i = 0, len = scheduleForToday.length; i < len; ++i) {
 			const block = scheduleForToday[i];
 			if (time > block.numbers.ends) {
 				this.block += scheduleForToday[i].numbers.duration * 3 + 9;
 				if (i == len-1){
 					this.state.endOfSchool = "School is Over!";
+					currentBlock = ""
+				}
+				else{
+					currentBlock = scheduleForToday[i+1].title
 				}
 			}
+			
+			
 		}
 
 		if (day == 6 || day == 0){
@@ -322,7 +332,7 @@ export default class ScheduleScreen extends React.Component {
 			}
 		return (
 			
-			<SafeAreaView style={{backgroundColor: '#0F182D'}}>
+			<SafeAreaView style={{backgroundColor: '#ededed'}}>
 				<View style={{  backgroundColor: '#FFFFFF', borderRadius: 10, marginHorizontal: 30, marginVertical: 10}}>
 				<RNPickerSelect
 				placeholder={{}}
@@ -339,11 +349,11 @@ export default class ScheduleScreen extends React.Component {
 				  }}>
 					{
 						scheduleForToday.map((block, i) => {
-							return <Block background={colors[block.color]} title={block.title} color="white" starts={block.starts} ends={block.ends} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />;
+							return <Block background={colors[block.color]} title={block.title + "  " + this.state.block[block.title]} color="#454545" starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  timer = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />;
 						})
 					}
 					<View style={{height: 900}}>
-						<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: 'white'}}>{this.state.endOfSchool}</Text>
+						<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: '#454545'}}>{this.state.endOfSchool}</Text>
 					</View>
 					
 					
@@ -366,6 +376,7 @@ export default class ScheduleScreen extends React.Component {
 					});
 				}
 			}, 100);  
+
 		  });
 		  
 		  this.retrieveData();	
@@ -392,15 +403,26 @@ const styles = StyleSheet.create({
 })
 
 const colors = {
-	A: '#7ea8be',
-	B: '#3f6c51',
-	C: '#b38cb4',
-	D: '#6d4c3d',
-	E: '#6610f2',
-	F: '#a30000',
-	G: '#ff7700',
-	T: '#1a8fe3',
-	L: '#272727',
-	X: '#0d1317'
+	// A: '#7ea8be',
+	// B: '#3f6c51',
+	// C: '#b38cb4',
+	// D: '#6d4c3d',
+	// E: '#6610f2',
+	// F: '#a30000',
+	// G: '#ff7700',
+	// T: '#1a8fe3',
+	// L: '#272727',
+	// X: '#0d1317'
+
+	A: '#c2b8ff',
+	B: '#c2b8ff',
+	C: '#c2b8ff',
+	D: '#c2b8ff',
+	E: '#c2b8ff',
+	F: '#c2b8ff',
+	G: '#c2b8ff',
+	T: '#c2b8ff',
+	L: '#c2b8ff',
+	X: '#c2b8ff'
 }
 

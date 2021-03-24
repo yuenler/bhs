@@ -70,7 +70,7 @@ export default class AnnouncementsScreen extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#0F182D',
+		backgroundColor: '#ededed',
 		justifyContent: 'center',
 	},
 });

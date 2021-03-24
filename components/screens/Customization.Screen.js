@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: '#0F182D',
+		backgroundColor: '#ededed',
 	},
 	textInput: { 
 		borderRadius: 10, 

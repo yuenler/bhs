@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Alert, Linking, Image, Button, TouchableOpacity
 import user from "../User";
 import firebase from 'firebase';
 
-const names = [];
+var names = [];
 const uids = []
 
 export default class ViewClassmatesScreen extends React.Component {
@@ -37,6 +37,7 @@ export default class ViewClassmatesScreen extends React.Component {
 		// this.setState({uids: this.props.route.params.uids})
 		// alert('a' + this.state.uids[0])
 		// this.setState({uids: this.props.route.params.uids})
+		names = []
 		var block = this.props.route.params.block
 		var teacher = this.props.route.params.teacher
 		firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
-		backgroundColor: '#0F182D',
+		backgroundColor: '#ededed',
 	},
 	printedNames: {
 		color: '#fff'

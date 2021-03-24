@@ -95,7 +95,7 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <View style={{backgroundColor: '#0F182D', flex: 1}}>
+      <View style={{backgroundColor: '#ededed', flex: 1}}>
 
       <GiftedChat
         
