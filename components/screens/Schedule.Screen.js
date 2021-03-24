@@ -75,7 +75,7 @@ export default class ScheduleScreen extends React.Component {
 
 	render() {
 
-		let letters = ['A','B','C','D','E','F','G']
+		let letters = ['A','B','C','D','E','F','G','T',"X"]
 		for (let i=0; i<letters.length; i++){
 			if (this.state.block[letters[i]] == null){
 				this.state.block[letters[i]] = "";
@@ -339,7 +339,7 @@ export default class ScheduleScreen extends React.Component {
 				  }}>
 					{
 						scheduleForToday.map((block, i) => {
-							return <Block background={colors[block.color]} title={block.title} color="white" starts={block.starts} ends={block.ends} key={i} height={(block.numbers.duration) * 3} />;
+							return <Block background={colors[block.color]} title={block.title} color="white" starts={block.starts} ends={block.ends} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />;
 						})
 					}
 					<View style={{height: 900}}>

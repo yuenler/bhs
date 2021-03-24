@@ -39,7 +39,6 @@ export default class ViewClassmatesScreen extends React.Component {
 		// this.setState({uids: this.props.route.params.uids})
 		var block = this.props.route.params.block
 		var teacher = this.props.route.params.teacher
-		console.log('classmate' + block)
 		firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
 			this.uidToName(snapshot.val().uid);
 		  });

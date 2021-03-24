@@ -1,13 +1,28 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
+import {Ionicons} from '@expo/vector-icons';
+
 
 export default class Block extends React.Component {
   render() {
     const styled = styles(this.props.color, this.props.background, this.props.height);
     return (
       <View style={styled.block}>
+        <View style={{flexDirection: 'row', flex: 2}}>
+        <View style={{flex: 1}}>
         <Text style={styled.title}>{this.props.title}</Text>
+        </View>
+        <View style={styled.buttonContainer}>
+        <Ionicons.Button
+              name = "ios-eye"
+              style={styled.button}
+              onPress={() => this.props.navigation.navigate('View Classmates',{block:this.props.title, teacher:null})}
+            />
+          </View>
+        </View>
+        <View style={{flex:1}}>
         <Text style={styled.times}>{this.props.starts} - {this.props.ends}</Text>
+        </View>
       </View>
     )
   }
@@ -25,6 +40,7 @@ const styles = (color, bg, height) => StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 10,
     backgroundColor: bg,
+    flexDirection: 'column',
     height
   },
   title: {
@@ -38,9 +54,15 @@ const styles = (color, bg, height) => StyleSheet.create({
     fontFamily: 'Red Hat Display',
     position: 'absolute',
     width: '100%',
-    paddingTop: height - 27,
-    marginLeft: 15,
     textAlign: 'right',
     color
+  },
+  button: {
+    paddingVertical: 2,
+    paddingLeft: 7,
+    paddingRight: 0,
+  },
+  buttonContainer:{
+    alignItems: 'flex-end',
   }
 })
