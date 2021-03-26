@@ -4,7 +4,7 @@ import user from "../User";
 import firebase from 'firebase';
 
 var names = [];
-const uids = []
+var uids = []
 
 export default class ViewClassmatesScreen extends React.Component {
 
@@ -42,6 +42,7 @@ export default class ViewClassmatesScreen extends React.Component {
 		var teacher = this.props.route.params.teacher
 		if (teacher != null){
 		firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
+			this.setState({uids: uids.push(snapshot.val().uid)})
 			this.uidToName(snapshot.val().uid);
 		  });
 		}
@@ -49,6 +50,7 @@ export default class ViewClassmatesScreen extends React.Component {
 			firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
 				teacher = snapshot.val().get([block])
 				firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
+					this.setState({uids: uids.push(snapshot.val().uid)})
 					this.uidToName(snapshot.val().uid);
 				  });
 			});
@@ -67,14 +69,21 @@ export default class ViewClassmatesScreen extends React.Component {
 	
 	render() {
 
-		let printedNames = ""
+		let people = []
 		for (let i = 0; i < names.length; i++){
-			printedNames += names[i]
+			people.push({
+				name: names[i],
+				uid: uids[i]
+			})
 		}
 		
 		return (
 			<View style={styles.container}>
-				<Text style={styles.printedNames}>{printedNames}</Text>
+				{
+					people.map((person, i) => {
+						return 	<Text style={styles.printedNames}>{person.name}</Text>
+					})
+				}
 			</View>
 					
 		);
