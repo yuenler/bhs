@@ -27,7 +27,7 @@ export default class Block extends React.Component {
       <View style={styled.block}>
         <View style={{flexDirection: 'row', flex: 2}}>
         <View style={{flex: 1}}>
-        <Text style={styled.title}>{this.props.title}</Text>
+        <Text style={styled.title}>{this.props.title + " " + this.props.name}</Text>
         </View>
         <View style={styled.timeContainer}>
             <Text style={styled.time}>{this.state.timer}</Text>

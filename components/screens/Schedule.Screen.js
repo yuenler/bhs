@@ -349,7 +349,7 @@ export default class ScheduleScreen extends React.Component {
 				  }}>
 					{
 						scheduleForToday.map((block, i) => {
-							return <Block background={colors[block.color]} title={block.title + "  " + this.state.block[block.title]} color="#454545" starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  timer = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />;
+							return <Block background={colors[block.color]} title={block.title} name={this.state.block[block.title]} color="#454545" starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  timer = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />;
 						})
 					}
 					<View style={{height: 900}}>

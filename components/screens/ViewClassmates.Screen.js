@@ -40,6 +40,7 @@ export default class ViewClassmatesScreen extends React.Component {
 		names = []
 		var block = this.props.route.params.block
 		var teacher = this.props.route.params.teacher
+		console.log('ran this')
 		if (teacher != null){
 		firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
 			this.setState({uids: uids.push(snapshot.val().uid)})
@@ -47,8 +48,9 @@ export default class ViewClassmatesScreen extends React.Component {
 		  });
 		}
 		else{
+
 			firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
-				teacher = snapshot.val().get([block])
+				teacher = snapshot.val()[block]
 				firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
 					this.setState({uids: uids.push(snapshot.val().uid)})
 					this.uidToName(snapshot.val().uid);
@@ -81,7 +83,7 @@ export default class ViewClassmatesScreen extends React.Component {
 			<View style={styles.container}>
 				{
 					people.map((person, i) => {
-						return 	<Text style={styles.printedNames}>{person.name}</Text>
+						return 	<Text style={styles.printedNames} key={i}>{person.name}</Text>
 					})
 				}
 			</View>
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ededed',
 	},
 	printedNames: {
-		color: '#fff'
+		color: '#000000'
 	}
 
 });

@@ -3,6 +3,7 @@ import {Button, Alert, View} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import ScheduleScreen from '../screens/Schedule.Screen';
+import ViewClassmatesScreen from '../screens/ViewClassmates.Screen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,19 @@ export default class ScheduleNavigator extends React.Component {
             }, 
             }} 
             />
+
+      <Stack.Screen component={ViewClassmatesScreen} name="View Classmates" 
+        options={{
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+
+        }}
+        />
         </Stack.Navigator>
     )
 }
