@@ -12,19 +12,16 @@ class Chat extends React.Component {
     messages: [],
     block: "",
     teacher: "",
+    name: "",
   };
   
 
   get user() {
-    firebase.database().ref('Users/' + this.uid).on('value', (snapshot) => {
-      return {
-        _id: this.uid,
-        name: snapshot.val().name,
-        avatar: user.photoURL
-      
-      };
-      
-    });
+    return {
+      _id: this.uid,
+      name: this.state.name,
+      avatar: user.photoURL
+    };
   }
 
   
@@ -39,6 +36,9 @@ class Chat extends React.Component {
         messages: GiftedChat.append(previousState.messages, message),
       }))
     );
+    firebase.database().ref('Users/' + this.uid).on('value', (snapshot) => {
+      this.setState({name: snapshot.val().name})
+    });
   }
   
   componentWillUnmount() {
@@ -58,7 +58,6 @@ class Chat extends React.Component {
     const { createdAt, text, user } = snapshot.val();
     const { key: _id } = snapshot; //needed for giftedchat
     // const timestamp = new Date(numberStamp);
-
     const message = {
       _id,
       createdAt,
@@ -108,6 +107,11 @@ class Chat extends React.Component {
         onSend={this.send}
         user={this.user}
         timeTextStyle={{ left: { color: 'red' }, right: { color: 'yellow' } }}
+        scrollToBottom
+        // onLongPressAvatar={user => alert(JSON.stringify(user))}
+        onPressAvatar={() => this.props.navigation.navigate('View Profile', {uid: user.uid})}
+        keyboardShouldPersistTaps='never'
+        infiniteScroll
       />
       
       </View>

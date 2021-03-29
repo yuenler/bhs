@@ -6,6 +6,7 @@ import MessagesScreen from '../screens/Messages.Screen';
 import ClassesScreen from '../screens/Classes.Screen';
 import ViewClassmatesScreen from '../screens/ViewClassmates.Screen';
 import firebase from "firebase";
+import ViewProfileScreen from '../screens/ViewProfile.Screen';
 
 const Stack = createStackNavigator();
 
@@ -57,6 +58,19 @@ export default class MessagesNavigator extends React.Component {
 
         }}
         />
+
+  <Stack.Screen component={ViewProfileScreen} name="View Profile" 
+          options={{
+            headerStyle: {
+              backgroundColor: '#871609',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+
+          }}
+          />
       </Stack.Navigator>
     )
   }
