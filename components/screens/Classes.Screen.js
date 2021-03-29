@@ -37,7 +37,7 @@ export default class ClassesScreen extends React.Component {
 							text: "Cancel",
 							style: "cancel"
 						  },
-						  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize')}
+						  { text: "Customize", onPress: () => this.props.navigation.navigate('Profile')}
 						],
 						{ cancelable: false }
 					  );

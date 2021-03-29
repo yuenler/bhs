@@ -16,12 +16,15 @@ class Chat extends React.Component {
   
 
   get user() {
-    return {
-      _id: this.uid,
-      name: user.displayName,
-      avatar: user.photoURL
-    
-    };
+    firebase.database().ref('Users/' + this.uid).on('value', (snapshot) => {
+      return {
+        _id: this.uid,
+        name: snapshot.val().name,
+        avatar: user.photoURL
+      
+      };
+      
+    });
   }
 
   
@@ -39,6 +42,7 @@ class Chat extends React.Component {
   }
   
   componentWillUnmount() {
+    firebase.database().ref('Users/' + this.uid).update({["last_read" + this.state.block]: new Date()})
     this.refOff();
   }
 
