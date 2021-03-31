@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
+import {colorCode} from '../GlobalColors';
 
 const schedule = [
 	[
@@ -332,7 +333,7 @@ export default class ScheduleScreen extends React.Component {
 			}
 		return (
 			
-			<SafeAreaView style={{backgroundColor: '#ededed'}}>
+			<SafeAreaView style={{backgroundColor: colorCode.backgroundWhite}}>
 				<View style={{  backgroundColor: '#FFFFFF', borderRadius: 10, marginHorizontal: 30, marginVertical: 10}}>
 				<RNPickerSelect
 				placeholder={{}}
@@ -349,11 +350,11 @@ export default class ScheduleScreen extends React.Component {
 				  }}>
 					{
 						scheduleForToday.map((block, i) => {
-							return <Block background={colors[block.color]} title={block.title} name={this.state.block[block.title]} color="#454545" starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  timer = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />;
+							return <Block background={colors[block.color]} title={block.title} name={this.state.block[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  timer = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />;
 						})
 					}
 					<View style={{height: 900}}>
-						<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: '#454545'}}>{this.state.endOfSchool}</Text>
+						<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: colorCode.textGray}}>{this.state.endOfSchool}</Text>
 					</View>
 					
 					
@@ -414,15 +415,15 @@ const colors = {
 	// L: '#272727',
 	// X: '#0d1317'
 
-	A: '#c2b8ff',
-	B: '#c2b8ff',
-	C: '#c2b8ff',
-	D: '#c2b8ff',
-	E: '#c2b8ff',
-	F: '#c2b8ff',
-	G: '#c2b8ff',
-	T: '#c2b8ff',
-	L: '#c2b8ff',
-	X: '#c2b8ff'
+	A: colorCode.scheduleBlockLavender,
+	B: colorCode.scheduleBlockLavender,
+	C: colorCode.scheduleBlockLavender,
+	D: colorCode.scheduleBlockLavender,
+	E: colorCode.scheduleBlockLavender,
+	F: colorCode.scheduleBlockLavender,
+	G: colorCode.scheduleBlockLavender,
+	T: colorCode.scheduleBlockLavender,
+	L: colorCode.scheduleBlockLavender,
+	X: colorCode.scheduleBlockLavender
 }
 

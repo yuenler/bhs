@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 import firebase from 'firebase';
 import EventsBox from '../EventBox';
+import {colorCode} from 'GlobalColors.js';
 
 const titles = [];
 const texts = [];

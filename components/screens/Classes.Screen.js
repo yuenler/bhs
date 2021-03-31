@@ -2,7 +2,8 @@ import React, { useReducer } from 'react';
 import { Text, View, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
-import user from '../User'
+import user from '../User';
+import {colorCode} from '../GlobalColors';
 
 
 
@@ -87,7 +88,7 @@ export default class ClassesScreen extends React.Component {
     if(this.state.ready && idxPSBMA > -1){
       return(
             <View style={styles.container}>
-              <Text style={{color: 'white', margin: 30}}>This screen is only available for students with brooklinek12.org domain emails.</Text>
+              <Text style={{color: colorCode.textGray, margin: 30}}>This screen is only available for students with brooklinek12.org domain emails.</Text>
               </View>
               );
     }
@@ -187,13 +188,13 @@ const styles = StyleSheet.create({
 	container: {
     flex: 1,
     flexDirection: 'column',
-		backgroundColor: '#ededed',
+		backgroundColor: colorCode.backgroundWhite,
 		alignItems: 'center',
 		justifyContent: 'center',
     },
 
     button: {
-		backgroundColor: '#871609',
+		backgroundColor: colorCode.buttonPurple,
     margin: 10,
 		padding: 20,
 		borderRadius: 10,
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
 		fontSize: 20,
-      color: '#fff',
+      color: colorCode.textGray,
       fontFamily: 'Red Hat Display',
 	},
 });

@@ -2,6 +2,7 @@ import React, { useReducer, useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Alert, Linking, Image, Button, TouchableOpacity } from 'react-native';
 import user from "../User";
 import AsyncStorage from '@react-native-community/async-storage';
+import {colorCode} from '../GlobalColors';
 
 
 export default class ProfileScreen extends React.Component {
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
-		backgroundColor: '#ededed',
+		backgroundColor: colorCode.backgroundWhite,
 	},
 	displayName: {
 		color: 'white'
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
 		borderRadius: 100
 	},
 	editProfileButton: {
-		backgroundColor: '#871609',
+		backgroundColor: colorCode.buttonPurple,
 		padding: 10,
 		borderRadius: 10,
 	},
