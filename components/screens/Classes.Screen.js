@@ -4,7 +4,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import user from '../User'
 import firebase from 'firebase';
-import user from '../User';
 import {colorCode} from '../GlobalColors';
 
 
@@ -78,22 +77,21 @@ export default class ClassesScreen extends React.Component {
 
 
       retrieveData = async()  => {
-    //     try{
-    //   this.state.Ateacher = await AsyncStorage.getItem('Ateacher');
-    //   this.state.Bteacher = await AsyncStorage.getItem('Bteacher');
-    //   this.state.Cteacher = await AsyncStorage.getItem('Cteacher');
-    //   this.state.Dteacher = await AsyncStorage.getItem('Dteacher');
-    //   this.state.Eteacher = await AsyncStorage.getItem('Eteacher');
-    //   this.state.Fteacher = await AsyncStorage.getItem('Fteacher');
-    //   this.state.Gteacher = await AsyncStorage.getItem('Gteacher');
-    //   this.state.Zteacher = await AsyncStorage.getItem('Zteacher');
-    //   this.state.Tteacher = await AsyncStorage.getItem('Tteacher');
-    //   this.state.Xteacher = await AsyncStorage.getItem('Xteacher');
-    //     }
-    //     catch(error){
-    //         console.info(error);
-    // }
-    this.state.
+        try{
+      this.state.Ateacher = await AsyncStorage.getItem('Ateacher');
+      this.state.Bteacher = await AsyncStorage.getItem('Bteacher');
+      this.state.Cteacher = await AsyncStorage.getItem('Cteacher');
+      this.state.Dteacher = await AsyncStorage.getItem('Dteacher');
+      this.state.Eteacher = await AsyncStorage.getItem('Eteacher');
+      this.state.Fteacher = await AsyncStorage.getItem('Fteacher');
+      this.state.Gteacher = await AsyncStorage.getItem('Gteacher');
+      this.state.Zteacher = await AsyncStorage.getItem('Zteacher');
+      this.state.Tteacher = await AsyncStorage.getItem('Tteacher');
+      this.state.Xteacher = await AsyncStorage.getItem('Xteacher');
+        }
+        catch(error){
+            console.info(error);
+    }
 
     this.setState({ready: true})
     }
