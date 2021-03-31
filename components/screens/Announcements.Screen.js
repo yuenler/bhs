@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 import firebase from 'firebase';
 import EventsBox from '../EventBox';
-import {colorCode} from 'GlobalColors.js';
+import {colorCode} from '../GlobalColors';
 
 const titles = [];
 const texts = [];
@@ -57,7 +57,7 @@ export default class AnnouncementsScreen extends React.Component {
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						events.map((block, i) => {
-							return <EventsBox background='#7a7a7a' color="white" title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} uid = {block.uid} key={i} />;
+							return <EventsBox background={colorCode.scheduleBlockLavender} color="white" title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} uid = {block.uid} key={i} />;
 						})
 					}
 				</ScrollView>
@@ -71,7 +71,7 @@ export default class AnnouncementsScreen extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#ededed',
+		backgroundColor: colorCode.backgroundWhite,
 		justifyContent: 'center',
 	},
 });
