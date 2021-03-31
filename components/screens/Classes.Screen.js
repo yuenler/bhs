@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import user from '../User'
+import firebase from 'firebase';
 
 
 
@@ -20,6 +21,16 @@ export default class ClassesScreen extends React.Component {
     Zteacher: "",
     Tteacher: "",
     Xteacher: "",
+    Aunread: 0,
+    Bunread: 0,
+    Cunread: 0,
+    Dunread: 0,
+    Eunread: 0,
+    Funread: 0,
+    Gunread: 0,
+    Zunread: 0,
+    Tunread: 0,
+    Xunread: 0,
   }
 
 
@@ -43,25 +54,45 @@ export default class ClassesScreen extends React.Component {
 					  );
         }
     }
+
+    determineIfUnread(createdAt, block){
+      firebase.database().ref('Users/' + user.uid)
+      .on('value', (snapshot) => {
+        if (createdAt > snapshot.val()['last_read' + block]){
+          this.setState({['unread' + block]: this.state[block + 'unread'] += 1})
+        }
+      })
+    }
+
+    checkForNewMessages(block) {
+      // ISSUE IS THAT THE STATE IS NOT LOADED YET
+       firebase.database().ref('Messages/' + block + '/' + this.state[block + 'teacher'])
+       .limitToLast(5)
+       .on('child_added', (snapshot) => {
+        this.determineIfUnread(snapshot.val().createdAt, block);
+    });
+  }
     
 
 
       retrieveData = async()  => {
-        try{
-      this.state.Ateacher = await AsyncStorage.getItem('Ateacher');
-      this.state.Bteacher = await AsyncStorage.getItem('Bteacher');
-      this.state.Cteacher = await AsyncStorage.getItem('Cteacher');
-      this.state.Dteacher = await AsyncStorage.getItem('Dteacher');
-      this.state.Eteacher = await AsyncStorage.getItem('Eteacher');
-      this.state.Fteacher = await AsyncStorage.getItem('Fteacher');
-      this.state.Gteacher = await AsyncStorage.getItem('Gteacher');
-      this.state.Zteacher = await AsyncStorage.getItem('Zteacher');
-      this.state.Tteacher = await AsyncStorage.getItem('Tteacher');
-      this.state.Xteacher = await AsyncStorage.getItem('Xteacher');
-        }
-        catch(error){
-            console.info(error);
-    }
+    //     try{
+    //   this.state.Ateacher = await AsyncStorage.getItem('Ateacher');
+    //   this.state.Bteacher = await AsyncStorage.getItem('Bteacher');
+    //   this.state.Cteacher = await AsyncStorage.getItem('Cteacher');
+    //   this.state.Dteacher = await AsyncStorage.getItem('Dteacher');
+    //   this.state.Eteacher = await AsyncStorage.getItem('Eteacher');
+    //   this.state.Fteacher = await AsyncStorage.getItem('Fteacher');
+    //   this.state.Gteacher = await AsyncStorage.getItem('Gteacher');
+    //   this.state.Zteacher = await AsyncStorage.getItem('Zteacher');
+    //   this.state.Tteacher = await AsyncStorage.getItem('Tteacher');
+    //   this.state.Xteacher = await AsyncStorage.getItem('Xteacher');
+    //     }
+    //     catch(error){
+    //         console.info(error);
+    // }
+    this.state.
+
     this.setState({ready: true})
     }
 
@@ -70,6 +101,10 @@ export default class ClassesScreen extends React.Component {
         this.retrieveData();
       });
       this.retrieveData();
+
+      let blocks = ['A','B','C','D','E','F','G','Z','T','X']
+      // blocks.forEach((block) => this.checkForNewMessages(block));
+      this.checkForNewMessages('A')
       
     }
 
@@ -98,6 +133,10 @@ export default class ClassesScreen extends React.Component {
                 <View style = {{flexDirection: 'row', flex: 1}}> 
 
                 <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+            <View>
+              <Text>{this.state.Aunread}</Text>
+            </View>
+
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('A')}>
 					<Text style = {styles.buttonText}>A Block</Text>
 				</TouchableOpacity>
