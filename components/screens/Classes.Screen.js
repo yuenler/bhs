@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import user from '../User'
 import firebase from 'firebase';
 import {colorCode} from '../GlobalColors';
-
+import {Badge} from 'react-native-elements'
 
 
 export default class ClassesScreen extends React.Component {
@@ -21,16 +21,16 @@ export default class ClassesScreen extends React.Component {
     Zteacher: "",
     Tteacher: "",
     Xteacher: "",
-    Aunread: 0,
-    Bunread: 0,
-    Cunread: 0,
-    Dunread: 0,
-    Eunread: 0,
-    Funread: 0,
-    Gunread: 0,
-    Zunread: 0,
-    Tunread: 0,
-    Xunread: 0,
+    Aunread: false,
+    Bunread: false,
+    Cunread: false,
+    Dunread: false,
+    Eunread: false,
+    Funread: false,
+    Gunread: false,
+    Zunread: false,
+    Tunread: false,
+    Xunread: false,
   }
 
 
@@ -59,37 +59,24 @@ export default class ClassesScreen extends React.Component {
       firebase.database().ref('Users/' + user.uid)
       .on('value', (snapshot) => {
         if (new Date(createdAt) > new Date(snapshot.val()['last_read' + block])){
-          this.setState({['unread' + block]: this.state[block + 'unread'] += 1})
+          this.setState({[block + 'unread']: true})
         }
       })
     }
 
     checkForNewMessages(block) {
        firebase.database().ref('Messages/' + block + '/' + this.state[block + 'teacher'])
-       .limitToLast(5)
+       .limitToLast(1)
        .on('child_added', (snapshot) => {
-        this.determineIfUnread(snapshot.val().createdAt, block);
+        this.setState({[block + 'unread']: false},
+        () => this.determineIfUnread(snapshot.val().createdAt, block));
+        
     });
   }
     
 
 
       retrieveData = async()  => {
-    //     try{
-      // this.state.Ateacher = await AsyncStorage.getItem('Ateacher');
-      // this.state.Bteacher = await AsyncStorage.getItem('Bteacher');
-      // this.state.Cteacher = await AsyncStorage.getItem('Cteacher');
-      // this.state.Dteacher = await AsyncStorage.getItem('Dteacher');
-      // this.state.Eteacher = await AsyncStorage.getItem('Eteacher');
-      // this.state.Fteacher = await AsyncStorage.getItem('Fteacher');
-      // this.state.Gteacher = await AsyncStorage.getItem('Gteacher');
-      // this.state.Zteacher = await AsyncStorage.getItem('Zteacher');
-      // this.state.Tteacher = await AsyncStorage.getItem('Tteacher');
-      // this.state.Xteacher = await AsyncStorage.getItem('Xteacher');
-    //     }
-    //     catch(error){
-    //         console.info(error);
-    // }
     let blocks = ['A','B','C','D','E','F','G','Z','T','X']
 
     firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
@@ -115,16 +102,15 @@ export default class ClassesScreen extends React.Component {
     }
 
     componentDidMount() {
-      this._unsubscribe = this.props.navigation.addListener('focus', () => {
-        this.retrieveData();
-      });
+      // this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      //   this.retrieveData();
+      // });
       this.retrieveData();
-      
     }
 
-    componentWillUnmount() {
-      this._unsubscribe();
-    }
+    // componentWillUnmount() {
+    //   this._unsubscribe();
+    // }
 
 
 
@@ -144,12 +130,11 @@ export default class ClassesScreen extends React.Component {
 			<View style={styles.container}>
                 <View style = {{flexDirection: 'row', flex: 1}}> 
 
-                <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-            <View>
-              <Text>{this.state.Aunread}</Text>
-            </View>
-
+                <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>         
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('A')}>
+        {this.state.Aunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>A Block</Text>
 				</TouchableOpacity>
                 </View>
@@ -255,4 +240,5 @@ const styles = StyleSheet.create({
       color: colorCode.textGray,
       fontFamily: 'Red Hat Display',
 	},
+  
 });
