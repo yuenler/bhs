@@ -42,7 +42,7 @@ class Chat extends React.Component {
   }
   
   componentWillUnmount() {
-    firebase.database().ref('Users/' + this.uid).update({["last_read" + this.state.block]: new Date()})
+    firebase.database().ref('Users/' + this.uid).update({["last_read" + this.state.block]: Date()})
     this.refOff();
   }
 

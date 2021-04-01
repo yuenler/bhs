@@ -11,7 +11,6 @@ import {colorCode} from '../GlobalColors';
 export default class ClassesScreen extends React.Component {
 
   state = {
-    ready: false,
     Ateacher: "",
     Bteacher: "",
     Cteacher: "",
@@ -59,14 +58,13 @@ export default class ClassesScreen extends React.Component {
     determineIfUnread(createdAt, block){
       firebase.database().ref('Users/' + user.uid)
       .on('value', (snapshot) => {
-        if (createdAt > snapshot.val()['last_read' + block]){
+        if (new Date(createdAt) > new Date(snapshot.val()['last_read' + block])){
           this.setState({['unread' + block]: this.state[block + 'unread'] += 1})
         }
       })
     }
 
     checkForNewMessages(block) {
-      // ISSUE IS THAT THE STATE IS NOT LOADED YET
        firebase.database().ref('Messages/' + block + '/' + this.state[block + 'teacher'])
        .limitToLast(5)
        .on('child_added', (snapshot) => {
@@ -77,23 +75,43 @@ export default class ClassesScreen extends React.Component {
 
 
       retrieveData = async()  => {
-        try{
-      this.state.Ateacher = await AsyncStorage.getItem('Ateacher');
-      this.state.Bteacher = await AsyncStorage.getItem('Bteacher');
-      this.state.Cteacher = await AsyncStorage.getItem('Cteacher');
-      this.state.Dteacher = await AsyncStorage.getItem('Dteacher');
-      this.state.Eteacher = await AsyncStorage.getItem('Eteacher');
-      this.state.Fteacher = await AsyncStorage.getItem('Fteacher');
-      this.state.Gteacher = await AsyncStorage.getItem('Gteacher');
-      this.state.Zteacher = await AsyncStorage.getItem('Zteacher');
-      this.state.Tteacher = await AsyncStorage.getItem('Tteacher');
-      this.state.Xteacher = await AsyncStorage.getItem('Xteacher');
-        }
-        catch(error){
-            console.info(error);
-    }
+    //     try{
+      // this.state.Ateacher = await AsyncStorage.getItem('Ateacher');
+      // this.state.Bteacher = await AsyncStorage.getItem('Bteacher');
+      // this.state.Cteacher = await AsyncStorage.getItem('Cteacher');
+      // this.state.Dteacher = await AsyncStorage.getItem('Dteacher');
+      // this.state.Eteacher = await AsyncStorage.getItem('Eteacher');
+      // this.state.Fteacher = await AsyncStorage.getItem('Fteacher');
+      // this.state.Gteacher = await AsyncStorage.getItem('Gteacher');
+      // this.state.Zteacher = await AsyncStorage.getItem('Zteacher');
+      // this.state.Tteacher = await AsyncStorage.getItem('Tteacher');
+      // this.state.Xteacher = await AsyncStorage.getItem('Xteacher');
+    //     }
+    //     catch(error){
+    //         console.info(error);
+    // }
+    let blocks = ['A','B','C','D','E','F','G','Z','T','X']
 
-    this.setState({ready: true})
+    firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+        this.setState(
+          {
+            Ateacher: snapshot.val().A,
+            Bteacher: snapshot.val().B,
+            Cteacher: snapshot.val().C,
+            Dteacher: snapshot.val().D,
+            Eteacher: snapshot.val().E,
+            Fteacher: snapshot.val().F,
+            Gteacher: snapshot.val().G,
+            Zteacher: snapshot.val().Z,
+            Tteacher: snapshot.val().T,
+            Xteacher: snapshot.val().X,
+        },
+        () => blocks.forEach((block) => this.checkForNewMessages(block))
+
+        );
+        
+    })
+
     }
 
     componentDidMount() {
@@ -101,10 +119,6 @@ export default class ClassesScreen extends React.Component {
         this.retrieveData();
       });
       this.retrieveData();
-
-      let blocks = ['A','B','C','D','E','F','G','Z','T','X']
-      // blocks.forEach((block) => this.checkForNewMessages(block));
-      this.checkForNewMessages('A')
       
     }
 
@@ -115,9 +129,7 @@ export default class ClassesScreen extends React.Component {
 
 
 	render() {
-    if (!this.state.ready){
-      return(null);
-    }
+   
     var idxPSBMA = user.email.indexOf('@psbma.org');
     if(this.state.ready && idxPSBMA > -1){
       return(
