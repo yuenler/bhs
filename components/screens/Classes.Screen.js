@@ -141,6 +141,9 @@ export default class ClassesScreen extends React.Component {
 
 				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('B')}>
+                {this.state.Bunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>B Block</Text>
 				</TouchableOpacity>
                 </View>
@@ -151,12 +154,18 @@ export default class ClassesScreen extends React.Component {
 
                 <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('C')}>
+        {this.state.Cunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>C Block</Text>
 				</TouchableOpacity>
                 </View>
 
 				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('D')}>
+                {this.state.Dunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>D Block</Text>
 				</TouchableOpacity>
                 </View>
@@ -167,12 +176,18 @@ export default class ClassesScreen extends React.Component {
 
                 <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('E')}>
+        {this.state.Eunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>E Block</Text>
 				</TouchableOpacity>
                 </View>
 
 				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('F')}>
+                {this.state.Junread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>F Block</Text>
 				</TouchableOpacity>
                 </View>
@@ -183,12 +198,18 @@ export default class ClassesScreen extends React.Component {
 
                 <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('G')}>
+        {this.state.Gunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>G Block</Text>
 				</TouchableOpacity>
                 </View>
 
 				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('Z')}>
+                {this.state.Zunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>Z Block</Text>
 				</TouchableOpacity>
                 </View>
@@ -199,12 +220,18 @@ export default class ClassesScreen extends React.Component {
 
                 <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={() => this.onPress('T')}>
+        {this.state.Tunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>T Block</Text>
 				</TouchableOpacity>
                 </View>
 
 				<View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.onPress('X')}>
+                {this.state.Xunread == true? 
+                <Badge status="primary" />
+              : null }
 					<Text style = {styles.buttonText}>X Block</Text>
 				</TouchableOpacity>
                 </View>
