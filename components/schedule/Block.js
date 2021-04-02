@@ -10,7 +10,7 @@ export default class Block extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.timer){
+    if (this.props.currentBlock){
       setInterval(() => this.setState({ timer: this.determineTimer()}), 100);
     }
   }
@@ -22,7 +22,7 @@ export default class Block extends React.Component {
   }
 
   render() {
-    const styled = styles(this.props.color, this.props.background, this.props.height);
+    const styled = styles(this.props.color, this.props.background, this.props.height, this.props.currentBlock);
     return (
       <View style={styled.block}>
         <View style={{flexDirection: 'row', flex: 2}}>
@@ -48,8 +48,9 @@ export default class Block extends React.Component {
   }
 }
 
-const styles = (color, bg, height) => StyleSheet.create({
+const styles = (color, bg, height, currentBlock) => StyleSheet.create({
   block: {
+    flex:1,
     marginLeft: 9,
     marginTop: 4.5,
     marginBottom: 4.5,
@@ -59,11 +60,10 @@ const styles = (color, bg, height) => StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     borderColor: '#27187E',
-    borderWidth: 3,
+    borderWidth: currentBlock*3,
     borderRadius: 10,
     backgroundColor: bg,
     flexDirection: 'column',
-    height
   },
   title: {
     fontSize: 25,

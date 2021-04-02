@@ -67,7 +67,7 @@ const schedule = [
 			}
 		},
 		{
-			title: 'Advisory',
+			title: 'T',
 			starts: '9:55',
 			ends: '10:30 am',
 			color: 'T',
@@ -281,6 +281,7 @@ export default class ScheduleScreen extends React.Component {
 		let day = parseInt(this.state.day);
 		let minutes = today.getMinutes();
 		let time = parseInt(`${today.getHours()}${minutes < 10 ? '0' + minutes : minutes}`);
+		
 		if (day === 1 || day === 4) {
 			scheduleForToday = schedule[0];
 		}
@@ -296,13 +297,13 @@ export default class ScheduleScreen extends React.Component {
 		}
 
 		//traversing each block that has passed to calculate scroll amount
-		this.block = 0
+		// this.block = 0
 		this.state.endOfSchool = "";
 		var currentBlock = "";
 		for (let i = 0, len = scheduleForToday.length; i < len; ++i) {
 			const block = scheduleForToday[i];
 			if (time > block.numbers.ends) {
-				this.block += scheduleForToday[i].numbers.duration * 3 + 9;
+				// this.block += scheduleForToday[i].numbers.duration * 3 + 9;
 				if (i == len-1){
 					this.state.endOfSchool = "School is Over!";
 					currentBlock = ""
@@ -333,8 +334,8 @@ export default class ScheduleScreen extends React.Component {
 			}
 		return (
 			
-			<SafeAreaView style={{backgroundColor: colorCode.backgroundWhite}}>
-				<View style={{  backgroundColor: '#FFFFFF', borderRadius: 10, marginHorizontal: 30, marginVertical: 10}}>
+			<View style={{backgroundColor: colorCode.backgroundWhite, flexDirection: 'column', flex: 1}}>
+				<View style={{  flex: 1, backgroundColor: '#FFFFFF', borderRadius: 10, marginHorizontal: 30, marginVertical: 10}}>
 				<RNPickerSelect
 				placeholder={{}}
 				style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10} }}
@@ -344,23 +345,41 @@ export default class ScheduleScreen extends React.Component {
         		/>
 				</View>
 
-				<ScrollView
-				ref={ref => {
-					this.scrollRef = ref;
-				  }}>
+				<View
+				// ref={ref => {
+				// 	this.scrollRef = ref;
+				//   }}
+				  style={{
+					  flex: 10,
+					flexDirection: 'column',}}
+				  >
+				
 					{
 						scheduleForToday.map((block, i) => {
-							return <Block background={colors[block.color]} title={block.title} name={this.state.block[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  timer = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />;
+							return (
+							<View style={{flex:1}}>
+								<Block background={colors[block.color]} title={block.title} name={this.state.block[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  currentBlock = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} key={i} />
+							</View>
+							);
 						})
 					}
-					<View style={{height: 900}}>
-						<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: colorCode.textGray}}>{this.state.endOfSchool}</Text>
-					</View>
+
+					{this.state.endOfSchool != ""? 
+							<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: colorCode.textGray}}>{this.state.endOfSchool}</Text>
+						: null }
 					
 					
-				</ScrollView>
+					
+					
+				</View>		
 				
-			</SafeAreaView>
+
+					
+					
+					
+				
+			</View>
+			
 		);
 		}
 		return null;
@@ -382,14 +401,14 @@ export default class ScheduleScreen extends React.Component {
 		  
 		  this.retrieveData();	
 
-		  setTimeout(() => {
-			if (this.scrollRef !== null && this.state.ready) {
-				this.scrollRef.scrollTo({
-					y: this.block,
-					animated: true
-				});
-			}
-		}, 500);  
+		//   setTimeout(() => {
+		// 	if (this.scrollRef !== null && this.state.ready) {
+		// 		this.scrollRef.scrollTo({
+		// 			y: this.block,
+		// 			animated: true
+		// 		});
+		// 	}
+		// }, 500);  
 	}
 	
 	componentWillUnmount() {
