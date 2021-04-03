@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ScheduleNavigator from './Schedule.Navigator';
-import MessagesNavigator from './Messages.Navigator';
 import AnnouncementsNavigator from './Announcements.Navigator';
 import FriendsNavigator from './Friends.Navigator';
 import ProfileNavigator from './Profile.Navigator';
@@ -71,8 +70,6 @@ export default class AppNavigator extends React.Component {
 
             if (route.name === 'Schedule') {
               iconName = 'ios-time';
-            } else if (route.name === 'Messages') {
-              iconName = 'ios-chatbubbles';
             }
             else if (route.name === 'Announcements') {
               iconName = 'bell';
@@ -101,7 +98,6 @@ export default class AppNavigator extends React.Component {
       >
 
         <Tabs.Screen name="Schedule" component={ScheduleNavigator} />
-        <Tabs.Screen name="Messages" component={MessagesNavigator} />
         <Tabs.Screen name="Announcements" component={AnnouncementsNavigator} />
         <Tabs.Screen name="Friends" component={FriendsNavigator} />
         <Tabs.Screen name="Profile" component={ProfileNavigator} />

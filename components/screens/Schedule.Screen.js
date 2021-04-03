@@ -191,6 +191,118 @@ const schedule = [
 				duration: 25
 			}
 		},
+	],
+	[
+		{
+			title: 'A',
+			starts: '',
+			ends: '',
+			color: 'A',
+			numbers: {
+				starts: 820,
+				ends: 845,
+				duration: 25
+			}
+		},
+		{
+			title: 'B',
+			starts: '',
+			ends: '',
+			color: 'B',
+			numbers: {
+				starts: 855,
+				ends: 920,
+				duration: 25
+			}
+		},
+		{
+			title: 'C',
+			starts: '',
+			ends: '',
+			color: 'C',
+			numbers: {
+				starts: 930,
+				ends: 955,
+				duration: 25
+			}
+		},
+		{
+			title: 'D',
+			starts: '',
+			ends: '',
+			color: 'D',
+			numbers: {
+				starts: 1005,
+				ends: 1030,
+				duration: 25
+			}
+		},
+		{
+			title: 'E',
+			starts: '',
+			ends: '',
+			color: 'E',
+			numbers: {
+				starts: 1040,
+				ends: 1105,
+				duration: 25
+			}
+		},
+		{
+			title: 'F',
+			starts: '',
+			ends: '',
+			color: 'F',
+			numbers: {
+				starts: 1115,
+				ends: 1140,
+				duration: 25
+			}
+		},
+		{
+			title: 'G',
+			starts: '',
+			ends: '',
+			color: 'G',
+			numbers: {
+				starts: 1150,
+				ends: 1215,
+				duration: 25
+			}
+		},
+		{
+			title: 'Z',
+			starts: '',
+			ends: '',
+			color: 'Z',
+			numbers: {
+				starts: 1150,
+				ends: 1215,
+				duration: 25
+			}
+		},
+		{
+			title: 'T',
+			starts: '',
+			ends: '',
+			color: 'T',
+			numbers: {
+				starts: 1150,
+				ends: 1215,
+				duration: 25
+			}
+		},
+		{
+			title: 'X',
+			starts: '',
+			ends: '',
+			color: 'X',
+			numbers: {
+				starts: 1150,
+				ends: 1215,
+				duration: 25
+			}
+		},
 	]
 ]
 
@@ -219,13 +331,14 @@ export default class ScheduleScreen extends React.Component {
 			'F' : '' , 
 
 			'G' : '',
+			'Z' : '',
 			'T' : '',
 			'X' : ''
 		  }}
 	}
 
 	options = {
-		days:['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday'],
+		days:['View all classes','Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday'],
 	}
 
 	  retrieveData = async()  => {
@@ -237,6 +350,7 @@ export default class ScheduleScreen extends React.Component {
 			this.state.block['E'] = await AsyncStorage.getItem('Eclass');
 			this.state.block['F'] = await AsyncStorage.getItem('Fclass');
 			this.state.block['G'] = await AsyncStorage.getItem('Gclass');
+			this.state.block['Z'] = await AsyncStorage.getItem('Zclass');
 			this.state.block['T'] = await AsyncStorage.getItem('Tclass');
 			this.state.block['X'] = await AsyncStorage.getItem('Xclass');
 			
@@ -267,7 +381,7 @@ export default class ScheduleScreen extends React.Component {
 
 	render() {
 
-		let letters = ['A','B','C','D','E','F','G','T',"X"]
+		let letters = ['A','B','C','D','E','F','G','Z','T',"X"]
 		for (let i=0; i<letters.length; i++){
 			if (this.state.block[letters[i]] == null){
 				this.state.block[letters[i]] = "";
@@ -290,6 +404,9 @@ export default class ScheduleScreen extends React.Component {
 		}
 		else if (day === 3) {
 			scheduleForToday = schedule[2];
+		}
+		else if (day === -1){
+			scheduleForToday = schedule[3]
 		}
 		else
 		{
@@ -316,13 +433,17 @@ export default class ScheduleScreen extends React.Component {
 			
 		}
 
-		if (day == 6 || day == 0){
+		if (day === 6 || day === 0){
 			this.state.endOfSchool = "No school on weekends!"
+		}
+
+		if (day === -1){
+			this.state.endOfSchool = ""
 		}
 		
 		let days = [];
-		for (let i = 0; i < 7; i++) {
-			let day = this.options.days[i]
+		for (let i = -1; i < 7; i++) {
+			let day = this.options.days[i+1]
 			days.push({label: day, value: i.toString() })
 		}
 
@@ -358,7 +479,7 @@ export default class ScheduleScreen extends React.Component {
 						scheduleForToday.map((block, i) => {
 							return (
 							<View style={{flex:1}}>
-								<Block background={colors[block.color]} title={block.title} name={this.state.block[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  currentBlock = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} key={i} />
+								<Block title={block.title} name={this.state.block[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  currentBlock = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />
 							</View>
 							);
 						})
@@ -422,27 +543,5 @@ const styles = StyleSheet.create({
 	}
 })
 
-const colors = {
-	// A: '#7ea8be',
-	// B: '#3f6c51',
-	// C: '#b38cb4',
-	// D: '#6d4c3d',
-	// E: '#6610f2',
-	// F: '#a30000',
-	// G: '#ff7700',
-	// T: '#1a8fe3',
-	// L: '#272727',
-	// X: '#0d1317'
 
-	A: colorCode.scheduleBlockLavender,
-	B: colorCode.scheduleBlockLavender,
-	C: colorCode.scheduleBlockLavender,
-	D: colorCode.scheduleBlockLavender,
-	E: colorCode.scheduleBlockLavender,
-	F: colorCode.scheduleBlockLavender,
-	G: colorCode.scheduleBlockLavender,
-	T: colorCode.scheduleBlockLavender,
-	L: colorCode.scheduleBlockLavender,
-	X: colorCode.scheduleBlockLavender
-}
 

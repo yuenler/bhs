@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import {Ionicons} from '@expo/vector-icons';
+import {colorCode} from '../GlobalColors';
 
 
 export default class Block extends React.Component {
@@ -33,15 +34,29 @@ export default class Block extends React.Component {
             <Text style={styled.time}>{this.state.timer}</Text>
         </View>
         <View style={styled.buttonContainer}>
+          
+        <View style={{marginRight: 10}}>
+             <Ionicons.Button
+              name = "ios-chatbubbles"
+              style={styled.button}
+              onPress={() => this.props.navigation.navigate('Messages',{block:this.props.title, teacher:null})}
+            />  
+            </View>
+          <View>
         <Ionicons.Button
               name = "ios-eye"
               style={styled.button}
               onPress={() => this.props.navigation.navigate('View Classmates',{block:this.props.title, teacher:null})}
             />
+            </View>
+            
           </View>
         </View>
         <View style={{flex:1}}>
-        <Text style={styled.times}>{this.props.starts} - {this.props.ends}</Text>
+        
+        {this.props.starts != ''? 
+                <Text style={styled.times}>{this.props.starts} - {this.props.ends}</Text>
+              : null }
         </View>
       </View>
     )
@@ -62,12 +77,11 @@ const styles = (color, bg, height, currentBlock) => StyleSheet.create({
     borderColor: '#27187E',
     borderWidth: currentBlock*3,
     borderRadius: 10,
-    backgroundColor: bg,
+    backgroundColor: colorCode.scheduleBlockLavender,
     flexDirection: 'column',
   },
   title: {
     fontSize: 25,
-    marginTop: 7.5,
     fontFamily: 'Red Hat Display',
     color: '#454545'
   },
@@ -85,7 +99,9 @@ const styles = (color, bg, height, currentBlock) => StyleSheet.create({
     paddingRight: 0,
   },
   buttonContainer:{
+    flex: 1,
     alignItems: 'flex-end',
+    flexDirection: 'row',
   },
   time:{
     fontFamily: 'Red Hat Display',

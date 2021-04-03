@@ -30,6 +30,7 @@ class Chat extends React.Component {
   componentDidMount() {
     this.state.block = this.props.route.params.block;
     console.log('messages' + this.props.route.params.block)
+    //Need to determine who the teacher is here or maybe on the schedule screen
     this.state.teacher = this.props.route.params.teacher;
     this.refOn(message =>
       this.setState(previousState => ({
