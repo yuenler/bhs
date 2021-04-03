@@ -4,307 +4,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
 import AsyncStorage from '@react-native-community/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
+import firebase from 'firebase';
+import user from '../User'
 import {colorCode} from '../GlobalColors';
+import {schedule} from '../schedule/Schedule';
 
-const schedule = [
-	[
-		{
-			title: 'A',
-			starts: '8:20',
-			ends: '9:40 am',
-			color: 'A',
-			numbers: {
-				starts: 820,
-				ends: 940,
-				duration: 80
-			}
-		},
-		{
-			title: 'B',
-			starts: '9:55',
-			ends: '11:15 am',
-			color: 'B',
-			numbers: {
-				starts: 955,
-				ends: 1115,
-				duration: 80
-			}
-		},
-		{
-			title: 'C',
-			starts: '11:30',
-			ends: '1:25 pm',
-			color: 'C',
-			numbers: {
-				starts: 1130,
-				ends: 1325,
-				duration: 115
-			}
-		
-		},
-		{
-			title: 'D',
-			starts: '1:40',
-			ends: '3:00 pm',
-			color: 'D',
-			numbers: {
-				starts: 1340,
-				ends: 1500,
-				duration: 80
-			}
-		}
-	],
-	[
-		{
-			title: 'E',
-			starts: '8:20',
-			ends: '9:40 am',
-			color: 'E',
-			numbers: {
-				starts: 820,
-				ends: 940,
-				duration: 80
-			}
-		},
-		{
-			title: 'T',
-			starts: '9:55',
-			ends: '10:30 am',
-			color: 'T',
-			numbers: {
-				starts: 955,
-				ends: 1030,
-				duration: 35
-			}
-		},
-		{
-			title: 'X',
-			starts: '10:40',
-			ends: '11:15 am',
-			color: 'X',
-			numbers: {
-				starts: 1040,
-				ends: 1115,
-				duration: 35
-			}
-		},
-		{
-			title: 'F',
-			starts: '11:30',
-			ends: '1:25 pm',
-			color: 'F',
-			numbers: {
-				starts: 1130,
-				ends: 1325,
-				duration: 115
-			}
-		
-			
-		},
-		{
-			title: 'G',
-			starts: '1:40',
-			ends: '3:00 pm',
-			color: 'G',
-			numbers: {
-				starts: 1340,
-				ends: 1500,
-				duration: 80
-			}
-		}
-	],
-	[
-		{
-			title: 'A',
-			starts: '8:20',
-			ends: '8:45 am',
-			color: 'A',
-			numbers: {
-				starts: 820,
-				ends: 845,
-				duration: 25
-			}
-		},
-		{
-			title: 'B',
-			starts: '8:55',
-			ends: '9:20 am',
-			color: 'B',
-			numbers: {
-				starts: 855,
-				ends: 920,
-				duration: 25
-			}
-		},
-		{
-			title: 'C',
-			starts: '9:30',
-			ends: '9:55 am',
-			color: 'C',
-			numbers: {
-				starts: 930,
-				ends: 955,
-				duration: 25
-			}
-		},
-		{
-			title: 'D',
-			starts: '10:05',
-			ends: '10:30 am',
-			color: 'D',
-			numbers: {
-				starts: 1005,
-				ends: 1030,
-				duration: 25
-			}
-		},
-		{
-			title: 'E',
-			starts: '10:40',
-			ends: '11:05 am',
-			color: 'E',
-			numbers: {
-				starts: 1040,
-				ends: 1105,
-				duration: 25
-			}
-		},
-		{
-			title: 'F',
-			starts: '11:15',
-			ends: '11:40 am',
-			color: 'F',
-			numbers: {
-				starts: 1115,
-				ends: 1140,
-				duration: 25
-			}
-		},
-		{
-			title: 'G',
-			starts: '11:50',
-			ends: '12:15 pm',
-			color: 'G',
-			numbers: {
-				starts: 1150,
-				ends: 1215,
-				duration: 25
-			}
-		},
-	],
-	[
-		{
-			title: 'A',
-			starts: '',
-			ends: '',
-			color: 'A',
-			numbers: {
-				starts: 820,
-				ends: 845,
-				duration: 25
-			}
-		},
-		{
-			title: 'B',
-			starts: '',
-			ends: '',
-			color: 'B',
-			numbers: {
-				starts: 855,
-				ends: 920,
-				duration: 25
-			}
-		},
-		{
-			title: 'C',
-			starts: '',
-			ends: '',
-			color: 'C',
-			numbers: {
-				starts: 930,
-				ends: 955,
-				duration: 25
-			}
-		},
-		{
-			title: 'D',
-			starts: '',
-			ends: '',
-			color: 'D',
-			numbers: {
-				starts: 1005,
-				ends: 1030,
-				duration: 25
-			}
-		},
-		{
-			title: 'E',
-			starts: '',
-			ends: '',
-			color: 'E',
-			numbers: {
-				starts: 1040,
-				ends: 1105,
-				duration: 25
-			}
-		},
-		{
-			title: 'F',
-			starts: '',
-			ends: '',
-			color: 'F',
-			numbers: {
-				starts: 1115,
-				ends: 1140,
-				duration: 25
-			}
-		},
-		{
-			title: 'G',
-			starts: '',
-			ends: '',
-			color: 'G',
-			numbers: {
-				starts: 1150,
-				ends: 1215,
-				duration: 25
-			}
-		},
-		{
-			title: 'Z',
-			starts: '',
-			ends: '',
-			color: 'Z',
-			numbers: {
-				starts: 1150,
-				ends: 1215,
-				duration: 25
-			}
-		},
-		{
-			title: 'T',
-			starts: '',
-			ends: '',
-			color: 'T',
-			numbers: {
-				starts: 1150,
-				ends: 1215,
-				duration: 25
-			}
-		},
-		{
-			title: 'X',
-			starts: '',
-			ends: '',
-			color: 'X',
-			numbers: {
-				starts: 1150,
-				ends: 1215,
-				duration: 25
-			}
-		},
-	]
-]
+
 
 
 export default class ScheduleScreen extends React.Component {
@@ -317,51 +22,60 @@ export default class ScheduleScreen extends React.Component {
 			endOfSchool: "",
 			day: "",
 			timer: "",
-			block: {
+			class: {
 			'A' : '' , 
-
 			'B' : '' , 
-
 			'C' : '' , 
-
 			'D' : '' , 
-
 			'E' : '' , 
-
 			'F' : '' , 
-
 			'G' : '',
 			'Z' : '',
 			'T' : '',
 			'X' : ''
-		  }}
+		  },
+		  teacher: {
+			'A' : '' , 
+			'B' : '' , 
+			'C' : '' , 
+			'D' : '' , 
+			'E' : '' , 
+			'F' : '' , 
+			'G' : '',
+			'Z' : '',
+			'T' : '',
+			'X' : ''
+		  },
 	}
+}
 
 	options = {
 		days:['View all classes','Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday'],
 	}
 
-	  retrieveData = async()  => {
-        try{
-			this.state.block['A'] = await AsyncStorage.getItem('Aclass');
-			this.state.block['B'] = await AsyncStorage.getItem('Bclass');
-			this.state.block['C'] = await AsyncStorage.getItem('Cclass');
-			this.state.block['D'] = await AsyncStorage.getItem('Dclass');
-			this.state.block['E'] = await AsyncStorage.getItem('Eclass');
-			this.state.block['F'] = await AsyncStorage.getItem('Fclass');
-			this.state.block['G'] = await AsyncStorage.getItem('Gclass');
-			this.state.block['Z'] = await AsyncStorage.getItem('Zclass');
-			this.state.block['T'] = await AsyncStorage.getItem('Tclass');
-			this.state.block['X'] = await AsyncStorage.getItem('Xclass');
+	  retrieveData(){
+        firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+			this.setState(
+			  {
+				  teacher:{
+					'A' : snapshot.val().A , 
+					'B' : snapshot.val().B , 
+					'C' : snapshot.val().C , 
+					'D' : snapshot.val().D , 
+					'E' : snapshot.val().E ,
+					'F' : snapshot.val().F , 
+					'G' : snapshot.val().G,
+					'Z' : snapshot.val().Z,
+					'T' : snapshot.val().T,
+					'X' : snapshot.val().X
+				  }
+			}
+			);
 			
-        }
-        catch(error){
-            console.info(error);
-		}
-		let today = new Date();
-		this.state.day = today.getDay().toString();
-		this.setState({ready: true})
+		})
 
+		let today = new Date();
+		this.setState({ day: today.getDay().toString()});
 	  }
 
 	  dayChange(day){
@@ -381,10 +95,11 @@ export default class ScheduleScreen extends React.Component {
 
 	render() {
 
+
 		let letters = ['A','B','C','D','E','F','G','Z','T',"X"]
 		for (let i=0; i<letters.length; i++){
-			if (this.state.block[letters[i]] == null){
-				this.state.block[letters[i]] = "";
+			if (this.state.class[letters[i]] == null){
+				this.state.class[letters[i]] = "";
 				
 			}
 		}
@@ -448,11 +163,8 @@ export default class ScheduleScreen extends React.Component {
 		}
 
 
-		if (this.state.ready){
 			
-			if (!this.state.ready){
-				return(null)
-			}
+			
 		return (
 			
 			<View style={{backgroundColor: colorCode.backgroundWhite, flexDirection: 'column', flex: 1}}>
@@ -479,7 +191,7 @@ export default class ScheduleScreen extends React.Component {
 						scheduleForToday.map((block, i) => {
 							return (
 							<View style={{flex:1}}>
-								<Block title={block.title} name={this.state.block[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  currentBlock = {currentBlock == block.title} key={i} height={(block.numbers.duration) * 3} navigation={this.props.navigation} />
+								<Block title={block.title} name={this.state.class[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  isCurrentBlock = {currentBlock == block.title} teacher={this.state.teacher[block.title]} key={i} navigation={this.props.navigation} />
 							</View>
 							);
 						})
@@ -502,39 +214,14 @@ export default class ScheduleScreen extends React.Component {
 			</View>
 			
 		);
-		}
-		return null;
+		
 	}
 
-	componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-			this.retrieveData();
-			setTimeout(() => {
-				if (this.scrollRef !== null) {
-					this.scrollRef.scrollTo({
-						y: this.block,
-						animated: true
-					});
-				}
-			}, 100);  
-
-		  });
-		  
-		  this.retrieveData();	
-
-		//   setTimeout(() => {
-		// 	if (this.scrollRef !== null && this.state.ready) {
-		// 		this.scrollRef.scrollTo({
-		// 			y: this.block,
-		// 			animated: true
-		// 		});
-		// 	}
-		// }, 500);  
+	componentDidMount() {	
+		  this.retrieveData();
 	}
 	
-	componentWillUnmount() {
-		  this._unsubscribe();
-		}
+	
 }
 
 const styles = StyleSheet.create({

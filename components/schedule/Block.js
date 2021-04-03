@@ -1,19 +1,24 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import {Ionicons} from '@expo/vector-icons';
 import {colorCode} from '../GlobalColors';
+import firebase from 'firebase';
+import {Badge} from 'react-native-elements'
+import user from '../User'
 
 
 export default class Block extends React.Component {
 
   state={
     timer: '',
+    unread: false
   };
 
   componentDidMount() {
-    if (this.props.currentBlock){
+    if (this.props.isCurrentBlock){
       setInterval(() => this.setState({ timer: this.determineTimer()}), 100);
     }
+    this.checkForNewMessages(this.props.title)
   }
 
   determineTimer(){
@@ -22,8 +27,64 @@ export default class Block extends React.Component {
     return currentDate.getSeconds();
   }
 
+  checkForNewMessages(block) {
+    if (this.props.teacher != null) {
+      firebase.database().ref('Messages/' + block + '/' + this.props.teacher)
+      .limitToLast(1)
+      .on('child_added', (snapshot) => {
+      this.setState({unread: false},
+      () => this.determineIfUnread(snapshot.val().createdAt, block));
+      
+        });
+
+    }
+  }
+
+  determineIfUnread(createdAt, block){
+    firebase.database().ref('Users/' + user.uid)
+    .on('value', (snapshot) => {
+      if (new Date(createdAt) > new Date(snapshot.val()['last_read' + block])){
+        this.setState({unread: true})
+      }
+    })
+  }
+
+  onPressMessage(){
+    if (this.props.teacher != null){
+    this.props.navigation.navigate('Messages',{block:this.props.title, teacher:this.props.teacher})
+    }
+    else{
+      this.needToCustomizeAlertMessage(this.props.title);
+    }
+  }
+
+  onPressViewClassmates(){
+    if (this.props.teacher != null){
+      this.props.navigation.navigate('View Classmates',{block:this.props.title, teacher:this.props.teacher})
+    }
+    else{
+      this.needToCustomizeAlertMessage(this.props.title)
+    }
+  }
+
+  needToCustomizeAlertMessage(block){
+    Alert.alert(
+      "You need to customize your " + block + " Block class first!",
+      "",
+      [
+        {
+        text: "Cancel",
+        style: "cancel"
+        },
+        { text: "Customize", onPress: () => this.props.navigation.navigate('Profile')}
+      ],
+      { cancelable: false }
+      );
+  }
+  
+
   render() {
-    const styled = styles(this.props.color, this.props.background, this.props.height, this.props.currentBlock);
+    const styled = styles(this.props.color, this.props.background, this.props.height, this.props.isCurrentBlock);
     return (
       <View style={styled.block}>
         <View style={{flexDirection: 'row', flex: 2}}>
@@ -36,17 +97,22 @@ export default class Block extends React.Component {
         <View style={styled.buttonContainer}>
           
         <View style={{marginRight: 10}}>
+            <View style={{marginLeft: 20}}>
+            {this.state.unread == true? 
+                    <Badge status="primary" />
+                  : null }
+            </View>
              <Ionicons.Button
               name = "ios-chatbubbles"
               style={styled.button}
-              onPress={() => this.props.navigation.navigate('Messages',{block:this.props.title, teacher:null})}
+              onPress={() => this.onPressMessage()}
             />  
-            </View>
+          </View>
           <View>
         <Ionicons.Button
               name = "ios-eye"
               style={styled.button}
-              onPress={() => this.props.navigation.navigate('View Classmates',{block:this.props.title, teacher:null})}
+              onPress={() => this.onPressViewClassmates()}
             />
             </View>
             
@@ -63,7 +129,7 @@ export default class Block extends React.Component {
   }
 }
 
-const styles = (color, bg, height, currentBlock) => StyleSheet.create({
+const styles = (color, bg, height, isCurrentBlock) => StyleSheet.create({
   block: {
     flex:1,
     marginLeft: 9,
@@ -75,7 +141,7 @@ const styles = (color, bg, height, currentBlock) => StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     borderColor: '#27187E',
-    borderWidth: currentBlock*3,
+    borderWidth: isCurrentBlock*3,
     borderRadius: 10,
     backgroundColor: colorCode.scheduleBlockLavender,
     flexDirection: 'column',
