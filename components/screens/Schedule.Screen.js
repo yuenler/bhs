@@ -2,7 +2,6 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Text, Alert, TouchableOpacity, View} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Block from '../schedule/Block';
-import AsyncStorage from '@react-native-community/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from 'firebase';
 import user from '../User'
@@ -22,7 +21,7 @@ export default class ScheduleScreen extends React.Component {
 			endOfSchool: "",
 			day: "",
 			timer: "",
-			class: {
+			className: {
 			'A' : '' , 
 			'B' : '' , 
 			'C' : '' , 
@@ -53,24 +52,51 @@ export default class ScheduleScreen extends React.Component {
 		days:['View all classes','Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday'],
 	}
 
+
 	  retrieveData(){
         firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
-			this.setState(
-			  {
-				  teacher:{
-					'A' : snapshot.val().A , 
-					'B' : snapshot.val().B , 
-					'C' : snapshot.val().C , 
-					'D' : snapshot.val().D , 
-					'E' : snapshot.val().E ,
-					'F' : snapshot.val().F , 
-					'G' : snapshot.val().G,
-					'Z' : snapshot.val().Z,
-					'T' : snapshot.val().T,
-					'X' : snapshot.val().X
-				  }
+			if (snapshot.hasChild('teacher')){
+				firebase.database().ref('Users/' + user.uid + '/teacher').on('value', (snapshot) => {
+					this.setState(
+					  {
+						  teacher:{
+							'A' : snapshot.val().A , 
+							'B' : snapshot.val().B , 
+							'C' : snapshot.val().C , 
+							'D' : snapshot.val().D , 
+							'E' : snapshot.val().E ,
+							'F' : snapshot.val().F , 
+							'G' : snapshot.val().G,
+							'Z' : snapshot.val().Z,
+							'T' : snapshot.val().T,
+							'X' : snapshot.val().X
+						  }
+					}
+					);
+					
+				})
 			}
-			);
+			if (snapshot.hasChild('className')){
+				firebase.database().ref('Users/' + user.uid + '/className').on('value', (snapshot) => {
+					this.setState(
+					  {
+						  className:{
+							'A' : snapshot.val().A , 
+							'B' : snapshot.val().B , 
+							'C' : snapshot.val().C , 
+							'D' : snapshot.val().D , 
+							'E' : snapshot.val().E ,
+							'F' : snapshot.val().F , 
+							'G' : snapshot.val().G,
+							'Z' : snapshot.val().Z,
+							'T' : snapshot.val().T,
+							'X' : snapshot.val().X
+						  }
+					}
+					);
+					
+				})
+			}
 			
 		})
 
@@ -98,8 +124,8 @@ export default class ScheduleScreen extends React.Component {
 
 		let letters = ['A','B','C','D','E','F','G','Z','T',"X"]
 		for (let i=0; i<letters.length; i++){
-			if (this.state.class[letters[i]] == null){
-				this.state.class[letters[i]] = "";
+			if (this.state.className[letters[i]] == null){
+				this.state.className[letters[i]] = "";
 				
 			}
 		}
@@ -190,8 +216,8 @@ export default class ScheduleScreen extends React.Component {
 					{
 						scheduleForToday.map((block, i) => {
 							return (
-							<View style={{flex:1}}>
-								<Block title={block.title} name={this.state.class[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  isCurrentBlock = {currentBlock == block.title} teacher={this.state.teacher[block.title]} key={i} navigation={this.props.navigation} />
+							<View style={{flex:1}} key={i}>
+								<Block title={block.title} name={this.state.className[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  isCurrentBlock = {currentBlock == block.title} teacher={this.state.teacher[block.title]} navigation={this.props.navigation} />
 							</View>
 							);
 						})
@@ -204,12 +230,7 @@ export default class ScheduleScreen extends React.Component {
 					
 					
 					
-				</View>		
-				
-
-					
-					
-					
+				</View>			
 				
 			</View>
 			

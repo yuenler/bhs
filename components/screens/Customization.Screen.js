@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 import { Text, View, StyleSheet, Alert, TextInput, Linking, Image, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
-import AsyncStorage from '@react-native-community/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from "firebase";
 import user from "../User";
@@ -11,13 +10,12 @@ import { MaterialIcons} from '@expo/vector-icons';
 
 export default class CustomizationScreen extends React.Component {
     state = {
-		ready: false,
         block: "",
-		teacher: "",
-		className: "",
+		teacherDisplay: "",
+		classNameDisplay: "",
 		activities: "",
 		phoneNumber: "",
-		teachers: {
+		teacher: {
 			'A' : '' , 
 			'B' : '' , 
 			'C' : '' , 
@@ -29,7 +27,7 @@ export default class CustomizationScreen extends React.Component {
 			'T' : '',
 			'X' : ''
 		  },
-		  classNames: {
+		  className: {
 			'A' : '' , 
 			'B' : '' , 
 			'C' : '' , 
@@ -41,7 +39,7 @@ export default class CustomizationScreen extends React.Component {
 			'T' : '',
 			'X' : ''
 		  },
-		  image: null,
+		  pfp: null,
 		  name: null,
 		  grade: null,
 		  activities: null,
@@ -55,83 +53,92 @@ export default class CustomizationScreen extends React.Component {
 		this.retrieveData();
 	}
 
-	retrieveData = async()  => {
-        try{
-			this.state.teachers['A'] = await AsyncStorage.getItem('Ateacher');
-			this.state.teachers['B'] = await AsyncStorage.getItem('Bteacher');
-			this.state.teachers['C'] = await AsyncStorage.getItem('Cteacher');
-			this.state.teachers['D'] = await AsyncStorage.getItem('Dteacher');
-			this.state.teachers['E'] = await AsyncStorage.getItem('Eteacher');
-			this.state.teachers['F'] = await AsyncStorage.getItem('Fteacher');
-			this.state.teachers['G'] = await AsyncStorage.getItem('Gteacher');
-			this.state.teachers['Z'] = await AsyncStorage.getItem('Zteacher');
-			this.state.teachers['T'] = await AsyncStorage.getItem('Tteacher');
-			this.state.teachers['X'] = await AsyncStorage.getItem('Xteacher');
-			this.state.classNames['A'] = await AsyncStorage.getItem('Aclass');
-			this.state.classNames['B'] = await AsyncStorage.getItem('Bclass');
-			this.state.classNames['C'] = await AsyncStorage.getItem('Cclass');
-			this.state.classNames['D'] = await AsyncStorage.getItem('Dclass');
-			this.state.classNames['E'] = await AsyncStorage.getItem('Eclass');
-			this.state.classNames['F'] = await AsyncStorage.getItem('Fclass');
-			this.state.classNames['G'] = await AsyncStorage.getItem('Gclass');
-			this.state.classNames['Z'] = await AsyncStorage.getItem('Zclass');
-			this.state.classNames['T'] = await AsyncStorage.getItem('Tclass');
-			this.state.classNames['X'] = await AsyncStorage.getItem('Xclass');
-			this.state.activities = await AsyncStorage.getItem('activities');
-			this.state.grade = await AsyncStorage.getItem('grade');
-			this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
-			var pfp = await AsyncStorage.getItem('pfp')
-			if (pfp == null){
-				this.state.image = user.photoURL
-			}
-			else{
-				this.state.image = pfp
-			}
+	retrieveData(){
 
-			var name = await AsyncStorage.getItem('name')
-			if (name == null){
-				this.state.name = user.displayName
-			}
-			else{
-				this.state.name = name
-			}
+			firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+					var name = snapshot.val().name;
+					if (name == null){
+						name = user.displayName
+					}
+					var pfp = snapshot.val().pfp
+					if (pfp == null){
+						pfp = user.photoURL
+					}
+					this.setState({
+						name: name,
+						activities: snapshot.val().activities,
+						grade: snapshot.val().grade,
+						phone: snapshot.val().phoneNumber,
+						pfp: pfp,
 
+					})
+					if (snapshot.hasChild('teacher')){
+						firebase.database().ref('Users/' + user.uid + '/teacher').on('value', (snapshot) => {
+							this.setState(
+							  {
+								  teacher:{
+									'A' : snapshot.val().A , 
+									'B' : snapshot.val().B , 
+									'C' : snapshot.val().C , 
+									'D' : snapshot.val().D , 
+									'E' : snapshot.val().E ,
+									'F' : snapshot.val().F , 
+									'G' : snapshot.val().G,
+									'Z' : snapshot.val().Z,
+									'T' : snapshot.val().T,
+									'X' : snapshot.val().X
+								  }
+							}
+							);
+							
+						})
+					}
+
+					if (snapshot.hasChild('className')){
+						firebase.database().ref('Users/' + user.uid + '/className').on('value', (snapshot) => {
+							this.setState(
+							  {
+								  className:{
+									'A' : snapshot.val().A , 
+									'B' : snapshot.val().B , 
+									'C' : snapshot.val().C , 
+									'D' : snapshot.val().D , 
+									'E' : snapshot.val().E ,
+									'F' : snapshot.val().F , 
+									'G' : snapshot.val().G,
+									'Z' : snapshot.val().Z,
+									'T' : snapshot.val().T,
+									'X' : snapshot.val().X
+								  }
+							}
+						);
+					})
+					}
+								
+			})
+}
+
+	saveClass(block, teacher, className) {
+		firebase
+		  .database()
+		  .ref('Users/' + user.uid + '/teacher')
+		  .update({
+			[block]: teacher,
+		  });
+
+		  firebase
+		  .database()
+		  .ref('Users/' + user.uid + '/className')
+		  .update({
+			[block]: className,
+		  });
+
+		  Alert.alert(
+			"The following class has successfully been saved!",
+			block + " Block: " + className + " - " + teacher
 			
-
-
-			this.setState({ready: true})
-        }
-        catch(error){
-            console.info(error);
-		}
-	  }
-
-	saveClass = async (block, teacher, className) => {
-		let error = false
-		try {
-		  await AsyncStorage.setItem(block+"teacher", teacher)
-		} catch (e) {
-			error = true;
-		}
-
-		try {
-			await AsyncStorage.setItem(block+"class", className)
-		  } catch (e) {
-			error = true;
-			alert(e)
-		  }
-
-		  if (error){
-			  Alert.alert("Error saving changes. Please try again.")
-		  }
-		  else{
-			Alert.alert(
-				"The following class has successfully been saved!",
-				block + " Block: " + className + " - " + teacher
-				
-			  );
-			  
-		  }
+		  );
+		  
 
 		  firebase
 		  .database()
@@ -139,40 +146,13 @@ export default class CustomizationScreen extends React.Component {
 		  .push({
 			uid: user.uid,
 		  });
-
-		  firebase
-		  .database()
-		  .ref('Users/' + user.uid)
-		  .update({
-			[block]: teacher,
-		  });
 		  
-		  this.state.teachers[block] = teacher
-		  this.state.classNames[block] = className
+		  this.state.teacher[block] = teacher
+		  this.state.className[block] = className
 		
 	  }
 
-	  saveProfile = async () => {
-		let error = false;
-		try {
-			await AsyncStorage.setItem('name', this.state.name)
-			await AsyncStorage.setItem('grade', this.state.grade)
-			await AsyncStorage.setItem('activities', this.state.activities)
-		  	await AsyncStorage.setItem('phoneNumber', this.state.phoneNumber)
-			await AsyncStorage.setItem('pfp', this.state.image)
-		} catch (e) {
-		  error = true;
-		}
-
-		if (error){
-			Alert.alert("Error saving changes. Please try again.")
-		}
-		else{
-		  Alert.alert(
-			  "Your profile has successfully been saved."
-			);
-			
-		}
+	  saveProfile () {
 
 		firebase
 		  .database()
@@ -181,20 +161,27 @@ export default class CustomizationScreen extends React.Component {
 			name: this.state.name,
 			grade: this.state.grade,
 			activities: this.state.activities,
+			phoneNumber: this.state.phoneNumber,
+			pfp: this.state.pfp,
 		  });
+
+
+		  Alert.alert(
+			  "Your profile has successfully been saved."
+			);
 	  }
 	
 	  blockValueChange(block){
 		this.setState({block: block});
-		this.state.teacher = this.state.teachers[block]
-		if (this.state.teacher == null)
+		this.state.teacherDisplay = this.state.teacher[block]
+		if (this.state.teacherDisplay == null)
 		{
-			this.state.teacher = "";
+			this.state.teacherDisplay = "";
 		}
-		this.state.className = this.state.classNames[block]
-		if (this.state.className == null)
+		this.state.classNameDisplay = this.state.className[block]
+		if (this.state.classNameDisplay == null)
 		{
-			this.state.className = "";
+			this.state.classNameDisplay = "";
 		}
 		}
 
@@ -206,7 +193,7 @@ export default class CustomizationScreen extends React.Component {
 			quality: 1,
 			});
 			if (!result.cancelled) {
-				this.setState({image: result.uri})
+				this.setState({pfp: result.uri})
 			}
 		};
 		
@@ -226,15 +213,11 @@ export default class CustomizationScreen extends React.Component {
 			teachers.push({label: teacher, value: teacher })
 		}
 
-		if (!this.state.ready){
-			return null;
-		}
-
 		return (
 			<ScrollView style={styles.container}>
 				
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
-				{this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
+				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp} />}
 				<View style={styles.editContainer}>
 				<MaterialIcons.Button borderRadius={100} style={styles.edit} name="edit" onPress={() => this.pickImage()} />
 				</View>
@@ -304,8 +287,8 @@ export default class CustomizationScreen extends React.Component {
 						<RNPickerSelect
 						placeholder={{ label: "Teacher", value: null }}
 						style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10} }}
-						onValueChange={(teacher) => this.setState({ teacher })}
-						value  = {this.state.teacher}
+						onValueChange={(teacherDisplay) => this.setState({ teacherDisplay })}
+						value  = {this.state.teacherDisplay}
 						items={teachers}		
 						/>
 				
@@ -316,14 +299,14 @@ export default class CustomizationScreen extends React.Component {
 					<View style={{flex: 3}}>
 					<TextInput placeholder="Class Name"
 							style={styles.textInput} 
-							onChangeText={className => this.setState({ className })}
-							value={this.state.className} /> 
+							onChangeText={classNameDisplay => this.setState({ classNameDisplay })}
+							value={this.state.classNameDisplay} /> 
 					</View>
 
 
 					<View style={{flex: 1}}>
 					<TouchableOpacity style = {styles.button} onPress = {() => {
-						this.saveClass(this.state.block, this.state.teacher, this.state.className)
+						this.saveClass(this.state.block, this.state.teacherDisplay, this.state.classNameDisplay)
 					}}>
 						<Text style={styles.buttonText}>Record Class</Text>
 					</TouchableOpacity>
