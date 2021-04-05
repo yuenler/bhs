@@ -1,14 +1,13 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Alert, Linking, Image, Button, TouchableOpacity } from 'react-native';
 import user from "../User";
-import AsyncStorage from '@react-native-community/async-storage';
 import {colorCode} from '../GlobalColors';
+import firebase from 'firebase';
 
 
 export default class ProfileScreen extends React.Component {
 
 	state = {
-		ready: false,
 	  teachers: {
 		'A' : '' , 
 		'B' : '' , 
@@ -40,64 +39,82 @@ export default class ProfileScreen extends React.Component {
 	}
 
 
-	retrieveData = async()  => {
-        try{
-			this.state.teachers['A'] = await AsyncStorage.getItem('Ateacher');
-			this.state.teachers['B'] = await AsyncStorage.getItem('Bteacher');
-			this.state.teachers['C'] = await AsyncStorage.getItem('Cteacher');
-			this.state.teachers['D'] = await AsyncStorage.getItem('Dteacher');
-			this.state.teachers['E'] = await AsyncStorage.getItem('Eteacher');
-			this.state.teachers['F'] = await AsyncStorage.getItem('Fteacher');
-			this.state.teachers['G'] = await AsyncStorage.getItem('Gteacher');
-			this.state.teachers['Z'] = await AsyncStorage.getItem('Zteacher');
-			this.state.teachers['T'] = await AsyncStorage.getItem('Tteacher');
-			this.state.teachers['X'] = await AsyncStorage.getItem('Xteacher');
-			this.state.classNames['A'] = await AsyncStorage.getItem('Aclass');
-			this.state.classNames['B'] = await AsyncStorage.getItem('Bclass');
-			this.state.classNames['C'] = await AsyncStorage.getItem('Cclass');
-			this.state.classNames['D'] = await AsyncStorage.getItem('Dclass');
-			this.state.classNames['E'] = await AsyncStorage.getItem('Eclass');
-			this.state.classNames['F'] = await AsyncStorage.getItem('Fclass');
-			this.state.classNames['G'] = await AsyncStorage.getItem('Gclass');
-			this.state.classNames['Z'] = await AsyncStorage.getItem('Zclass');
-			this.state.classNames['T'] = await AsyncStorage.getItem('Tclass');
-			this.state.classNames['X'] = await AsyncStorage.getItem('Xclass');
-			this.state.activities = await AsyncStorage.getItem('activities');
-			this.state.grade = await AsyncStorage.getItem('grade');
-			var name = await AsyncStorage.getItem('name');
-			if (name == null){
-				this.state.name = user.displayName
-			}
-			else{
-				this.state.name = name
-			}
-			var pfp = await AsyncStorage.getItem('pfp')
-			if (pfp == null){
-				this.state.image = user.photoURL
-			}
-			else{
-				this.state.image = pfp
-			}
-						
-        }
-        catch(error){
-            console.info(error);
-		}
-		this.setState({ready: true})
+	retrieveData(){
 
-	  }
+		firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+				var name = snapshot.val().name;
+				if (name == null){
+					name = user.displayName
+				}
+				var pfp = snapshot.val().pfp
+				if (pfp == null){
+					pfp = user.photoURL
+				}
+				this.setState({
+					name: name,
+					activities: snapshot.val().activities,
+					grade: snapshot.val().grade,
+					phone: snapshot.val().phoneNumber,
+					pfp: pfp,
+
+				})
+				if (snapshot.hasChild('teacher')){
+					firebase.database().ref('Users/' + user.uid + '/teacher').on('value', (snapshot) => {
+						this.setState(
+						  {
+							  teacher:{
+								'A' : snapshot.val().A , 
+								'B' : snapshot.val().B , 
+								'C' : snapshot.val().C , 
+								'D' : snapshot.val().D , 
+								'E' : snapshot.val().E ,
+								'F' : snapshot.val().F , 
+								'G' : snapshot.val().G,
+								'Z' : snapshot.val().Z,
+								'T' : snapshot.val().T,
+								'X' : snapshot.val().X
+							  }
+						}
+						);
+						
+					})
+				}
+
+				if (snapshot.hasChild('className')){
+					firebase.database().ref('Users/' + user.uid + '/className').on('value', (snapshot) => {
+						this.setState(
+						  {
+							  className:{
+								'A' : snapshot.val().A , 
+								'B' : snapshot.val().B , 
+								'C' : snapshot.val().C , 
+								'D' : snapshot.val().D , 
+								'E' : snapshot.val().E ,
+								'F' : snapshot.val().F , 
+								'G' : snapshot.val().G,
+								'Z' : snapshot.val().Z,
+								'T' : snapshot.val().T,
+								'X' : snapshot.val().X
+							  }
+						}
+					);
+				})
+				}
+							
+		})
+}
 
 	  componentDidMount() {
-		this._unsubscribe = this.props.navigation.addListener('focus', () => {
-			this.retrieveData();
-		  });
+		// this._unsubscribe = this.props.navigation.addListener('focus', () => {
+		// 	this.retrieveData();
+		//   });
 		  
 		  this.retrieveData();
 	  }
 
-	  componentWillUnmount() {
-		this._unsubscribe();
-	  }
+	//   componentWillUnmount() {
+	// 	this._unsubscribe();
+	//   }
 
 	 
 	
@@ -123,10 +140,6 @@ export default class ProfileScreen extends React.Component {
 			printedClasses += "\n"
 		}
 
-
-		if (!this.state.ready){
-			null
-		}
 		return (
 			<View style={styles.container}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>

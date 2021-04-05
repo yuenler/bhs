@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import user from '../User';
 import firebase from 'firebase';
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
-import AsyncStorage from '@react-native-community/async-storage';
+import ThemedListItem from 'react-native-elements/dist/list/ListItem';
 
 
 
@@ -67,14 +67,10 @@ export default class FriendsScreen extends React.Component {
 	  
 
 
-	retrieveData = async()  => {
-        try{
-			this.state.phoneNumber = await AsyncStorage.getItem('phoneNumber');
-        }
-        catch(error){
-            console.info(error);
-	}
-	this.setState({ready: true})
+	retrieveData() {
+        firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+			this.setState({phoneNumber: snapshot.val().phoneNumber})
+		})
     }
 
 

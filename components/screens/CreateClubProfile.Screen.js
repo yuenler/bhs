@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 import { Text, View, StyleSheet, Alert, TextInput, Linking, Image, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
-import AsyncStorage from '@react-native-community/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from "firebase";
 import user from "../User";
@@ -16,6 +15,7 @@ export default class CreateClubProfileScreen extends React.Component {
 		  meetingTime: "",
 		  advisor: "",
 		  room: "",
+		  description: "",
 		  pfp: ""
 
 	};
@@ -28,40 +28,39 @@ export default class CreateClubProfileScreen extends React.Component {
 		this.retrieveData();
 	}
 
-	retrieveData = async()  => {
-        try{
-			this.state.name = await AsyncStorage.getItem('clubName');
-			this.state.block = await AsyncStorage.getItem('block');
-			this.state.advisor = await AsyncStorage.getItem('advisor');
-			this.state.pfp = await AsyncStorage.getItem('pfp');
-			this.setState({ready: true})
-        }
-        catch(error){
-            console.info(error);
-		}
+	retrieveData() {
+        firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+			this.setState({
+				name: snapshot.val().name,
+				meetingTime: snapshot.val().meetingTime,
+				advisor: snapshot.val().advisor,
+				room: snapshot.val().room,
+				description: snapshot.val().description,
+				pfp: snapshot.val().pfp,
+			})
+		})
 	  }
 
 	
-	  saveProfile = async () => {
-		let error = false;
-		try {
-			await AsyncStorage.setItem('name', this.state.name)
-			await AsyncStorage.setItem('grade', this.state.grade)
-			await AsyncStorage.setItem('activities', this.state.activities)
-		  	await AsyncStorage.setItem('phoneNumber', this.state.phoneNumber)
-		} catch (e) {
-		  error = true;
-		}
+	  saveProfile() {
+		
+		firebase
+		  .database()
+		  .ref('Users/' + user.uid)
+		  .update({
+			name: this.state.name,
+			meetingTime: this.state.meetingTime,
+			advisor: this.state.advisor,
+			room: this.state.room,
+			description: this.state.description,
+			pfp: this.state.pfp,
+		  });
 
-		if (error){
-			Alert.alert("Error saving changes. Please try again.")
-		}
-		else{
+		
 		  Alert.alert(
 			  "Your profile has successfully been saved."
 			);
 			
-		}
 	  }
 	
 		pickImage = async () => {
@@ -72,20 +71,9 @@ export default class CreateClubProfileScreen extends React.Component {
 			quality: 1,
 			});
 			if (!result.cancelled) {
-				this.setState({image: result.uri})
 				this.saveImage(result.uri)
 			}
 		};
-		 
-		saveImage = async (uri)  => {
-			try{
-			  await AsyncStorage.setItem('pfp', uri)
-			}
-			catch(error){
-				console.log(error)
-			}
-		}
-		
 	
 
 	  render() {
@@ -102,10 +90,7 @@ export default class CreateClubProfileScreen extends React.Component {
 			teachers.push({label: teacher, value: teacher })
 		}
 
-		if (!this.state.ready){
-			return null;
-		}
-
+	
 		return (
 			<ScrollView style={styles.container}>
 				
@@ -148,7 +133,7 @@ export default class CreateClubProfileScreen extends React.Component {
 				<TextInput placeholder="Room 336"
 						style={styles.textInput} 
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
-						  value={this.state.phoneNumber}
+						  value={this.state.room}
 						 /> 				
 				</View>
 
@@ -158,7 +143,7 @@ export default class CreateClubProfileScreen extends React.Component {
 						multiline
 						style={styles.textInput} 
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
-						  value={this.state.phoneNumber}
+						  value={this.state.description}
 						 /> 				
 				</View>
 
