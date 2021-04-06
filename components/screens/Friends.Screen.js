@@ -1,18 +1,17 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert, Linking } from 'react-native';
+import { Text, View, StyleSheet, Alert, Linking, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import user from '../User';
 import firebase from 'firebase';
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
-import ThemedListItem from 'react-native-elements/dist/list/ListItem';
-
+// import ThemedListItem from 'react-native-elements/dist/list/ListItem';
+import { SearchBar } from 'react-native-elements';
 
 
 export default class FriendsScreen extends React.Component {
 
 	state = {
 		available: false,
-		ready: false,
 		phoneNumber: "",
 		matchName: "",
 		matchEmail: "",
@@ -23,13 +22,15 @@ export default class FriendsScreen extends React.Component {
 		potentialEmail: "",
 		potentialPhoneNumber: "",
 		potentialUID: "",
-		deleteButton: "Delete Friend"
+		deleteButton: "Delete Friend",
+		search: '',
+		searchResults: [],
 	};
 	
 	componentDidMount() {
-		this._unsubscribe = this.props.navigation.addListener('focus', () => {
-			this.retrieveData();
-		  });
+		// this._unsubscribe = this.props.navigation.addListener('focus', () => {
+		// 	this.retrieveData();
+		//   });
 			this.retrieveData();
 			
 			firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
@@ -61,9 +62,9 @@ export default class FriendsScreen extends React.Component {
 		
 	}
 
-		  componentWillUnmount() {
-			this._unsubscribe();
-		  }
+		//   componentWillUnmount() {
+		// 	this._unsubscribe();
+		//   }
 	  
 
 
@@ -212,12 +213,20 @@ export default class FriendsScreen extends React.Component {
 			Alert.alert("You need to match with a friend first!")
 		}
 	};
+
+	
+
+	updateSearch = (search) => {
+		this.setState({search})
+		firebase.database().ref('Users').orderByChild('name').equalTo(search).on("child_added", (snapshot) => {
+			this.setState({ 
+				searchResults: [this.state.searchResults, ({title: snapshot.val().name})]
+			});
+		})
+		
+	  };
 	
 	render() {
-
-		if (!this.state.ready){
-			return(null);
-		  }
 
 		var idxPSBMA = user.email.indexOf('@psbma.org');
 		if(this.state.ready && idxPSBMA > -1){
@@ -231,6 +240,23 @@ export default class FriendsScreen extends React.Component {
 		return (
 			
 			<View style={styles.container}>
+
+				<SearchBar
+						placeholder="Type Here..."
+						onChangeText={this.updateSearch}
+						value={this.state.search}
+					/>
+
+				<FlatList
+						data={this.state.searchResults}
+						renderItem={({ item }) => (
+							// Single Comes here which will be repeatative for the FlatListItems
+							<Text style={styles.textStyle}>{item.title}</Text>
+						  )}
+						  keyExtractor={(index) => index.toString()}
+					/>
+
+
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
 					<Text style = {styles.buttonText}>Add Friend</Text>
@@ -303,8 +329,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		backgroundColor: '#ededed',
-		alignItems: 'center',
-		justifyContent: 'center',
+		// alignItems: 'center',
+		// justifyContent: 'center',
 	},
 	contactContainer: {
 		flexDirection: 'row',

@@ -29,7 +29,7 @@ export default class CreateClubProfileScreen extends React.Component {
 	}
 
 	retrieveData() {
-        firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+        firebase.database().ref('Clubs/' + user.uid).on('value', (snapshot) => {
 			this.setState({
 				name: snapshot.val().name,
 				meetingTime: snapshot.val().meetingTime,
@@ -46,7 +46,7 @@ export default class CreateClubProfileScreen extends React.Component {
 		
 		firebase
 		  .database()
-		  .ref('Users/' + user.uid)
+		  .ref('Clubs/' + user.uid)
 		  .update({
 			name: this.state.name,
 			meetingTime: this.state.meetingTime,
