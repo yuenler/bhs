@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Alert, Linking, Image, Button, TouchableOpacity
 import user from "../User";
 import {colorCode} from '../GlobalColors';
 import firebase from 'firebase';
-
+import {BottomSheet, ListItem} from 'react-native-elements'
 
 export default class ProfileScreen extends React.Component {
 
@@ -36,6 +36,7 @@ export default class ProfileScreen extends React.Component {
 	  grade: '',
 	  image: null,
 	  name: null,
+	  isVisible: false,
 	}
 
 
@@ -131,6 +132,16 @@ export default class ProfileScreen extends React.Component {
 		// 	})();
 		// }, []);
 
+		const list = [
+			{ title: 'List Item 1' },
+			{ title: 'List Item 2' },
+			{
+			  title: 'Cancel',
+			  containerStyle: { backgroundColor: 'red' },
+			  titleStyle: { color: 'white' },
+			  onPress: () => this.setState({isVisible: false}),
+			},
+		  ];
 		
 
 		let letters = ['A','B','C','D','E','F','G','Z','T','X']
@@ -166,6 +177,21 @@ export default class ProfileScreen extends React.Component {
 				<Text style= {styles.scheduleText}>Schedule</Text>
 				<Text style= {styles.scheduleText}>{printedClasses}</Text>
 				</View>
+
+				<Button title="View all your profiles" onPress={() => this.setState({isVisible: true})}/>
+
+				<BottomSheet
+				isVisible={this.state.isVisible}
+				containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
+				>
+				{list.map((l, i) => (
+					<ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+					<ListItem.Content>
+						<ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+					</ListItem.Content>
+					</ListItem>
+				))}
+				</BottomSheet>
 
 			</View>
 					

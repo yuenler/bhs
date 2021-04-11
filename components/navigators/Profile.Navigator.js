@@ -6,7 +6,6 @@ import CreateClubProfileScreen from '../screens/CreateClubProfile.Screen';
 import ClubProfileScreen from '../screens/ClubProfile.Screen';
 import CustomizationScreen from '../screens/Customization.Screen';
 import ViewProfileScreen from '../screens/ViewProfile.Screen';
-
 import * as firebase from 'firebase';
 
 
@@ -32,6 +31,7 @@ export default class ProfileNavigator extends React.Component {
 
   render() {
 
+
       return (
         <Stack.Navigator>
           <Stack.Screen component={ProfileScreen} name="Profile" 
@@ -48,8 +48,9 @@ export default class ProfileNavigator extends React.Component {
                 onPress={() => this.signOut()}
                 title="Sign Out"
               />
-            )
-            }} 
+            ),
+            }}
+
             />
 
       <Stack.Screen component={ViewProfileScreen} name="View Profile" 
