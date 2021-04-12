@@ -1,5 +1,6 @@
 import React, { useReducer, useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Alert, Linking, Image, Button, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Alert, Linking, Button, TouchableOpacity } from 'react-native';
+import {Image} from 'react-native-elements';
 import user from "../User";
 import firebase from 'firebase';
 

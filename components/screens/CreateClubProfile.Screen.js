@@ -1,11 +1,12 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert, TextInput, Linking, Image, ScrollView} from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput, Linking, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from "firebase";
 import user from "../User";
 import * as ImagePicker from 'expo-image-picker';
+import {Image, Input} from 'react-native-elements';
 import { MaterialIcons} from '@expo/vector-icons';
 
 export default class CreateClubProfileScreen extends React.Component {
@@ -16,7 +17,7 @@ export default class CreateClubProfileScreen extends React.Component {
 		  advisor: "",
 		  room: "",
 		  description: "",
-		  pfp: ""
+		  pfp: null
 
 	};
 
@@ -29,15 +30,20 @@ export default class CreateClubProfileScreen extends React.Component {
 	}
 
 	retrieveData() {
-        firebase.database().ref('Clubs/' + user.uid).on('value', (snapshot) => {
-			this.setState({
-				name: snapshot.val().name,
-				meetingTime: snapshot.val().meetingTime,
-				advisor: snapshot.val().advisor,
-				room: snapshot.val().room,
-				description: snapshot.val().description,
-				pfp: snapshot.val().pfp,
-			})
+		firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+			if (snapshot.val().clubID != null){
+				let clubID = snapshot.val().clubID
+				firebase.database().ref('Clubs/' + clubID).on('value', (snapshot) => {
+					this.setState({
+						name: snapshot.val().name,
+						meetingTime: snapshot.val().meetingTime,
+						advisor: snapshot.val().advisor,
+						room: snapshot.val().room,
+						description: snapshot.val().description,
+						pfp: snapshot.val().pfp,
+					})
+				})
+			}
 		})
 	  }
 
@@ -95,43 +101,39 @@ export default class CreateClubProfileScreen extends React.Component {
 			<ScrollView style={styles.container}>
 				
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
-				{this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
+				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp} />}
 				<View style={styles.editContainer}>
 				<MaterialIcons.Button borderRadius={100} style={styles.edit} name="edit" onPress={() => this.pickImage()} />
 				</View>
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Club Name</Text>
-				<TextInput placeholder="App Development Club"
-						style={styles.textInput} 
+				<Input placeholder="App Development Club"
+						label = "Club name"
 						onChangeText={name => this.setState({ name })}
 						value={this.state.name}
 					/> 
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Meeting time</Text>
-				<TextInput placeholder="Monday and Wednesdays 3-4pm"
-						style={styles.textInput} 
+				<Input placeholder="Monday and Wednesdays 3-4pm"
+						label = "Meeting time"
 						onChangeText={meetingTime => this.setState({ meetingTime })}
 						value={this.state.meetingTime}
 				/> 
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Club Advisor</Text>
-				<TextInput placeholder="Mr. Smith"
-						style={styles.textInput} 
+				<Input placeholder="Mr. Smith"
+						label = "Club advisor"
 						onChangeText={advisor => this.setState({ advisor })}
 						value={this.state.advisor}
 				/> 
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Meeting location</Text>
-				<TextInput placeholder="Room 336"
-						style={styles.textInput} 
+				<Input placeholder="Room 336"
+						label = "Meeting location"
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
 						  value={this.state.room}
 						 /> 				
@@ -141,7 +143,6 @@ export default class CreateClubProfileScreen extends React.Component {
 				<Text style={styles.textLabel}>Club Description</Text>
 				<TextInput placeholder="Enter description here..."
 						multiline
-						style={styles.textInput} 
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
 						  value={this.state.description}
 						 /> 				
@@ -180,17 +181,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		backgroundColor: '#ededed',
 	},
-	textInput: { 
-		borderRadius: 10, 
-		paddingVertical: 8, 
-		backgroundColor: '#FFFFFF',
-		paddingHorizontal: 16, 
-		borderColor: "rgba(0, 0, 0, 0.2)", 
-		borderWidth: 1, 
-		marginHorizontal: 20,
-		marginBottom: 10,
-		fontFamily: 'Red Hat Display'
-	}, 
 	pfp:{
 		width: 150,
     	height: 150,

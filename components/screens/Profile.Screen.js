@@ -1,9 +1,9 @@
 import React, { useReducer, useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Alert, Linking, Image, Button, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Alert, Linking, Button, TouchableOpacity } from 'react-native';
 import user from "../User";
 import {colorCode} from '../GlobalColors';
 import firebase from 'firebase';
-import {BottomSheet, ListItem} from 'react-native-elements'
+import {BottomSheet, ListItem, Avatar, Image} from 'react-native-elements'
 
 export default class ProfileScreen extends React.Component {
 
@@ -34,7 +34,7 @@ export default class ProfileScreen extends React.Component {
 	  },
 	  activities: '',
 	  grade: '',
-	  image: null,
+	  avatar_url: null,
 	  name: null,
 	  isVisible: false,
 	}
@@ -133,8 +133,10 @@ export default class ProfileScreen extends React.Component {
 		// }, []);
 
 		const list = [
-			{ title: 'List Item 1' },
-			{ title: 'List Item 2' },
+			{ 
+				name: this.state.name,
+				avatar_url: this.state.avatar_url,
+			},
 			{
 			  title: 'Cancel',
 			  containerStyle: { backgroundColor: 'red' },
@@ -154,7 +156,7 @@ export default class ProfileScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-				{this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
+				{this.state.avatar_url && <Image source={{ uri: this.state.avatar_url }} style={styles.pfp}/>}
 				<Text style={styles.displayName}>{this.state.name}</Text>
 
 				</View>
@@ -186,8 +188,9 @@ export default class ProfileScreen extends React.Component {
 				>
 				{list.map((l, i) => (
 					<ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+						<Avatar source={{uri: l.avatar_url}} />
 					<ListItem.Content>
-						<ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+						<ListItem.Title style={l.titleStyle}>{l.name}</ListItem.Title>
 					</ListItem.Content>
 					</ListItem>
 				))}

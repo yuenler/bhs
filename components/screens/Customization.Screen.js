@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert, TextInput, Linking, Image, ScrollView} from 'react-native';
+import { Text, View, StyleSheet, Alert, TextInput, Linking, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
@@ -7,6 +7,8 @@ import firebase from "firebase";
 import user from "../User";
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons} from '@expo/vector-icons';
+import {Image, Input} from 'react-native-elements';
+
 
 export default class CustomizationScreen extends React.Component {
     state = {
@@ -224,18 +226,16 @@ export default class CustomizationScreen extends React.Component {
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Name</Text>
-				<TextInput placeholder="John Doe"
-						style={styles.textInput} 
+				<Input placeholder="John Doe"
+						label = "Name"
 						onChangeText={name => this.setState({ name })}
 						value={this.state.name}
 					/> 
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Grade</Text>
-				<TextInput placeholder="10"
-						style={styles.textInput} 
+				<Input placeholder="10"
+						label = "Grade"
 						onChangeText={grade => this.setState({ grade })}
 						value={this.state.grade}
 						keyboardType='number-pad'
@@ -243,18 +243,16 @@ export default class CustomizationScreen extends React.Component {
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Activities</Text>
-				<TextInput placeholder="App Dev. Club, Drama, Cross Country"
-						style={styles.textInput} 
+				<Input placeholder="App Dev. Club, Drama, Cross Country"
+						label="Activities"
 						onChangeText={activities => this.setState({ activities })}
 						value={this.state.activities}
 				/> 
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel} onPress={() => Alert.alert('','Your phone number will be stored locally on your device unless you request a friend on the Friends Screen.')}>Phone Number</Text>
-				<TextInput placeholder="Phone number"
-						style={styles.textInput} 
+				<Input placeholder="555-555-5555"
+						label = "Phone Number"
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
 						  value={this.state.phoneNumber}
 						  keyboardType='number-pad' /> 				
