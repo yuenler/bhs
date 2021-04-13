@@ -34,8 +34,11 @@ export default class ProfileScreen extends React.Component {
 	  },
 	  activities: '',
 	  grade: '',
-	  avatar_url: null,
+	  pfp: null,
 	  name: null,
+	  clubID: null,
+	  clubName: null,
+	  clubPfp: null,
 	  isVisible: false,
 	}
 
@@ -57,8 +60,17 @@ export default class ProfileScreen extends React.Component {
 					grade: snapshot.val().grade,
 					phone: snapshot.val().phoneNumber,
 					pfp: pfp,
-
+					clubID: snapshot.val().clubID
 				})
+				let clubID = snapshot.val().clubID
+				if (clubID != null){
+					firebase.database().ref('Clubs/' + clubID ).on('value', (snapshot) => {
+						this.setState({
+							clubName: snapshot.val().name,
+							clubPfp: snapshot.val().pfp
+						})
+					})
+				}
 				if (snapshot.hasChild('teacher')){
 					firebase.database().ref('Users/' + user.uid + '/teacher').on('value', (snapshot) => {
 						this.setState(
@@ -117,7 +129,10 @@ export default class ProfileScreen extends React.Component {
 	// 	this._unsubscribe();
 	//   }
 
-	 
+	 handleCreateNewClub(){
+		this.props.navigation.navigate('Create Club Profile')
+		this.setState({isVisible: false})
+	 }
 	
 	render() {
 
@@ -135,15 +150,39 @@ export default class ProfileScreen extends React.Component {
 		const list = [
 			{ 
 				name: this.state.name,
-				avatar_url: this.state.avatar_url,
+				pfp: this.state.pfp,
+			},
+			
+			
+		  ];
+		  if (this.state.clubName != null){
+			  list.push({
+					name: this.state.clubName,
+					pfp: this.state.clubPfp,
+			  })
+		  }
+
+
+		  list.push(
+		  	{
+				name: 'Join existing club',
+				icon: 'arrow-right',
+				containerStyle: { backgroundColor: 'blue' },
+
 			},
 			{
-			  title: 'Cancel',
-			  containerStyle: { backgroundColor: 'red' },
-			  titleStyle: { color: 'white' },
-			  onPress: () => this.setState({isVisible: false}),
-			},
-		  ];
+				name: 'Create new club',
+				icon: 'plus',
+				containerStyle: { backgroundColor: 'blue' },
+				onPress: () => this.handleCreateNewClub(),
+			},  
+			{
+			name: 'Cancel',
+			containerStyle: { backgroundColor: 'red' },
+			titleStyle: { color: 'white' },
+			onPress: () => this.setState({isVisible: false}),
+		  	}
+		  )
 		
 
 		let letters = ['A','B','C','D','E','F','G','Z','T','X']
@@ -156,7 +195,7 @@ export default class ProfileScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-				{this.state.avatar_url && <Image source={{ uri: this.state.avatar_url }} style={styles.pfp}/>}
+				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp}/>}
 				<Text style={styles.displayName}>{this.state.name}</Text>
 
 				</View>
@@ -188,7 +227,9 @@ export default class ProfileScreen extends React.Component {
 				>
 				{list.map((l, i) => (
 					<ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
-						<Avatar source={{uri: l.avatar_url}} />
+						{l.pfp != null? <Avatar source={{uri: l.pfp}} />: null}
+						{l.icon != null? <Avatar icon={{name: l.icon, type: 'font-awesome'} }/> : null}
+						
 					<ListItem.Content>
 						<ListItem.Title style={l.titleStyle}>{l.name}</ListItem.Title>
 					</ListItem.Content>
