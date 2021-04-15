@@ -128,6 +128,11 @@ export default class LoginScreen extends React.Component {
     // POST the token to our backend so we can use it to send pushes from there
     var updates = {}
     updates['/expoToken'] = token
+    // updates['/name'] = user.name,
+		// updates['/grade'] = null,
+		// updates['/activities'] = null,
+		// updates['/phoneNumber'] = null,
+		// updates['/pfp'] = user.photoURL,
     await firebase.database().ref('/Users/' + user.uid).update(updates)
     //call the push notification 
 }

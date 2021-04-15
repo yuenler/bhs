@@ -220,8 +220,8 @@ export default class CustomizationScreen extends React.Component {
 			<ScrollView style={styles.container}>
 
 				<Header
-					leftComponent={<Icon name="x" type="feather" color="#fff" onPress={() => this.saveProfile()}/>}
-					rightComponent={<Icon name="check" color="#fff" onPress={() => this.props.navigation.navigate('Profile')}/>}
+					leftComponent={<Icon name="x" type="feather" color="#fff" onPress={() => this.props.navigation.navigate('Profile')}/>}
+					rightComponent={<Icon name="check" color="#fff" onPress={() => this.saveProfile()}/>}
 				/>
 				
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20}}>

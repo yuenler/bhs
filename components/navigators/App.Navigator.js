@@ -8,10 +8,11 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import firebase from 'firebase'
 import AsyncStorage from '@react-native-community/async-storage';
 import user from "../User";
+import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 
 
 
-const Tabs = createBottomTabNavigator();
+const Tabs = AnimatedTabBarNavigator();
 
 export default class AppNavigator extends React.Component {
   
@@ -89,7 +90,6 @@ export default class AppNavigator extends React.Component {
         tabBarOptions={{
           activeTintColor: 'white',
           inactiveTintColor: 'gray',
-          showLabel: false,
           style: {
             backgroundColor: '#000000',
         },

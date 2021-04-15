@@ -16,7 +16,11 @@ export default class ScheduleNavigator extends React.Component {
 
   render() {    
     return(
-      <Stack.Navigator>
+      <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+      >
       <Stack.Screen component={ScheduleScreen} name="Schedule" 
             options={{
             headerStyle: {

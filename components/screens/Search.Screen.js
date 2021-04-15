@@ -8,7 +8,7 @@ import user from "../User";
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons} from '@expo/vector-icons';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import {SearchBar, Header, Icon} from 'react-native-elements';
+import {SearchBar, Header, Icon, ListItem, Avatar} from 'react-native-elements';
 
 
 export default class SearchScreen extends React.Component {
@@ -34,15 +34,15 @@ export default class SearchScreen extends React.Component {
 		this.setState({search})
 		firebase.database().ref('Users').orderByChild('name').equalTo(search).on("child_added", (snapshot) => {
 			this.setState({ 
-				studentSearchResults: [this.state.studentSearchResults, ({title: snapshot.val().name})],
-        topSearchResults: [this.state.topSearchResults, ({title: snapshot.val().name})]
+				studentSearchResults: [this.state.studentSearchResults, ({name: snapshot.val().name})],
+        topSearchResults: [this.state.topSearchResults, ({name: snapshot.val().name})]
 
 			});
 		})		
     firebase.database().ref('Clubs').orderByChild('name').equalTo(search).on("child_added", (snapshot) => {
 			this.setState({ 
-				clubSearchResults: [this.state.clubSearchResults, ({title: snapshot.val().name})],
-        topSearchResults: [this.state.topSearchResults, ({title: snapshot.val().name})]
+				clubSearchResults: [this.state.clubSearchResults, ({name: snapshot.val().name})],
+        topSearchResults: [this.state.topSearchResults, ({name: snapshot.val().name})]
 			});
 		})
 
@@ -50,41 +50,41 @@ export default class SearchScreen extends React.Component {
 
     TopRoute = () =>{
       return(<View style={{ flex: 1, backgroundColor: '#673ab7' }}>
-        <FlatList
-						data={this.state.topSearchResults}
-						renderItem={({ item }) => (
-							// Single Comes here which will be repeatative for the FlatListItems
-							<Text style={styles.textStyle}>{item.title}</Text>
-						  )}
-						  keyExtractor={(index) => index.toString()}
-					/> 
+        {this.state.topSearchResults.map((l, i) => (
+					<ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+						<Avatar source={{uri: l.pfp}} />
+					<ListItem.Content>
+						<ListItem.Title style={l.titleStyle}>{l.name}</ListItem.Title>
+					</ListItem.Content>
+					</ListItem>
+				))}
         </View>)
     }
 
     StudentRoute = () => {
       return(<View style={{ flex: 1, backgroundColor: '#ff4081' }}>
-        			<FlatList
-						data={this.state.studentSearchResults}
-						renderItem={({ item }) => (
-							// Single Comes here which will be repeatative for the FlatListItems
-							<Text style={styles.textStyle}>{item.title}</Text>
-						  )}
-						  keyExtractor={(index) => index.toString()}
-					/> 
+        			{this.state.studentSearchResults.map((l, i) => (
+					<ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+						<Avatar source={{uri: l.pfp}} />
+					<ListItem.Content>
+						<ListItem.Title style={l.titleStyle}>{l.name}</ListItem.Title>
+					</ListItem.Content>
+					</ListItem>
+				))}
 
       </View>)
     }
     
     ClubRoute = () =>{
       return(<View style={{ flex: 1, backgroundColor: '#673ab7' }}>
-        <FlatList
-						data={this.state.clubSearchResults}
-						renderItem={({ item }) => (
-							// Single Comes here which will be repeatative for the FlatListItems
-							<Text style={styles.textStyle}>{item.title}</Text>
-						  )}
-						  keyExtractor={(index) => index.toString()}
-					/> 
+        {this.state.clubSearchResults.map((l, i) => (
+					<ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+						<Avatar source={{uri: l.pfp}} />
+					<ListItem.Content>
+						<ListItem.Title style={l.titleStyle}>{l.name}</ListItem.Title>
+					</ListItem.Content>
+					</ListItem>
+				))}
       </View>)
     }
 	
