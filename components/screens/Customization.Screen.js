@@ -7,7 +7,7 @@ import firebase from "firebase";
 import user from "../User";
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons} from '@expo/vector-icons';
-import {Image, Input} from 'react-native-elements';
+import {Image, Input, Header, Icon} from 'react-native-elements';
 
 
 export default class CustomizationScreen extends React.Component {
@@ -171,6 +171,7 @@ export default class CustomizationScreen extends React.Component {
 		  Alert.alert(
 			  "Your profile has successfully been saved."
 			);
+		this.props.navigation.navigate('Profile')
 	  }
 	
 	  blockValueChange(block){
@@ -217,6 +218,11 @@ export default class CustomizationScreen extends React.Component {
 
 		return (
 			<ScrollView style={styles.container}>
+
+				<Header
+					leftComponent={<Icon name="x" type="feather" color="#fff" onPress={() => this.saveProfile()}/>}
+					rightComponent={<Icon name="check" color="#fff" onPress={() => this.props.navigation.navigate('Profile')}/>}
+				/>
 				
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
 				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp} />}
@@ -256,12 +262,6 @@ export default class CustomizationScreen extends React.Component {
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
 						  value={this.state.phoneNumber}
 						  keyboardType='number-pad' /> 				
-				</View>
-
-				<View style={{ flex: 1, marginTop: 5, marginHorizontal: 20 }}>
-						<TouchableOpacity style={styles.button} onPress={() => { this.saveProfile() }}>
-							<Text style={styles.buttonText}>Save</Text>
-						</TouchableOpacity>
 				</View>
 
 				<View style={{flex: 1, margin: 10, padding: 10, backgroundColor: 'orange', borderRadius: 10}}>

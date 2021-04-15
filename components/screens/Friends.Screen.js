@@ -1,11 +1,11 @@
 import React, { useReducer } from 'react';
-import { Text, View, StyleSheet, Alert, Linking, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Alert, Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import user from '../User';
 import firebase from 'firebase';
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 // import ThemedListItem from 'react-native-elements/dist/list/ListItem';
-import { SearchBar } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
 
 export default class FriendsScreen extends React.Component {
@@ -23,8 +23,6 @@ export default class FriendsScreen extends React.Component {
 		potentialPhoneNumber: "",
 		potentialUID: "",
 		deleteButton: "Delete Friend",
-		search: '',
-		searchResults: [],
 	};
 	
 	componentDidMount() {
@@ -215,16 +213,6 @@ export default class FriendsScreen extends React.Component {
 	};
 
 	
-
-	updateSearch = (search) => {
-		this.setState({search})
-		firebase.database().ref('Users').orderByChild('name').equalTo(search).on("child_added", (snapshot) => {
-			this.setState({ 
-				searchResults: [this.state.searchResults, ({title: snapshot.val().name})]
-			});
-		})
-		
-	  };
 	
 	render() {
 
@@ -241,21 +229,7 @@ export default class FriendsScreen extends React.Component {
 			
 			<View style={styles.container}>
 
-				<SearchBar
-						placeholder="Type Here..."
-						onChangeText={this.updateSearch}
-						value={this.state.search}
-					/>
-
-				<FlatList
-						data={this.state.searchResults}
-						renderItem={({ item }) => (
-							// Single Comes here which will be repeatative for the FlatListItems
-							<Text style={styles.textStyle}>{item.title}</Text>
-						  )}
-						  keyExtractor={(index) => index.toString()}
-					/>
-
+				<Icon name="search" onPress={() => this.props.navigation.navigate('Search')}/>
 
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
@@ -345,7 +319,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	result: {
-	color:'#FFFFFF', 
+	color:'black', 
 	fontSize: 30, 
 	fontFamily: 'Red Hat Display',
 	textAlign: 'center'

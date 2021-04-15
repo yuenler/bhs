@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Alert, Linking, Button, TouchableOpacity } from
 import user from "../User";
 import {colorCode} from '../GlobalColors';
 import firebase from 'firebase';
-import {BottomSheet, ListItem, Avatar, Image} from 'react-native-elements'
+import {BottomSheet, ListItem, Avatar, Image, Header, Icon} from 'react-native-elements'
 
 export default class ProfileScreen extends React.Component {
 
@@ -194,6 +194,11 @@ export default class ProfileScreen extends React.Component {
 
 		return (
 			<View style={styles.container}>
+				<Header
+				leftComponent={<Text style={styles.headerText} onPress={() => this.setState({isVisible: true})}>{this.state.name + " ▼"}</Text>}
+				rightComponent={<Icon name="settings" color="#fff" onPress={() => this.props.navigation.navigate('Settings')}/>}
+				/>
+
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp}/>}
 				<Text style={styles.displayName}>{this.state.name}</Text>
@@ -205,12 +210,6 @@ export default class ProfileScreen extends React.Component {
 						<Text style={styles.buttonText}>Edit Profile</Text>
 					</TouchableOpacity>
 				</View>
-
-				<View>
-					<TouchableOpacity onPress={() => this.props.navigation.navigate('Club Profile')}>
-						<Text style={{color: 'white'}}>Club Profile</Text>
-					</TouchableOpacity>
-				</View>
 				
 				<View style={{flex: 1}}>
 				<Text style= {styles.scheduleText}>{this.state.grade}</Text>
@@ -218,9 +217,6 @@ export default class ProfileScreen extends React.Component {
 				<Text style= {styles.scheduleText}>Schedule</Text>
 				<Text style= {styles.scheduleText}>{printedClasses}</Text>
 				</View>
-
-				<Button title="View all your profiles" onPress={() => this.setState({isVisible: true})}/>
-
 				<BottomSheet
 				isVisible={this.state.isVisible}
 				containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
@@ -252,10 +248,10 @@ const styles = StyleSheet.create({
 		backgroundColor: colorCode.backgroundWhite,
 	},
 	displayName: {
-		color: 'white'
+		color: 'black'
 	},
 	scheduleText: {
-		color: 'white'
+		color: 'black'
 	},
 	pfp:{
 		width: 150,
@@ -273,6 +269,11 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontFamily: 'Red Hat Display'
 	},
+	headerText: {
+		color: '#fff',
+		fontWeight: 'bold',
+		fontSize: 20
+	}
 	
 
 });

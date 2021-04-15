@@ -5,6 +5,7 @@ import ProfileScreen from '../screens/Profile.Screen';
 import CreateClubProfileScreen from '../screens/CreateClubProfile.Screen';
 import ClubProfileScreen from '../screens/ClubProfile.Screen';
 import CustomizationScreen from '../screens/Customization.Screen';
+import SettingsScreen from '../screens/Settings.Screen';
 import ViewProfileScreen from '../screens/ViewProfile.Screen';
 import * as firebase from 'firebase';
 
@@ -13,27 +14,17 @@ const Stack = createStackNavigator();
 
 export default class ProfileNavigator extends React.Component {
 
-  signOut()
-  {
-    Alert.alert(
-      "Are you sure you want to sign out?",
-      "",
-      [
-        {
-        text: "Cancel",
-        style: "cancel"
-        },
-        { text: "Yes", onPress: () => firebase.auth().signOut()}
-      ],
-      { cancelable: true }
-      );
-  }
 
   render() {
 
 
       return (
-        <Stack.Navigator>
+        <Stack.Navigator
+        screenOptions={{
+          headerShown: false
+        }}
+        >
+          
           <Stack.Screen component={ProfileScreen} name="Profile" 
             options={{
             headerStyle: {
@@ -91,6 +82,18 @@ export default class ProfileNavigator extends React.Component {
         }}
         />
         <Stack.Screen component={CustomizationScreen} name="Customize" 
+        options={{
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+
+        }}
+        />
+        <Stack.Screen component={SettingsScreen} name="Settings" 
         options={{
           headerStyle: {
             backgroundColor: '#871609',
