@@ -4,92 +4,44 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import user from '../User';
 import firebase from 'firebase';
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
-// import ThemedListItem from 'react-native-elements/dist/list/ListItem';
-import { Icon } from 'react-native-elements';
+import { Icon, ListItem, Avatar } from 'react-native-elements';
 
 
 export default class FriendsScreen extends React.Component {
 
 	state = {
 		available: false,
-		phoneNumber: "",
 		matchName: "",
-		matchEmail: "",
-		matchPhoneNumber: "",
 		matchUID: "",
 		available: false,
-		potentialName: "",
-		potentialEmail: "",
-		potentialPhoneNumber: "",
 		potentialUID: "",
-		deleteButton: "Delete Friend",
+		button: "Send friend request",
 	};
 	
 	componentDidMount() {
-		// this._unsubscribe = this.props.navigation.addListener('focus', () => {
-		// 	this.retrieveData();
-		//   });
-			this.retrieveData();
 			
-			firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
-	
-				if (snapshot.hasChild("matchName")){
-					this.setState({
-						matchName: snapshot.val().matchName,
-						matchEmail: snapshot.val().matchEmail,
-						matchPhoneNumber: snapshot.val().matchPhoneNumber,
-						matchUID: snapshot.val().matchUID,
-					});
-		
-				}
-			
+		firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
+			if (snapshot.hasChild('matchUID')){
+			this.setState({
+				matchName: snapshot.val().matchName,
+				matchUID: snapshot.val().matchUID,
+			});
+		}
 		});
 
 		firebase.database().ref('Friends').on('value', (snapshot) => {
 			this.state.available = ! snapshot.val().matched
-			this.state.potentialName = snapshot.val().name
 			this.state.potentialUID = snapshot.val().uid
-			this.state.potentialEmail = snapshot.val().email
-			this.state.potentialPhoneNumber = snapshot.val().phoneNumber
 		});
-
 		if (this.state.potentialUID === user.uid){
-			this.state.deleteButton = "Delete Friend Request"
+			this.setState({button: "Delete Friend Request"})
 		}
 
 		
 	}
 
-		//   componentWillUnmount() {
-		// 	this._unsubscribe();
-		//   }
-	  
 
-
-	retrieveData() {
-        firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
-			this.setState({phoneNumber: snapshot.val().phoneNumber})
-		})
-    }
-
-
-	makeFriend(userName, userEmail, userPhoneNumber, userUID){
-		if(userPhoneNumber == null){
-			Alert.alert(
-				"You need to add your phone number!",
-				"You need to enter your phone number in the Customization screen first so that your matched friend can easily contact you. If you do not feel comfortable sending out your phone number, please enter 555-555-5555 in the phone number field in the customization screen. Note that this will mean that your matched friend will only be able to contact you through your school email.",
-				[
-				  {
-					text: "Cancel",
-					style: "cancel"
-				  },
-				  { text: "Customize", onPress: () => this.props.navigation.navigate('Customize')}
-				],
-				{ cancelable: false }
-			  );
-		}
-		else{
-		
+	makeFriend(userUID){
 		//so that you don't match with yourself
 		if (this.state.available && this.state.potentialUID === userUID){
 				Alert.alert(
@@ -108,18 +60,12 @@ export default class FriendsScreen extends React.Component {
 			.database()
 			.ref('Matches/' + this.state.potentialUID)
 			.set({
-			  matchName: userName,
-			  matchEmail: userEmail,
-			  matchPhoneNumber: userPhoneNumber,
 			  matchUID: userUID
 			});
 			firebase
 			.database()
 			.ref('Matches/' + user.uid)
 			.set({
-			  matchName: this.state.potentialName,
-			  matchEmail: this.state.potentialEmail,
-			  matchPhoneNumber: this.state.potentialPhoneNumber, 
 			  matchUID: this.state.potentialUID,
 			});
 			firebase
@@ -128,26 +74,21 @@ export default class FriendsScreen extends React.Component {
 			.set({
 			  matched: true 
 			});
-			this.state.matchName = this.state.potentialName;
-			this.state.matchEmail = this.state.potentialEmail;
-			this.state.matchPhoneNumber = this.state.potentialPhoneNumber;
 			this.state.matchUID = this.state.potentialUID;
+			this.setState({button: "Delete Friend"})
 		}
 		else{
-			this.postFriend(userName, userEmail, userPhoneNumber, userUID)
+			this.postFriend(userUID)
 		}
-	}
+	
 	}
 
 
-	postFriend(userName, userEmail, userPhoneNumber, userUID) {
+	postFriend(userUID) {
 	  firebase
 	    .database()
 	    .ref('Friends')
 	    .set({
-		  name: userName,
-		  email: userEmail,
-		  phoneNumber: userPhoneNumber,
 		  uid: userUID,
 		  matched: false 
 		});
@@ -155,7 +96,7 @@ export default class FriendsScreen extends React.Component {
 			"Friend request sent!",
 			"Your friend request has been sent to our database. You will be matched with the next BHS student that also requests a friend.",
 		  );
-		this.setState({deleteButton: "Delete Friend Request"})
+		this.setState({button: "Delete Friend Request"})
 	} 
 
 	deleteFriend(userUID){
@@ -166,7 +107,7 @@ export default class FriendsScreen extends React.Component {
 			.set({
 			  matched: true 
 			});
-			this.setState({deleteButton: "Delete Friend"})
+			this.setState({button: "Send friend request"})
 			Alert.alert("Friend request deleted!")
 		}
 		else if (this.state.matchName === ""){
@@ -175,32 +116,30 @@ export default class FriendsScreen extends React.Component {
 		else{
 		let userRef = firebase.database().ref('Matches/' + userUID);
 		userRef.set({
-			matchName: "",
-			matchEmail: "",
-			matchPhoneNumber: "",
 			matchUID: "",
 		  });
 		let matchUserRef = firebase.database().ref('Matches/' + this.state.matchUID);
 		matchUserRef.set({
-			matchName: "",
-			matchEmail: "",
-			matchPhoneNumber: "",
 			matchUID: "",
 		  });
 
 		this.setState({
-			matchName: "",
-			matchEmail: "",
-			matchPhoneNumber: "",
 			matchUID: "",
 		});
 		Alert.alert('Friend successfully deleted!')
+		this.setState({button: "Send Friend Request"})
 		}
 	}
 
-	onPress = () => {this.makeFriend(user.displayName, user.email, this.state.phoneNumber, user.uid)};
+	onPress = () => {
+		if (this.state.button === "Send friend request") {
+			this.makeFriend(user.uid)
+		}
+		else{
+			this.deleteFriend(user.uid)
+		}
+	};
 
-	onDelete = () => {this.deleteFriend(user.uid)};
 
 	contact = (link) =>
 	{
@@ -216,30 +155,47 @@ export default class FriendsScreen extends React.Component {
 	
 	render() {
 
-		var idxPSBMA = user.email.indexOf('@psbma.org');
-		if(this.state.ready && idxPSBMA > -1){
-			return(
-			<View style={styles.container}>
-			  <Text style={{color: 'white', margin: 30}}>This screen is only available for students with brooklinek12.org domain emails.</Text>
-			  </View>
-			);
-		  }
-		  else{
+		var list = []
+		
 		return (
 			
 			<View style={styles.container}>
-
 				<Icon name="search" onPress={() => this.props.navigation.navigate('Search')}/>
+				<Text>Make new friends</Text>
+				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+				<Text>Classmates</Text>
+				{
+					list.map((l, i) => (
+					<ListItem key={i} bottomDivider>
+						<Avatar source={{uri: l.avatar_url}} />
+						<ListItem.Content>
+						<ListItem.Title>{l.name}</ListItem.Title>
+						<ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle>
+						</ListItem.Content>
+					</ListItem>
+					))
+				}
+				</View>
+				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+				<Text>Shared interests</Text>
+				{
+					list.map((l, i) => (
+					<ListItem key={i} bottomDivider>
+						<Avatar source={{uri: l.avatar_url}} />
+						<ListItem.Content>
+						<ListItem.Title>{l.name}</ListItem.Title>
+						<ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle>
+						</ListItem.Content>
+					</ListItem>
+					))
+				}
+				</View>
+				<View style={{flex: 1}}>
+				<Text>Chat with someone new!</Text>
 
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
-					<Text style = {styles.buttonText}>Add Friend</Text>
-				</TouchableOpacity>
-				</View>
-
-				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-				<TouchableOpacity style = {styles.deleteFriendButton} onPress={this.onDelete}>
-					<Text style = {styles.buttonText}>{this.state.deleteButton}</Text>
+					<Text style = {styles.buttonText}>{this.state.button}</Text>
 				</TouchableOpacity>
 				</View>
 
@@ -248,33 +204,9 @@ export default class FriendsScreen extends React.Component {
 				<Text style={styles.result}>{this.state.matchName}</Text>
 				</View>
 
-				<View style = {styles.contactContainer}>
-					
-				<View style={{flex:1, marginHorizontal: 20}}>
-
-				<MaterialCommunityIcons.Button backgroundColor="#871609" style={styles.contactButton} name='message'  onPress={() => this.contact('sms:' + this.state.matchPhoneNumber)}>Text</MaterialCommunityIcons.Button>
-				</View>
-
-				<View style={{flex:1, marginHorizontal: 20}}>
-				<MaterialCommunityIcons.Button backgroundColor="#871609" style={styles.contactButton} name='phone'  onPress={() => this.contact('tel:' + this.state.matchPhoneNumber)}>Call</MaterialCommunityIcons.Button>
-				</View>
-	
-				</View>
-
-				<View style = {styles.contactContainer}>
-
-				<View style={{flex:1, marginHorizontal: 20}}>
-				<Ionicons.Button backgroundColor="#871609" style={styles.contactButton} name='ios-videocam'  onPress={() => this.contact('facetime:' + this.state.matchPhoneNumber)}>Video</Ionicons.Button>
-				</View>
-
-				<View style={{flex:1, marginHorizontal: 20}}>
-				<MaterialCommunityIcons.Button backgroundColor="#871609" style={styles.contactButton} name='email'  onPress={() => this.contact('mailto:' + this.state.matchEmail)}>Email</MaterialCommunityIcons.Button>
-				</View>
-
 				</View>
 			</View>
 		);
-		  }
 	}
 }
 

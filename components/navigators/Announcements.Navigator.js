@@ -1,10 +1,9 @@
 import React from 'react';
-import {Button} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AnnouncementsScreen from '../screens/Announcements.Screen';
 import CreateAnnouncementsScreen from '../screens/CreateAnnouncement.Screen';
 import ViewProfileScreen from '../screens/ViewProfile.Screen';
-
+import {Icon} from 'react-native-elements'
 
 const Stack = createStackNavigator();
 
@@ -22,9 +21,12 @@ export default class AnnouncementsNavigator extends React.Component {
             fontWeight: 'bold',
           },
           headerRight: () => (
-            <Button
+            <Icon
               onPress={() => this.props.navigation.navigate('Create Announcement')}
-              title="+"
+              name="plus"
+              type = "ant-design"
+              color = '#000000'
+              raised
             />
           )
 

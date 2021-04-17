@@ -43,6 +43,7 @@ export default class CustomizationScreen extends React.Component {
 		  },
 		  pfp: null,
 		  name: null,
+		  bio: null,
 		  grade: null,
 		  activities: null,
 	};
@@ -72,6 +73,7 @@ export default class CustomizationScreen extends React.Component {
 						grade: snapshot.val().grade,
 						phone: snapshot.val().phoneNumber,
 						pfp: pfp,
+						bio: bio,
 
 					})
 					if (snapshot.hasChild('teacher')){
@@ -162,6 +164,7 @@ export default class CustomizationScreen extends React.Component {
 		  .update({
 			name: this.state.name,
 			grade: this.state.grade,
+			bio: this.state.bio,
 			activities: this.state.activities,
 			phoneNumber: this.state.phoneNumber,
 			pfp: this.state.pfp,
@@ -236,6 +239,14 @@ export default class CustomizationScreen extends React.Component {
 						label = "Name"
 						onChangeText={name => this.setState({ name })}
 						value={this.state.name}
+					/> 
+				</View>
+
+				<View style={{flex: 1}}>
+				<Input placeholder="Avid entrepreneur"
+						label = "Bio"
+						onChangeText={bio => this.setState({ bio })}
+						value={this.state.bio}
 					/> 
 				</View>
 
