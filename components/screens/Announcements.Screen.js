@@ -4,11 +4,7 @@ import firebase from 'firebase';
 import EventsBox from '../EventBox';
 import {colorCode} from '../GlobalColors';
 
-const titles = [];
-const texts = [];
-const dates = [];
-const uids = [];
-const userNames = [];
+
 export default class AnnouncementsScreen extends React.Component {
 
 	state = {
@@ -22,13 +18,13 @@ export default class AnnouncementsScreen extends React.Component {
 	componentDidMount() {
 		firebase.database().ref('Announcements').on('child_added', (snapshot) => {
 		this.setState({
-			titles: titles.push(snapshot.val().postTitle),
-			texts: texts.push(snapshot.val().post),
-			dates: dates.push(snapshot.val().postDate),
-			uids: uids.push(snapshot.val().postUID),
+			titles: [this.state.titles, snapshot.val().postTitle],
+			texts: [this.state.texts, snapshot.val().post],
+			dates: [this.state.dates, snapshot.val().postDate],
+			uids: [this.state.uids, snapshot.val().postUID],
 		});
 		firebase.database().ref('Users/' + snapshot.val().postUID).on('value', (snapshot) => {
-			this.setState({userNames: userNames.push(snapshot.val().name)})
+			this.setState({userNames: [this.state.userNames, snapshot.val().name]})
 		});
 	})	
 	}
@@ -38,16 +34,15 @@ export default class AnnouncementsScreen extends React.Component {
 	render() {
 		
 		const events = []
-		// let printedEvent = "";
 		var i;
-		for (i = titles.length-1; i >= 0; i--) {
+		for (i = this.state.titles.length-1; i >= 0; i--) {
 			events.push(
 				{
-				title: titles[i],
-				text: texts[i],
-				date: dates[i],
-				userName: userNames[i],
-				uid: uids[i]
+				title: this.state.titles[i],
+				text: this.state.texts[i],
+				date: this.state.dates[i],
+				userName: this.state.userNames[i],
+				uid: this.state.uids[i]
 				}
 			)
 		}
