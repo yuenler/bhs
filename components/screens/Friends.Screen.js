@@ -16,9 +16,23 @@ export default class FriendsScreen extends React.Component {
 		available: false,
 		potentialUID: "",
 		button: "Send friend request",
+		classmates : [],
 	};
 	
 	componentDidMount() {
+		firebase.database().ref('Users/' + user.uid).on('value', (snapshot) => {
+			if (snapshot.hasChild('teacher')){
+				firebase.database().ref('Users/' + user.uid + '/teacher').on('value', (snapshot) => {
+					for (var key in snapshot.val()){
+						this.getClassmates(key, snapshot.val()[key]);
+					}
+						
+					
+				})
+			}
+
+		});
+
 			
 		firebase.database().ref('Matches/' + user.uid).on('value', (snapshot) => {
 			if (snapshot.hasChild('matchUID')){
@@ -40,6 +54,11 @@ export default class FriendsScreen extends React.Component {
 		
 	}
 
+	getClassmates(block, teacher){
+		firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
+			this.setState({classmates: [this.state.classmates, {uid: snapshot.val().uid}]})
+		})
+	}
 
 	makeFriend(userUID){
 		//so that you don't match with yourself
@@ -162,14 +181,14 @@ export default class FriendsScreen extends React.Component {
 			<View style={styles.container}>
 				<Icon name="search" onPress={() => this.props.navigation.navigate('Search')}/>
 				<Text>Make new friends</Text>
-				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+				<View style={{flex: 1}}>
 				<Text>Classmates</Text>
 				{
-					list.map((l, i) => (
+					this.state.classmates.map((l, i) => (
 					<ListItem key={i} bottomDivider>
 						<Avatar source={{uri: l.avatar_url}} />
 						<ListItem.Content>
-						<ListItem.Title>{l.name}</ListItem.Title>
+						<ListItem.Title>{l.uid}</ListItem.Title>
 						<ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle>
 						</ListItem.Content>
 					</ListItem>
