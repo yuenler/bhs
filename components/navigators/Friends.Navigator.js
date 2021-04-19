@@ -18,46 +18,9 @@ export default class FriendsNavigator extends React.Component {
         headerShown: false
       }}
       >
-        <Stack.Screen component={FriendsScreen} name="Friends" 
-        options={{
-          headerStyle: {
-            backgroundColor: '#871609',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-
-        }}
-        />
-
-<Stack.Screen component={ViewProfileScreen} name="View Profile" 
-        options={{
-          headerStyle: {
-            backgroundColor: '#871609',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-
-        }}
-        />
-
-    <Stack.Screen component={SearchScreen} name="Search" 
-        options={{
-          title: "",
-          headerStyle: {
-            backgroundColor: '#871609',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          
-
-        }}
-        />
+        <Stack.Screen component={FriendsScreen} name="Friends" />
+  <Stack.Screen component={ViewProfileScreen} name="View Profile"/>
+    <Stack.Screen component={SearchScreen} name="Search" />
       </Stack.Navigator>
     )
   }

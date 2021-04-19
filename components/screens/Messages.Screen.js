@@ -4,6 +4,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import user from '../User'
 import firebase from 'firebase';
 import {Header} from 'react-native-elements'
+import {Ionicons} from '@expo/vector-icons';
 
 
 
@@ -102,6 +103,12 @@ class Chat extends React.Component {
       
       <Header
       centerComponent={{text: this.state.block + ' Block - ' + this.state.teacher}}
+      rightComponent={<Ionicons.Button
+        name = "ios-eye"
+        onPress={() => this.props.navigation.navigate('View Classmates',{block:this.state.block, teacher:this.state.teacher})}
+      />
+    }
+      
       />
 
       <GiftedChat

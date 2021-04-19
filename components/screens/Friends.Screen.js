@@ -198,9 +198,7 @@ export default class FriendsScreen extends React.Component {
 	
 	render() {
 
-		var list = []
-		console.log(this.state.classmates)
-		
+		var list = []		
 		return (
 			
 			<View style={styles.container}>
