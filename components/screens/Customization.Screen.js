@@ -73,7 +73,7 @@ export default class CustomizationScreen extends React.Component {
 						grade: snapshot.val().grade,
 						phone: snapshot.val().phoneNumber,
 						pfp: pfp,
-						bio: bio,
+						bio: snapshot.val().bio,
 
 					})
 					if (snapshot.hasChild('teacher')){

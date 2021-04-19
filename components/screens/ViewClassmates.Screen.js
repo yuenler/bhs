@@ -1,10 +1,6 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Alert, Linking, Image, Button, TouchableOpacity } from 'react-native';
-import user from "../User";
 import firebase from 'firebase';
-
-var names = [];
-var uids = []
 
 export default class ViewClassmatesScreen extends React.Component {
 
@@ -17,7 +13,7 @@ export default class ViewClassmatesScreen extends React.Component {
 	
 	uidToName(uid){
 		firebase.database().ref('Users/' + uid).on('value', (snapshot) => {
-			this.setState({names: names.push(snapshot.val().name)})
+			this.setState({names: [this.state.names, snapshot.val().name]})
 		});	
 			
 	}
@@ -37,11 +33,10 @@ export default class ViewClassmatesScreen extends React.Component {
 		// this.setState({uids: this.props.route.params.uids})
 		// alert('a' + this.state.uids[0])
 		// this.setState({uids: this.props.route.params.uids})
-		names = []
 		var block = this.props.route.params.block
 		var teacher = this.props.route.params.teacher
 		firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
-			this.setState({uids: uids.push(snapshot.val().uid)})
+			this.setState({uids: [this.state.uids, snapshot.val().uid]})
 			this.uidToName(snapshot.val().uid);
 		  });		
 	  }
@@ -58,10 +53,10 @@ export default class ViewClassmatesScreen extends React.Component {
 	render() {
 
 		let people = []
-		for (let i = 0; i < names.length; i++){
+		for (let i = 0; i < this.state.names.length; i++){
 			people.push({
-				name: names[i],
-				uid: uids[i]
+				name: this.state.names[i],
+				uid: this.state.uids[i]
 			})
 		}
 		

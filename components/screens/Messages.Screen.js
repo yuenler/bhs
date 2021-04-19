@@ -3,6 +3,7 @@ import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
 import { Text, View, StyleSheet } from 'react-native';
 import user from '../User'
 import firebase from 'firebase';
+import {Header} from 'react-native-elements'
 
 
 
@@ -98,6 +99,10 @@ class Chat extends React.Component {
   render() {
     return (
       <View style={{backgroundColor: '#ededed', flex: 1}}>
+      
+      <Header
+      centerComponent={{text: this.state.block + ' Block - ' + this.state.teacher}}
+      />
 
       <GiftedChat
         

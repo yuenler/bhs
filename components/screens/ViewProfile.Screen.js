@@ -8,41 +8,56 @@ export default class ViewProfileScreen extends React.Component {
 
 	state = {
 		uid: null,	
-	  A: null,
-	  B: null,
-	  C: null,
-	  D: null, 
-	  E: null,
-	  F: null,
-	  G: null,
-	  Z: null,
-	  T: null, 
-	  X: null,
+		teacher: {
+			'A' : '' , 
+			'B' : '' , 
+			'C' : '' , 
+			'D' : '' , 
+			'E' : '' , 
+			'F' : '' , 
+			'G' : '',
+			'Z' : "",
+			'T' : '',
+			'X' : ''
+		  },
 	  name: null,
 	  activities: '',
 	  grade: '',
-	  image: null,
+	  pfp: null,
 	}
 
 
 	retrieveData(){
 		firebase.database().ref('Users/' + this.state.uid).on('value', (snapshot) => {
+			if (snapshot.hasChild('teacher')){
+				firebase.database().ref('Users/' + user.uid + '/teacher').on('value', (snapshot) => {
+					this.setState(
+					  {
+						  teacher:{
+							'A' : snapshot.val().A , 
+							'B' : snapshot.val().B , 
+							'C' : snapshot.val().C , 
+							'D' : snapshot.val().D , 
+							'E' : snapshot.val().E ,
+							'F' : snapshot.val().F , 
+							'G' : snapshot.val().G,
+							'Z' : snapshot.val().Z,
+							'T' : snapshot.val().T,
+							'X' : snapshot.val().X
+						  }
+					}
+					);
+					
+				})
+			}
 			this.setState({
 				name: snapshot.val().name,
+				pfp: snapshot.val().pfp,
 				activities: snapshot.val().activities,
-				grade: snapshot.val().grade,
-				A: snapshot.val().A,
-				B: snapshot.val().B,
-				C: snapshot.val().C,
-				D: snapshot.val().D,
-				E: snapshot.val().E,
-				F: snapshot.val().F,
-				G: snapshot.val().G,
-				Z: snapshot.val().Z,
-				T: snapshot.val().T,
-				X: snapshot.val().X,
+				grade: snapshot.val().grade
+	 
 				
-			});
+			})
 		})
 	  }
 
@@ -67,7 +82,7 @@ export default class ViewProfileScreen extends React.Component {
 		let letters = ['A','B','C','D','E','F','G','Z','T','X']
 		let printedClasses = ""
 		for (let i=0; i<letters.length; i++){
-			printedClasses += letters[i] + " Block: " + this.state[letters[i]]
+			printedClasses += letters[i] + " Block: " + this.state.teacher[letters[i]]
 			printedClasses += "\n"
 		}
 
@@ -78,7 +93,7 @@ export default class ViewProfileScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-				{this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
+				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp} />}
 				<Text style={styles.displayName}>{this.state.name}</Text>
 
 				</View>

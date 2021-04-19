@@ -56,7 +56,31 @@ export default class FriendsScreen extends React.Component {
 
 	getClassmates(block, teacher){
 		firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
-			this.setState({classmates: [this.state.classmates, {uid: snapshot.val().uid}]})
+			let uid = snapshot.val().uid
+			firebase.database().ref('Users/' + uid).on('value', (snapshot) =>{
+				if(this.state.classmates.length != 0){
+				this.setState({classmates: [this.state.classmates, 
+					{
+						uid: uid,
+						name: snapshot.val().name,
+						pfp: snapshot.val().pfp,
+						bio: snapshot.val().bio
+					}
+				]})
+			}
+			else{
+				this.setState({classmates: 
+					[{
+						uid: uid,
+						name: snapshot.val().name,
+						pfp: snapshot.val().pfp,
+						bio: snapshot.val().bio
+					}]
+				})
+			}
+			})
+			
+			
 		})
 	}
 
@@ -175,6 +199,7 @@ export default class FriendsScreen extends React.Component {
 	render() {
 
 		var list = []
+		console.log(this.state.classmates)
 		
 		return (
 			
@@ -185,11 +210,11 @@ export default class FriendsScreen extends React.Component {
 				<Text>Classmates</Text>
 				{
 					this.state.classmates.map((l, i) => (
-					<ListItem key={i} bottomDivider>
-						<Avatar source={{uri: l.avatar_url}} />
+					<ListItem key={i} bottomDivider onPress={() => this.props.navigation.navigate('View Profile', {uid: l.uid})}>
+						<Avatar source={{uri: l.pfp}} />
 						<ListItem.Content>
-						<ListItem.Title>{l.uid}</ListItem.Title>
-						<ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle>
+						<ListItem.Title>{l.name}</ListItem.Title>
+						<ListItem.Subtitle>{l.bio}</ListItem.Subtitle>
 						</ListItem.Content>
 					</ListItem>
 					))
