@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 import firebase from 'firebase';
-import EventsBox from '../EventBox';
+import AnnouncementBox from '../AnnouncementBox';
 import {colorCode} from '../GlobalColors';
 
 
@@ -52,7 +52,7 @@ export default class AnnouncementsScreen extends React.Component {
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						events.map((block, i) => {
-							return <EventsBox background={colorCode.scheduleBlockLavender} color="white" title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} uid = {block.uid} key={i} />;
+							return <AnnouncementBox background={colorCode.scheduleBlockLavender} color="white" title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} uid = {block.uid} key={i} />;
 						})
 					}
 				</ScrollView>

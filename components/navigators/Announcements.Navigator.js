@@ -3,6 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AnnouncementsScreen from '../screens/Announcements.Screen';
 import CreateAnnouncementsScreen from '../screens/CreateAnnouncement.Screen';
 import ViewProfileScreen from '../screens/ViewProfile.Screen';
+import ViewFullAnnouncementScreen from '../screens/ViewFullAnnouncement.Screen';
+
 import {Icon} from 'react-native-elements'
 
 const Stack = createStackNavigator();
@@ -46,6 +48,19 @@ export default class AnnouncementsNavigator extends React.Component {
         />
 
     <Stack.Screen component={ViewProfileScreen} name="View Profile" 
+        options={{
+          headerStyle: {
+            backgroundColor: '#871609',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+
+        }}
+        />
+
+      <Stack.Screen component={ViewFullAnnouncementScreen} name="View Full Announcement" 
         options={{
           headerStyle: {
             backgroundColor: '#871609',
