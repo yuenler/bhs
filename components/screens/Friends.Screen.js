@@ -58,26 +58,29 @@ export default class FriendsScreen extends React.Component {
 		firebase.database().ref('Classes/' + block + '/' + teacher).on('child_added', (snapshot) => {
 			let uid = snapshot.val().uid
 			firebase.database().ref('Users/' + uid).on('value', (snapshot) =>{
+				var classmates;
 				if(this.state.classmates.length != 0){
-				this.setState({classmates: [this.state.classmates, 
+				classmates = this.state.classmates.concat(
 					{
 						uid: uid,
 						name: snapshot.val().name,
 						pfp: snapshot.val().pfp,
 						bio: snapshot.val().bio
 					}
-				]})
+				)
 			}
 			else{
-				this.setState({classmates: 
-					[{
+				classmates = this.state.classmates.concat(
+					{
 						uid: uid,
 						name: snapshot.val().name,
 						pfp: snapshot.val().pfp,
 						bio: snapshot.val().bio
-					}]
-				})
+					}
+				)
 			}
+			this.setState({classmates: classmates})
+
 			})
 			
 			

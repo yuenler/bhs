@@ -22,7 +22,7 @@ export default class AnouncementBox extends React.Component {
   }
 
   viewFullAnnouncement(){
-    this.props.navigation.navigate('View Full Announcement', {props: this.props})
+    this.props.navigation.navigate('View Full Announcement')
   }
 
   render() {

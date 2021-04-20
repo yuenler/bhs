@@ -17,14 +17,20 @@ export default class AnnouncementsScreen extends React.Component {
 
 	componentDidMount() {
 		firebase.database().ref('Announcements').on('child_added', (snapshot) => {
+		var titles = this.state.titles.concat(snapshot.val().postTitle)
+		var texts = this.state.texts.concat(snapshot.val().post)
+		var dates = this.state.dates.concat(snapshot.val().postDate)
+		var uids = this.state.uids.concat(snapshot.val().postUID)
+
 		this.setState({
-			titles: [this.state.titles, snapshot.val().postTitle],
-			texts: [this.state.texts, snapshot.val().post],
-			dates: [this.state.dates, snapshot.val().postDate],
-			uids: [this.state.uids, snapshot.val().postUID],
+			titles: titles,
+			texts: texts,
+			dates: dates,
+			uids: uids,
 		});
 		firebase.database().ref('Users/' + snapshot.val().postUID).on('value', (snapshot) => {
-			this.setState({userNames: [this.state.userNames, snapshot.val().name]})
+			userNames = this.state.userNames.concat(snapshot.val().name)
+			this.setState({userNames: userNames})
 		});
 	})	
 	}
