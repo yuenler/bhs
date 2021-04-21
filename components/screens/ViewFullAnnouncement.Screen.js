@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import {Input, Icon, ListItem, Avatar} from 'react-native-elements';
-
+import firebase from "firebase";
+import user from "../User";
 export default class ViewFullAnnouncement extends React.Component {
   
   state = {
@@ -9,35 +10,63 @@ export default class ViewFullAnnouncement extends React.Component {
     comments: [],
   }
 
+  get ref(){
+    return firebase.database().ref('Announcements/' + this.props.route.params.id  + '/comments');
+  }
+
   componentDidMount(){
     //get all previous comments
-    // const comments = []
-    // this.setState({ comments: comments})
+    this.ref.on('child_added', (snapshot) =>{
+      if (snapshot.exists()){
+        let comment = snapshot.val().comment
+        let uid = snapshot.val().uid
+        firebase.database().ref('Users/' + uid).on('value', (snapshot) =>{
+            let name = snapshot.val().name
+            let pfp = snapshot.val().pfp
+            let comments = this.state.comments.concat({
+              uid: uid,
+              comment: comment,
+              name: name,
+              pfp: pfp
+            })
+            this.state.comments = comments
+            this.forceUpdate()
+        })
+        
+      }
+    })
+
   }
 
 
   onComment(){
-    var comments = this.state.comments.concat({comment: this.state.comment})
-    this.setState({ comment: '', comments: comments})
+    this.setState({ comment: ''})
+    this.saveComment(this.state.comment)
+  }
+
+  saveComment(){
+    this.ref.push({
+      comment: this.state.comment,
+      uid: user.uid
+    })
   }
 
   render() {
-   
     return (
       <View style={styles.container}>
-                <View>
+          <ScrollView>
           {
             this.state.comments.map((l, i) => (
               <ListItem key={i} bottomDivider>
-                {/* <Avatar source={{uri: l.avatar_url}} /> */}
+                <Avatar source={{uri: l.pfp}} />
                 <ListItem.Content>
+                <ListItem.Subtitle>{l.name}</ListItem.Subtitle>
                   <ListItem.Title>{l.comment}</ListItem.Title>
-                  {/* <ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle> */}
                 </ListItem.Content>
               </ListItem>
             ))
           }
-        </View>
+        </ScrollView>
 
 
       <View style={styles.inputContainer}>
@@ -67,6 +96,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ededed',
 	},
 	inputContainer: {
+    backgroundColor: 'white',
     width: '100%',
 		position: 'absolute',
     bottom: 0, 

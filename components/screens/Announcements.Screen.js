@@ -8,6 +8,7 @@ import {colorCode} from '../GlobalColors';
 export default class AnnouncementsScreen extends React.Component {
 
 	state = {
+		announcementIDs: [],
 		titles: [],
 		texts: [],
 		dates: [],
@@ -16,20 +17,22 @@ export default class AnnouncementsScreen extends React.Component {
     };
 
 	componentDidMount() {
-		firebase.database().ref('Announcements').on('child_added', (snapshot) => {
+		firebase.database().ref('Announcements').on('child_added', (snapshot, prevChildKey) => {
+		var announcementIDs = this.state.announcementIDs.concat(prevChildKey)
 		var titles = this.state.titles.concat(snapshot.val().postTitle)
 		var texts = this.state.texts.concat(snapshot.val().post)
 		var dates = this.state.dates.concat(snapshot.val().postDate)
 		var uids = this.state.uids.concat(snapshot.val().postUID)
 
 		this.setState({
+			announcementIDs: announcementIDs, 
 			titles: titles,
 			texts: texts,
 			dates: dates,
 			uids: uids,
 		});
 		firebase.database().ref('Users/' + snapshot.val().postUID).on('value', (snapshot) => {
-			userNames = this.state.userNames.concat(snapshot.val().name)
+			var userNames = this.state.userNames.concat(snapshot.val().name)
 			this.setState({userNames: userNames})
 		});
 	})	
@@ -44,6 +47,7 @@ export default class AnnouncementsScreen extends React.Component {
 		for (i = this.state.titles.length-1; i >= 0; i--) {
 			events.push(
 				{
+				announcementID: this.state.announcementIDs[i],
 				title: this.state.titles[i],
 				text: this.state.texts[i],
 				date: this.state.dates[i],
@@ -58,7 +62,7 @@ export default class AnnouncementsScreen extends React.Component {
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						events.map((block, i) => {
-							return <AnnouncementBox background={colorCode.scheduleBlockLavender} color="white" title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} uid = {block.uid} key={i} />;
+							return <AnnouncementBox background={colorCode.scheduleBlockLavender} announcementID={block.announcementID} title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} uid = {block.uid} key={i} />;
 						})
 					}
 				</ScrollView>
