@@ -1,12 +1,20 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import {Icon} from 'react-native-elements';
+import user from './User';
+import firebase from 'firebase';
 
 export default class AnouncementBox extends React.Component {
   
   state = {
     liked: false,
   }
+
+  get ref(){
+    return firebase.database().ref('Announcements/' + this.props.announcementID  + '/likes');
+  }
+
+  
 
   viewProfile(uid){
     this.props.navigation.navigate('View Profile', {uid: uid })
@@ -15,14 +23,22 @@ export default class AnouncementBox extends React.Component {
   onLike(liked){
     if (liked){
     this.setState({liked: true})
+    this.ref.push({
+      uid: user.uid,
+    })
     }
     else{
       this.setState({liked: false})
+      alert('does not do anything to database yet')
     }
   }
 
   viewFullAnnouncement(){
     this.props.navigation.navigate('View Full Announcement', {id: this.props.announcementID})
+  }
+
+  deletePost(){
+    alert('not implemented yet :((')
   }
 
   render() {
@@ -31,9 +47,17 @@ export default class AnouncementBox extends React.Component {
       <View
         style={styled.block}>
 
-        <View style={{flex:1}}>
-        <Text style={styled.date}>{this.props.date}</Text>
-        <Text style={styled.name} onPress={() => this.viewProfile(this.props.uid)}>{this.props.userName}</Text>
+        <View style={{flex:1, flexDirection: 'row',}}>
+          <View style={{flex:1}}>
+          <Text style={styled.date}>{this.props.date}</Text>
+          <Text style={styled.name} onPress={() => this.viewProfile(this.props.uid)}>{this.props.userName}</Text>
+          </View>
+          {this.props.isOwnPost?
+          <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <Icon name='trash' type='evilicon' color='#943623' onPress={() => this.deletePost()}/>
+          </View>
+          : null 
+          }
         </View>
 
         <View style={{flex:1}}>

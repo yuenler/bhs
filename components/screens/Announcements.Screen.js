@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, View} fro
 import firebase from 'firebase';
 import AnnouncementBox from '../AnnouncementBox';
 import {colorCode} from '../GlobalColors';
-
+import user from '../User'
 
 export default class AnnouncementsScreen extends React.Component {
 
@@ -13,23 +13,25 @@ export default class AnnouncementsScreen extends React.Component {
 		texts: [],
 		dates: [],
 		uids: [],
+		isOwnPosts: [],
 		userNames: []
     };
 
 	componentDidMount() {
-		firebase.database().ref('Announcements').on('child_added', (snapshot, prevChildKey) => {
-		var announcementIDs = this.state.announcementIDs.concat(prevChildKey)
+		firebase.database().ref('Announcements').on('child_added', (snapshot) => {
+		var announcementIDs = this.state.announcementIDs.concat(snapshot.key)
 		var titles = this.state.titles.concat(snapshot.val().postTitle)
 		var texts = this.state.texts.concat(snapshot.val().post)
 		var dates = this.state.dates.concat(snapshot.val().postDate)
 		var uids = this.state.uids.concat(snapshot.val().postUID)
-
+		var isOwnPosts = this.state.isOwnPosts.concat(user.uid === snapshot.val().postUID)
 		this.setState({
 			announcementIDs: announcementIDs, 
 			titles: titles,
 			texts: texts,
 			dates: dates,
 			uids: uids,
+			isOwnPosts: isOwnPosts,
 		});
 		firebase.database().ref('Users/' + snapshot.val().postUID).on('value', (snapshot) => {
 			var userNames = this.state.userNames.concat(snapshot.val().name)
@@ -52,7 +54,8 @@ export default class AnnouncementsScreen extends React.Component {
 				text: this.state.texts[i],
 				date: this.state.dates[i],
 				userName: this.state.userNames[i],
-				uid: this.state.uids[i]
+				uid: this.state.uids[i],
+				isOwnPost: this.state.isOwnPosts[i],
 				}
 			)
 		}
@@ -62,7 +65,7 @@ export default class AnnouncementsScreen extends React.Component {
 				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
 					{
 						events.map((block, i) => {
-							return <AnnouncementBox background={colorCode.scheduleBlockLavender} announcementID={block.announcementID} title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} uid = {block.uid} key={i} />;
+							return <AnnouncementBox background={colorCode.scheduleBlockLavender} announcementID={block.announcementID} title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} uid = {block.uid} isOwnPost={block.isOwnPost} key={i} />;
 						})
 					}
 				</ScrollView>

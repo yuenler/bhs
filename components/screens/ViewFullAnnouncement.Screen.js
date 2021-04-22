@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import {Input, Icon, ListItem, Avatar} from 'react-native-elements';
 import firebase from "firebase";
 import user from "../User";
+import formatTime from "../../FormatTime";
+
 export default class ViewFullAnnouncement extends React.Component {
   
   state = {
@@ -20,6 +22,7 @@ export default class ViewFullAnnouncement extends React.Component {
       if (snapshot.exists()){
         let comment = snapshot.val().comment
         let uid = snapshot.val().uid
+        let date = snapshot.val().date
         firebase.database().ref('Users/' + uid).on('value', (snapshot) =>{
             let name = snapshot.val().name
             let pfp = snapshot.val().pfp
@@ -27,7 +30,8 @@ export default class ViewFullAnnouncement extends React.Component {
               uid: uid,
               comment: comment,
               name: name,
-              pfp: pfp
+              pfp: pfp,
+              date: date
             })
             this.state.comments = comments
             this.forceUpdate()
@@ -44,23 +48,28 @@ export default class ViewFullAnnouncement extends React.Component {
     this.saveComment(this.state.comment)
   }
 
-  saveComment(){
+  saveComment(comment){
+    let today = formatTime()
     this.ref.push({
-      comment: this.state.comment,
+      comment: comment,
+      date: today,
       uid: user.uid
     })
   }
 
   render() {
+    // We reverse the list so that recent comments are at the top instead of the bottom
+    let commentsReversed = this.state.comments.map((x) => x).reverse()
+
     return (
       <View style={styles.container}>
           <ScrollView>
           {
-            this.state.comments.map((l, i) => (
+            commentsReversed.map((l, i) => (
               <ListItem key={i} bottomDivider>
                 <Avatar source={{uri: l.pfp}} />
                 <ListItem.Content>
-                <ListItem.Subtitle>{l.name}</ListItem.Subtitle>
+                <ListItem.Subtitle>{l.name + " " + l.date}</ListItem.Subtitle>
                   <ListItem.Title>{l.comment}</ListItem.Title>
                 </ListItem.Content>
               </ListItem>
