@@ -302,4 +302,4 @@ const styles = StyleSheet.create({
     
 });
 
-export default style.js;
+export default styles.js;
