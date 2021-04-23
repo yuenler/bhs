@@ -1,13 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View, Alert } from "react-native";
-import {Icon} from 'react-native-elements';
+import { StyleSheet, Text, View, Alert, TouchableWithoutFeedback } from "react-native";
+import {Icon, Avatar} from 'react-native-elements';
 import user from './User';
 import firebase from 'firebase';
+
+let lastPress = 0;
 
 export default class AnouncementBox extends React.Component {
   
   state = {
     liked: false,
+    likes: [],
+    ownLikeID: null,
   }
 
   get announcementRef(){
@@ -18,7 +22,27 @@ export default class AnouncementBox extends React.Component {
     return firebase.database().ref('Announcements/' + this.props.announcementID  + '/likes');
   }
 
-  
+  componentDidMount(){
+    this.likesRef.on('child_added', (snapshot) => {
+      if (snapshot.val().uid === user.uid){
+        this.state.ownLikeID = snapshot.key
+      }
+      this.state.likes = this.state.likes.concat(snapshot.val().uid)
+
+    })
+  }
+
+  onPostViewPress(){
+    const DOUBLE_PRESS_DELAY = 400;
+    let time = new Date().getTime();
+    if (time - lastPress < DOUBLE_PRESS_DELAY ){
+      this.onLike(true);
+      lastPress = 0;
+    }
+    else{
+    lastPress = time;
+    }
+  }
 
   
 
@@ -35,12 +59,14 @@ export default class AnouncementBox extends React.Component {
     }
     else{
       this.setState({liked: false})
-      alert('does not do anything to database yet')
+      this.likesRef.set({
+        ownLikeID: null,
+      })
     }
   }
 
   viewFullAnnouncement(){
-    this.props.navigation.navigate('View Full Announcement', {id: this.props.announcementID})
+    this.props.navigation.navigate('View Full Announcement', {id: this.props.announcementID, title: this.props.title, text: this.props.text})
   }
 
   deletePostWarning(){
@@ -63,16 +89,20 @@ export default class AnouncementBox extends React.Component {
   render() {
     const styled = styles(this.props.color, this.props.background, this.props.height);
     return (
+      <TouchableWithoutFeedback onPress={() => this.onPostViewPress()}>
       <View
         style={styled.block}>
 
-        <View style={{flex:1, flexDirection: 'row',}}>
+        <View style={{flex:2, flexDirection: 'row',}}>
           <View style={{flex:1}}>
+            <Avatar rounded source={{uri: this.props.pfp}} />
+          </View>
+          <View style={{flex:3}}>
           <Text style={styled.date}>{this.props.date}</Text>
           <Text style={styled.name} onPress={() => this.viewProfile(this.props.uid)}>{this.props.userName}</Text>
           </View>
           {this.props.isOwnPost?
-          <View style={{flex: 1, alignItems: 'flex-end'}}>
+          <View style={{flex: 3, alignItems: 'flex-end'}}>
             <Icon name='trash' type='evilicon' color='#943623' onPress={() => this.deletePostWarning()}/>
           </View>
           : null 
@@ -87,17 +117,27 @@ export default class AnouncementBox extends React.Component {
         <Text style={styled.text}>{this.props.text}</Text>
         </View>
 
-        <View style={{flex: 1, flexDirection: 'row'}}>
         <View style={{flex:1}}>
-        {this.state.liked? 
-        <Icon name = 'heart' type='ant-design' color='#d4203e' onPress={() => this.onLike(false)}/>: 
-        <Icon name = 'hearto' type='ant-design' onPress={() => this.onLike(true)}/>}
+        <Text style={styled.text} onPress={() => this.viewFullAnnouncement()}>Read More</Text>
+        </View>
+
+        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{flex:1, flexDirection: 'row'}}>
+          <View>
+          {this.state.liked? 
+          <Icon name = 'heart' type='ant-design' color='#d4203e' onPress={() => this.onLike(false)}/>: 
+          <Icon name = 'hearto' type='ant-design' onPress={() => this.onLike(true)}/>}
+          </View>
+          <View>
+          <Text>{this.state.likes.length}</Text>
+          </View>
         </View>
         <View style={{flex:1}}>
         <Icon name = 'comment' onPress={() => this.viewFullAnnouncement()}/>
         </View>
         </View>
       </View>
+      </TouchableWithoutFeedback>
       
     )
   }

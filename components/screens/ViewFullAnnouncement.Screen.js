@@ -64,6 +64,7 @@ export default class ViewFullAnnouncement extends React.Component {
     return (
       <View style={styles.container}>
           <ScrollView>
+          <Text>{this.props.route.params.text}</Text>
           {
             commentsReversed.map((l, i) => (
               <ListItem key={i} bottomDivider>
