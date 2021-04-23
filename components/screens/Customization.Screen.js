@@ -123,33 +123,56 @@ export default class CustomizationScreen extends React.Component {
 }
 
 	saveClass(block, teacher, className) {
+		let someError = false;
 		firebase
 		  .database()
 		  .ref('Users/' + user.uid + '/teacher')
 		  .update({
 			[block]: teacher,
-		  });
+		  }, (error) => {
+			if (error) {
+				someError = true
+			}
+		  } 
+		  );
 
 		  firebase
 		  .database()
 		  .ref('Users/' + user.uid + '/className')
 		  .update({
 			[block]: className,
-		  });
-
-		  Alert.alert(
-			"The following class has successfully been saved!",
-			block + " Block: " + className + " - " + teacher
-			
+		  },
+		  (error) => {
+			if (error) {
+				someError = true
+			}
+		  } 
 		  );
 		  
-
 		  firebase
 		  .database()
 		  .ref('Classes/' + block + '/' + teacher)
 		  .push({
 			uid: user.uid,
-		  });
+		  },
+		  (error) => {
+			if (error) {
+				someError = true
+			}
+			if (someError) {
+				Alert.alert("Error saving changes. Please try again.")
+			}
+			else{
+				Alert.alert(
+					"The following class has successfully been saved!",
+					block + " Block: " + className + " - " + teacher
+					
+				  );
+			}
+		  } 
+		  );
+
+		  
 		  
 		  this.state.teacher[block] = teacher
 		  this.state.className[block] = className
@@ -168,12 +191,19 @@ export default class CustomizationScreen extends React.Component {
 			activities: this.state.activities,
 			phoneNumber: this.state.phoneNumber,
 			pfp: this.state.pfp,
+		  },
+		  (error) => {
+			if (error) {
+				Alert.alert(
+					"Error saving changes. Please try again."
+				  );
+			} else {
+				Alert.alert(
+					"Your profile has successfully been saved."
+				  );
+			}
 		  });
 
-
-		  Alert.alert(
-			  "Your profile has successfully been saved."
-			);
 		this.props.navigation.navigate('Profile')
 	  }
 	
