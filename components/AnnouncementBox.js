@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import {Icon} from 'react-native-elements';
 import user from './User';
 import firebase from 'firebase';
@@ -10,9 +10,15 @@ export default class AnouncementBox extends React.Component {
     liked: false,
   }
 
-  get ref(){
+  get announcementRef(){
+    return firebase.database().ref('Announcements/' + this.props.announcementID);
+  }
+
+  get likesRef(){
     return firebase.database().ref('Announcements/' + this.props.announcementID  + '/likes');
   }
+
+  
 
   
 
@@ -23,7 +29,7 @@ export default class AnouncementBox extends React.Component {
   onLike(liked){
     if (liked){
     this.setState({liked: true})
-    this.ref.push({
+    this.likesRef.push({
       uid: user.uid,
     })
     }
@@ -37,8 +43,21 @@ export default class AnouncementBox extends React.Component {
     this.props.navigation.navigate('View Full Announcement', {id: this.props.announcementID})
   }
 
-  deletePost(){
-    alert('not implemented yet :((')
+  deletePostWarning(){
+    Alert.alert("Are you sure?", 
+    "Your post will be permanently deleted if you press continue.",
+    [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      { text: "Yes", onPress: () => this.deletePost() }
+    ]
+    )
+  }
+
+  deletePost() {
+    this.announcementRef.remove();
   }
 
   render() {
@@ -54,7 +73,7 @@ export default class AnouncementBox extends React.Component {
           </View>
           {this.props.isOwnPost?
           <View style={{flex: 1, alignItems: 'flex-end'}}>
-            <Icon name='trash' type='evilicon' color='#943623' onPress={() => this.deletePost()}/>
+            <Icon name='trash' type='evilicon' color='#943623' onPress={() => this.deletePostWarning()}/>
           </View>
           : null 
           }
