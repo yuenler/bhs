@@ -8,6 +8,7 @@ import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
 import user from "../User";
 import {globalStyles} from '../GlobalStyles';
+import { Button } from 'react-native-elements';
 
 
 const styles = StyleSheet.create({
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: 'Red Hat Display',
     textAlign: 'center',
-    color: '#fff',
+    color: '#000000',
   },
   titleContainer: {
     marginHorizontal: 10,
@@ -56,15 +57,24 @@ const styles = StyleSheet.create({
   imageContainer: {
     margin: 0,
   },
-  warning:{
-    color: "#FFF",
-    fontFamily: 'Red Hat Display',
-  }
 })
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  state = {
+    loading: false,
+  }
+
+  onCreateAccount(){
+    this.props.navigation.navigate('Setup')
+  }
+
+  onSignIn(){
+    this.setState({loading: true});
+    this.signIn();
   }
 
   async signIn() {
@@ -77,6 +87,7 @@ export default class LoginScreen extends React.Component {
         iosStandaloneAppClientId: ApiKeys.GoogleConfig.iosStandaloneAppClientId,
         scopes: ["profile", "email"]
       });
+      this.setState({loading: false})
 
       if (result.type === "success") {
         const { idToken, accessToken } = result;
@@ -141,29 +152,31 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
         <View style={globalStyles.container}>
-
-          <View style={styles.imageContainer}>
-          <Image
-              style={styles.bhsLogo}
-              source={require('../../assets/bhs.png')}
-            />
-          </View>
-
           <View style={styles.titleContainer}>
-          <Text style={styles.title}>WELCOME TO THE OFFICIAL BROOKLINE HIGH SCHOOL APP</Text>        
+          <Text style={styles.title}>WELCOME TO THE SCHOOL APP WITH NO NAME YET</Text>        
           </View>
 
-          <Text style={styles.warning}>You must sign in with your school email address.</Text>
+          <View style={{flex: 1}}>
+          <Button 
+          onPress={() => this.onCreateAccount()}
+          loading = {this.state.createAccountLoading}
+          title="Create account"
+          />
+          </View>
 
-          <TouchableOpacity  onPress={() => this.signIn()} style = {styles.button}>
-              <Image
-              style={styles.tinyLogo}
-              source={require('../../assets/google.jpg')}
+          <View style={{flex: 1}}>
+          <Button
+           onPress={() => this.onSignIn()} style = {styles.button}
+            loading = {this.state.loading}
+            icon={  <Image
+            style={styles.tinyLogo}
+            source={require('../../assets/google.jpg')}
+            /> 
+            }
+            title = {<Text style = {styles.buttonText}>Sign in with Google</Text>}
             />
-
-            <Text style = {styles.buttonText}>Sign in with Google</Text>
-            </TouchableOpacity>
-                  
+          </View>
+              
         </View>
     );
   }

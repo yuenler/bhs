@@ -3,7 +3,7 @@ import { StyleSheet, View, Platform, StatusBar, Alert } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import ApiKeys from './ApiKeys';
 import * as firebase from 'firebase';
-import NotLoggedInScreen from './components/screens/NotLoggedIn.Screen';
+import NotLoggedInNavigator from './components/navigators/NotLoggedIn.Navigator';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './components/navigators/App.Navigator';
 import * as Font from 'expo-font';
@@ -96,7 +96,7 @@ export default class App extends React.Component {
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-            {(this.state.isAuthenticated) ? <AppNavigator /> : <NotLoggedInScreen />}
+            {(this.state.isAuthenticated) ? <AppNavigator /> : <NotLoggedInNavigator/>}
           </View>
         </NavigationContainer>
       );
