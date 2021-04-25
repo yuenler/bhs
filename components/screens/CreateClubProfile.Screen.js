@@ -8,6 +8,8 @@ import user from "../User";
 import * as ImagePicker from 'expo-image-picker';
 import {Image, Input} from 'react-native-elements';
 import { MaterialIcons} from '@expo/vector-icons';
+import {globalStyles} from '../GlobalStyles';
+
 
 export default class CreateClubProfileScreen extends React.Component {
     state = {
@@ -98,7 +100,7 @@ export default class CreateClubProfileScreen extends React.Component {
 
 	
 		return (
-			<ScrollView style={styles.container}>
+			<ScrollView style={globalStyles.container}>
 				
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
 				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp} />}

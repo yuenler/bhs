@@ -5,6 +5,7 @@ import user from '../User';
 import firebase from 'firebase';
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import { Icon, ListItem, Avatar } from 'react-native-elements';
+import {globalStyles} from '../GlobalStyles'
 
 
 export default class FriendsScreen extends React.Component {
@@ -204,10 +205,10 @@ export default class FriendsScreen extends React.Component {
 		var list = []		
 		return (
 			
-			<View style={styles.container}>
+			<View style={globalStyles.container}>
 				<Icon name="search" onPress={() => this.props.navigation.navigate('Search')}/>
 				<Text>Make new friends</Text>
-				<View style={{flex: 1}}>
+				<View style={{flex: 1, width: '100%',}}>
 				<Text>Classmates</Text>
 				{
 					this.state.classmates.map((l, i) => (

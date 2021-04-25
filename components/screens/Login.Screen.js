@@ -7,6 +7,7 @@ import {Ionicons} from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
 import user from "../User";
+import {globalStyles} from '../GlobalStyles';
 
 
 const styles = StyleSheet.create({
@@ -139,7 +140,7 @@ export default class LoginScreen extends React.Component {
 
   render() {
     return (
-        <View style={styles.container}>
+        <View style={globalStyles.container}>
 
           <View style={styles.imageContainer}>
           <Image

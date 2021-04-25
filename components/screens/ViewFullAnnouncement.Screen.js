@@ -4,6 +4,7 @@ import {Input, Icon, ListItem, Avatar} from 'react-native-elements';
 import firebase from "firebase";
 import user from "../User";
 import formatTime from "../../FormatTime";
+import {globalStyles} from '../GlobalStyles';
 
 export default class ViewFullAnnouncement extends React.Component {
   

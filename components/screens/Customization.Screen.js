@@ -8,6 +8,7 @@ import user from "../User";
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons} from '@expo/vector-icons';
 import {Image, Input, Header, Icon} from 'react-native-elements';
+import {globalStyles} from '../GlobalStyles';
 
 
 export default class CustomizationScreen extends React.Component {
@@ -250,7 +251,7 @@ export default class CustomizationScreen extends React.Component {
 		}
 
 		return (
-			<ScrollView style={styles.container}>
+			<ScrollView style={globalStyles.container}>
 
 				<Header
 					leftComponent={<Icon name="x" type="feather" color="#fff" onPress={() => this.props.navigation.navigate('Profile')}/>}

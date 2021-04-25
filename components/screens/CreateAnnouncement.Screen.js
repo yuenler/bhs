@@ -4,6 +4,7 @@ import user from "../User";
 import { Button, SafeAreaView, StyleSheet, Modal, View, TextInput, Dimensions, TouchableOpcaity, Text, Alert} from "react-native"; 
 import { TouchableOpacity } from "react-native-gesture-handler";
 import formatTime from '../../FormatTime'
+import {globalStyles} from '../GlobalStyles';
 
 export default class CreateAnnouncementsScreen extends React.Component {
 	storeText(title, text) {
@@ -33,7 +34,8 @@ export default class CreateAnnouncementsScreen extends React.Component {
 
 	render() {
 	return ( 
-		<SafeAreaView style={styles.container}> 
+		<SafeAreaView style={globalStyles.container}> 
+			<View style={{alignItems: 'center'}}>
 				<TextInput placeholder="Announcement title (25 char limit)"
 						style={styles.textInput} 
 						onChangeText={title => this.setState({ title })}
@@ -65,6 +67,7 @@ export default class CreateAnnouncementsScreen extends React.Component {
 				}}>
 					<Text style={styles.buttonText}>Post</Text>
 			</TouchableOpacity>
+			</View>
 		</SafeAreaView> 
 	); 
 } 

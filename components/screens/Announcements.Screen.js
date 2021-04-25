@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 import firebase from 'firebase';
 import AnnouncementBox from '../AnnouncementBox';
-import {colorCode} from '../GlobalColors';
+import {globalStyles} from '../GlobalStyles';
 import user from '../User'
 
 export default class AnnouncementsScreen extends React.Component {
@@ -57,11 +57,11 @@ export default class AnnouncementsScreen extends React.Component {
 		}
 
 		return (
-			<SafeAreaView style={styles.container}>
-				<ScrollView style={styles.view} ref={ref => this.scrollRef = ref}>
+			<SafeAreaView style={globalStyles.container}>
+				<ScrollView>
 					{
 						posts.map((block, i) => {
-							return <AnnouncementBox background={colorCode.scheduleBlockLavender} announcementID={block.announcementID} title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} pfp = {block.pfp} uid = {block.uid} isOwnPost={block.isOwnPost} key={i} />;
+							return <AnnouncementBox announcementID={block.announcementID} title={block.title} text={block.text} date={block.date} navigation = {this.props.navigation} userName = {block.userName} pfp = {block.pfp} uid = {block.uid} isOwnPost={block.isOwnPost} key={i} />;
 						})
 					}
 				</ScrollView>
@@ -71,12 +71,4 @@ export default class AnnouncementsScreen extends React.Component {
 
 
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: colorCode.backgroundWhite,
-		justifyContent: 'center',
-	},
-});
 

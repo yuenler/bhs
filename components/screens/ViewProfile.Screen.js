@@ -2,6 +2,7 @@ import React, { useReducer, useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Alert, Linking, Image, Button, TouchableOpacity } from 'react-native';
 import user from "../User";
 import firebase from 'firebase';
+import {globalStyles} from '../GlobalStyles';
 
 
 export default class ViewProfileScreen extends React.Component {

@@ -8,6 +8,7 @@ import user from "../User";
 import * as ImagePicker from 'expo-image-picker';
 import {Image, Input} from 'react-native-elements';
 import { MaterialIcons} from '@expo/vector-icons';
+import {globalStyles} from '../GlobalStyles';
 
 export default class SettingsScreen extends React.Component {
 

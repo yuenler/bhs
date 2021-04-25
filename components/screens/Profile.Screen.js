@@ -4,6 +4,7 @@ import user from "../User";
 import {colorCode} from '../GlobalColors';
 import firebase from 'firebase';
 import {BottomSheet, ListItem, Avatar, Image, Header, Icon} from 'react-native-elements'
+import {globalStyles} from '../GlobalStyles';
 
 export default class ProfileScreen extends React.Component {
 
@@ -193,7 +194,7 @@ export default class ProfileScreen extends React.Component {
 		}
 
 		return (
-			<View style={styles.container}>
+			<View style={globalStyles.container}>
 				<Header
 				leftComponent={<Text style={styles.headerText} onPress={() => this.setState({isVisible: true})}>{this.state.name + " ▼"}</Text>}
 				rightComponent={<Icon name="settings" color="#fff" onPress={() => this.props.navigation.navigate('Settings')}/>}

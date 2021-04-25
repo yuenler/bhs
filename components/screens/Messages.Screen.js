@@ -5,6 +5,7 @@ import user from '../User'
 import firebase from 'firebase';
 import {Header} from 'react-native-elements'
 import {Ionicons} from '@expo/vector-icons';
+import {globalStyles} from '../GlobalStyles';
 
 
 

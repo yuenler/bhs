@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons} from '@expo/vector-icons';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import {SearchBar, Header, Icon, ListItem, Avatar} from 'react-native-elements';
+import {globalStyles} from '../GlobalStyles';
 
 
 export default class SearchScreen extends React.Component {
@@ -94,7 +95,7 @@ export default class SearchScreen extends React.Component {
      
   
       return (
-      <View style={{flex: 1}}>
+      <View style={globalStyles.container}>
         <Header
         leftComponent = {<Icon name= "arrow-left" type="font-awesome-5" onPress={() => this.props.navigation.navigate('Friends')}/>}
         rightComponent = {<SearchBar

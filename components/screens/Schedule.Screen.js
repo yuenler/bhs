@@ -5,7 +5,7 @@ import Block from '../schedule/Block';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from 'firebase';
 import user from '../User'
-import {colorCode} from '../GlobalColors';
+import {globalStyles} from '../GlobalStyles';
 import {schedule} from '../schedule/Schedule';
 
 
@@ -193,8 +193,8 @@ export default class ScheduleScreen extends React.Component {
 			
 		return (
 			
-			<View style={{backgroundColor: colorCode.backgroundWhite, flexDirection: 'column', flex: 1}}>
-				<View style={{  flex: 1, backgroundColor: '#FFFFFF', borderRadius: 10, marginHorizontal: 30, marginVertical: 10}}>
+			<View style={globalStyles.container}>
+				<View style={{ alignSelf: 'center', width: '50%', flex: 1, backgroundColor: '#FFFFFF', borderRadius: 10, marginHorizontal: 30, marginVertical: 10}}>
 				<RNPickerSelect
 				placeholder={{}}
 				style={ {inputAndroid: {color: 'black'}, inputIOSContainer: {margin: 10} }}
@@ -205,26 +205,24 @@ export default class ScheduleScreen extends React.Component {
 				</View>
 
 				<View
-				// ref={ref => {
-				// 	this.scrollRef = ref;
-				//   }}
 				  style={{
 					  flex: 10,
-					flexDirection: 'column',}}
+					flexDirection: 'column',
+					}}
 				  >
 				
 					{
 						scheduleForToday.map((block, i) => {
 							return (
 							<View style={{flex:1}} key={i}>
-								<Block title={block.title} name={this.state.className[block.title]} color={colorCode.textGray} starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  isCurrentBlock = {currentBlock == block.title} teacher={this.state.teacher[block.title]} navigation={this.props.navigation} />
+								<Block title={block.title} name={this.state.className[block.title]}  starts={block.starts} ends={block.ends} startNum={block.numbers.start} endNum={block.numbers.end}  isCurrentBlock = {currentBlock == block.title} teacher={this.state.teacher[block.title]} navigation={this.props.navigation} />
 							</View>
 							);
 						})
 					}
 
 					{this.state.endOfSchool != ""? 
-							<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, color: colorCode.textGray}}>{this.state.endOfSchool}</Text>
+							<Text style={{fontFamily: 'Red Hat Display', margin: 20, textAlign: 'center', fontSize: 30, }}>{this.state.endOfSchool}</Text>
 						: null }
 					
 					
@@ -244,12 +242,5 @@ export default class ScheduleScreen extends React.Component {
 	
 	
 }
-
-const styles = StyleSheet.create({
-	view: {
-		paddingTop: 4.5,
-	}
-})
-
 
 

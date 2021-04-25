@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, Alert, Linking, Button, TouchableOpacity } from
 import {Image} from 'react-native-elements';
 import user from "../User";
 import firebase from 'firebase';
+import {globalStyles} from '../GlobalStyles';
+
 
 
 export default class ClubProfileScreen extends React.Component {
@@ -49,7 +51,7 @@ export default class ClubProfileScreen extends React.Component {
 		// }, []);
 
 		return (
-			<View style={styles.container}>
+			<View style={globalStyles.container}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				{this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
 				<Text style={styles.displayName}>{this.state.name}</Text>
