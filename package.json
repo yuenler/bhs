@@ -44,7 +44,8 @@
     "react-native-tab-view": "^3.0.1",
     "react-native-text-detector": "0.0.6",
     "react-native-web": "~0.13.12",
-    "react-navigation-stack": "^2.10.1"
+    "react-navigation-stack": "^2.10.1",
+    "expo-location": "~10.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
