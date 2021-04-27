@@ -4,6 +4,8 @@ import {globalStyles} from '../GlobalStyles';
 import {Input} from 'react-native-elements'
 import * as Location from 'expo-location';
 import firebase from 'firebase';
+import * as Permissions from "expo-permissions";
+
 
 export default class SetupScreen extends React.Component {
 
@@ -15,7 +17,7 @@ export default class SetupScreen extends React.Component {
     }
 
     get schoolRef(){
-      return firebase.database().ref('publicSchools')
+      return firebase.database().ref('publicSchools/')
     }
 
     onStudent(){
@@ -47,6 +49,7 @@ export default class SetupScreen extends React.Component {
 
     onGPS(){
       this.setState({question: 5})
+      this.getLocation()
     }
 
     onAddress(){
@@ -54,31 +57,30 @@ export default class SetupScreen extends React.Component {
     }
 
     getLocation = async() => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
+            let { status } = await Permissions.askAsync(Permissions.LOCATION);
             if (status !== 'granted') {
               Alert.alert('Permission to access location was denied');
               return;
             }
       
             let location = await Location.getCurrentPositionAsync({});
-            this.getNearbySchools(location.latitude, location.longitude);
+            this.getNearbySchools(location.coords.latitude, location.coords.longitude);
       }
 
     getNearbySchools(latitude, longitude) {
-      this.ref.on('child_added', (snapshot) => {
+      this.schoolRef.on('child_added', (snapshot) => {
         // use distance formula to calculate distance
         let latitudeDifference = latitude - snapshot.val().latitude
         let longitudeDifference = longitude - snapshot.val().longitude
 
-        let latitudeDifferenceKM = latitudeDifference/110.574
-        let longitudeDifferenceKM = Math.acos(longitudeDifference/111.320)
+        let latitudeDifferenceKM = 110.574 * latitudeDifference
+        let longitudeDifferenceKM = 111.320 * Math.cos(latitudeDifferenceKM) * longitudeDifference
 
         let distance = Math.sqrt(latitudeDifferenceKM **2 + longitudeDifferenceKM**2)
-
         // We define a nearby school as being within a 5 kilometer distance
-        if (distance < 5){
+        if (distance < 3){
           let nearbySchool = snapshot.val()
-          nearbySchool[distance] = distance
+          nearbySchool.distance = distance
           this.state.nearbySchools = this.state.nearbySchools.concat(nearbySchool)
           this.forceUpdate()
         }
@@ -88,6 +90,10 @@ export default class SetupScreen extends React.Component {
       
 
 	  render() {
+
+    var sortedNearbySchools = this.state.nearbySchools.sort(function(a, b) {
+      return a.distance - b.distance;
+    })    
 	
 		return (
       <View style={globalStyles.centeredContainer}>
@@ -183,6 +189,19 @@ export default class SetupScreen extends React.Component {
           </View>
           : null
         }
+
+        {this.state.question==5?
+        <View style={{flex: 1}}>
+          {
+                sortedNearbySchools.map((l, i) => (
+            <View key={i}>
+            <Text>{l.name}</Text>
+            </View>
+          ))
+          }
+        </View>
+        : null
+      }
 
         {this.state.question==6?
           <View>
