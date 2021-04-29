@@ -241,7 +241,7 @@ export default class FriendsScreen extends React.Component {
 
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TouchableOpacity style = {styles.button} onPress={this.onPress}>
-					<Text style = {styles.buttonText}>{this.state.button}</Text>
+					<Text style = {globalStyles.buttonText2}>{this.state.button}</Text>
 				</TouchableOpacity>
 				</View>
 
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
 		padding: 20,
 		borderRadius: 10,
 	},
-	buttonText: {
+	/*buttonText: {
 		fontSize: 20,
 		color: '#fff',
 		fontFamily: 'Red Hat Display'
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ededed',
 		// alignItems: 'center',
 		// justifyContent: 'center',
-	},
+	},*/
 	contactContainer: {
 		flexDirection: 'row',
 		flex: 1,
