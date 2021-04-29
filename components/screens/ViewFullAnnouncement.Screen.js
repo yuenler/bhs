@@ -63,7 +63,7 @@ export default class ViewFullAnnouncement extends React.Component {
     let commentsReversed = this.state.comments.map((x) => x).reverse()
 
     return (
-      <View style={styles.container}>
+      <View style={globalStyles.container2}>
           <ScrollView>
           <Text>{this.props.route.params.text}</Text>
           {
@@ -101,11 +101,11 @@ export default class ViewFullAnnouncement extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	container: {
+	/*container: {
 		flex: 1,
 		flexDirection: 'column',
 		backgroundColor: '#ededed',
-	},
+	},*/
 	inputContainer: {
     backgroundColor: 'white',
     width: '100%',
