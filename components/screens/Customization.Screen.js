@@ -259,9 +259,9 @@ export default class CustomizationScreen extends React.Component {
 				/>
 				
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
-				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp} />}
-				<View style={styles.editContainer}>
-				<MaterialIcons.Button borderRadius={100} style={styles.edit} name="edit" onPress={() => this.pickImage()} />
+				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={globalStyles.pfp} />}
+				<View style={globalStyles.editContainer}>
+				<MaterialIcons.Button borderRadius={100} style={globalStyles.edit} name="edit" onPress={() => this.pickImage()} />
 				</View>
 				</View>
 
@@ -338,17 +338,17 @@ export default class CustomizationScreen extends React.Component {
 						<View style={{flexDirection: 'row'}}>
 					<View style={{flex: 3}}>
 					<TextInput placeholder="Class Name"
-							style={styles.textInput} 
+							style={globalStyles.textInput} 
 							onChangeText={classNameDisplay => this.setState({ classNameDisplay })}
 							value={this.state.classNameDisplay} /> 
 					</View>
 
 
 					<View style={{flex: 1}}>
-					<TouchableOpacity style = {styles.button} onPress = {() => {
+					<TouchableOpacity style = {globalStyles.button} onPress = {() => {
 						this.saveClass(this.state.block, this.state.teacherDisplay, this.state.classNameDisplay)
 					}}>
-						<Text style={styles.buttonText}>Record Class</Text>
+						<Text style={globalStyles.buttonText}>Record Class</Text>
 					</TouchableOpacity>
 					</View>
 					</View>
@@ -361,16 +361,16 @@ export default class CustomizationScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	button: {
+	/*button: {
 		backgroundColor: '#871609',
 		padding: 10,
 		borderRadius: 10,
-	},
+	},*/
 	venmo: {
 		width: 180,
 		height: 60
 	},
-	buttonText: {
+	/*buttonText: {
 		fontSize: 15,
 		color: '#fff',
 		textAlign: 'center',
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
 	}, 
 	pfp:{
 		width: 150,
-    	height: 150,
+    		height: 150,
 		borderRadius: 100
 	},
 	editContainer:{
@@ -411,5 +411,5 @@ const styles = StyleSheet.create({
 	scheduleSection:{
 		margin: 100,
 		backgroundColor: 'white',
-	}
+	}*/
 });
