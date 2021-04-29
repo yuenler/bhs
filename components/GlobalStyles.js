@@ -54,7 +54,7 @@ const globalStyles = StyleSheet.create({
 	},
 	pfp:{
 		width: 150,
-    	height: 150,
+    		height: 150,
 		borderRadius: 100
 	},
 	scheduleSection:{
