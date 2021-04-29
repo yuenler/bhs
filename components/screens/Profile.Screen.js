@@ -201,14 +201,14 @@ export default class ProfileScreen extends React.Component {
 				/>
 
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp}/>}
+				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={globalStyles.pfp}/>}
 				<Text style={styles.displayName}>{this.state.name}</Text>
 
 				</View>
 
 				<View>
 					<TouchableOpacity style={styles.editProfileButton} onPress={() => this.props.navigation.navigate('Customize')}>
-						<Text style={styles.buttonText}>Edit Profile</Text>
+						<Text style={globalStyles.buttonText}>Edit Profile</Text>
 					</TouchableOpacity>
 				</View>
 				
@@ -254,22 +254,22 @@ const styles = StyleSheet.create({
 	scheduleText: {
 		color: 'black'
 	},
-	pfp:{
+	/*pfp:{
 		width: 150,
     	height: 150,
 		borderRadius: 100
-	},
+	},*/
 	editProfileButton: {
 		backgroundColor: colorCode.buttonPurple,
 		padding: 10,
 		borderRadius: 10,
 	},
-	buttonText: {
+	/*buttonText: {
 		fontSize: 15,
 		color: '#fff',
 		textAlign: 'center',
 		fontFamily: 'Red Hat Display'
-	},
+	},*/
 	headerText: {
 		color: '#fff',
 		fontWeight: 'bold',
