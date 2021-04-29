@@ -62,7 +62,7 @@ export default class ViewClassmatesScreen extends React.Component {
 		}
 		
 		return (
-			<View style={styles.container}>
+			<View style={globalStyles.container3}>
 				{
 					people.map((person, i) => {
 						return 	<Text style={styles.printedNames} key={i}>{person.name}</Text>
@@ -76,12 +76,12 @@ export default class ViewClassmatesScreen extends React.Component {
 
 
 const styles = StyleSheet.create({
-	container: {
+	/*container: {
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
 		backgroundColor: '#ededed',
-	},
+	},*/
 	printedNames: {
 		color: '#000000'
 	}
