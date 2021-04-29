@@ -61,7 +61,10 @@ const globalStyles = StyleSheet.create({
 		margin: 100,
 		backgroundColor: 'white',
 	},
-	
+	venmo: {
+		width: 180,
+		height: 60
+	},
 });
 
 export { globalStyles };
