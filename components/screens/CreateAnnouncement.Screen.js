@@ -65,7 +65,7 @@ export default class CreateAnnouncementsScreen extends React.Component {
 
 					
 				}}>
-					<Text style={styles.buttonText}>Post</Text>
+					<Text style={globalStyles.buttonText}>Post</Text>
 			</TouchableOpacity>
 			</View>
 		</SafeAreaView> 
@@ -98,9 +98,9 @@ const styles = StyleSheet.create({
 		alignItems: "center", 
 		borderRadius: 10,
 	},
-	buttonText: {
+	/*buttonText: {
 		fontSize: 20,
 		color: '#fff',
 		fontFamily: 'Red Hat Display'
-	},
+	},*/
 });

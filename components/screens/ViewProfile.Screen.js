@@ -92,9 +92,9 @@ export default class ViewProfileScreen extends React.Component {
 			null
 		}
 		return (
-			<View style={styles.container}>
+			<View style={globalStyles.container3}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp} />}
+				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={globalStyles.pfp} />}
 				<Text style={styles.displayName}>{this.state.name}</Text>
 
 				</View>
@@ -114,34 +114,34 @@ export default class ViewProfileScreen extends React.Component {
 
 
 const styles = StyleSheet.create({
-	container: {
+	/*container: {
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
 		backgroundColor: '#ededed',
-	},
+	},*/
 	displayName: {
 		color: 'white'
 	},
 	scheduleText: {
 		color: 'white'
 	},
-	pfp:{
+	/*pfp:{
 		width: 150,
     	height: 150,
 		borderRadius: 100
-	},
+	},*/
 	editProfileButton: {
 		backgroundColor: '#871609',
 		padding: 10,
 		borderRadius: 10,
 	},
-	buttonText: {
+	/*buttonText: {
 		fontSize: 15,
 		color: '#fff',
 		textAlign: 'center',
 		fontFamily: 'Red Hat Display'
-	},
+	},*/
 	
 
 });

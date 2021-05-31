@@ -103,9 +103,9 @@ export default class CreateClubProfileScreen extends React.Component {
 			<ScrollView style={globalStyles.container}>
 				
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
-				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={styles.pfp} />}
-				<View style={styles.editContainer}>
-				<MaterialIcons.Button borderRadius={100} style={styles.edit} name="edit" onPress={() => this.pickImage()} />
+				{this.state.pfp && <Image source={{ uri: this.state.pfp }} style={globalStyles.pfp} />}
+				<View style={globalStyles.editContainer}>
+				<MaterialIcons.Button borderRadius={100} style={globalStyles.edit} name="edit" onPress={() => this.pickImage()} />
 				</View>
 				</View>
 
@@ -142,7 +142,7 @@ export default class CreateClubProfileScreen extends React.Component {
 				</View>
 
 				<View style={{flex: 1}}>
-				<Text style={styles.textLabel}>Club Description</Text>
+				<Text style={globalStyles.textLabel}>Club Description</Text>
 				<TextInput placeholder="Enter description here..."
 						multiline
 						onChangeText={phoneNumber => this.setState({ phoneNumber })}
@@ -151,8 +151,8 @@ export default class CreateClubProfileScreen extends React.Component {
 				</View>
 
 				<View style={{ flex: 1, marginTop: 5, marginHorizontal: 20 }}>
-						<TouchableOpacity style={styles.button} onPress={() => { this.saveProfile() }}>
-							<Text style={styles.buttonText}>Save</Text>
+						<TouchableOpacity style={globalStyles.button} onPress={() => { this.saveProfile() }}>
+							<Text style={globalStyles.buttonText}>Save</Text>
 						</TouchableOpacity>
 				</View>
 				
@@ -163,16 +163,16 @@ export default class CreateClubProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	button: {
+	/*button: {
 		backgroundColor: '#871609',
 		padding: 10,
 		borderRadius: 10,
-	},
+	},*/
 	venmo: {
 		width: 180,
 		height: 60
 	},
-	buttonText: {
+	/*buttonText: {
 		fontSize: 15,
 		color: '#fff',
 		textAlign: 'center',
@@ -202,5 +202,5 @@ const styles = StyleSheet.create({
 	scheduleSection:{
 		margin: 100,
 		backgroundColor: 'white',
-	}
+	}*/
 });

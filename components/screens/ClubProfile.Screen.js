@@ -53,7 +53,7 @@ export default class ClubProfileScreen extends React.Component {
 		return (
 			<View style={globalStyles.container}>
 				<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-				{this.state.image && <Image source={{ uri: this.state.image }} style={styles.pfp} />}
+				{this.state.image && <Image source={{ uri: this.state.image }} style={globalStyles.pfp} />}
 				<Text style={styles.displayName}>{this.state.name}</Text>
 
 				</View>
@@ -78,23 +78,23 @@ export default class ClubProfileScreen extends React.Component {
 
 
 const styles = StyleSheet.create({
-	container: {
+	/*container: {
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
 		backgroundColor: '#ededed',
-	},
+	},*/
 	displayName: {
 		color: 'white'
 	},
 	scheduleText: {
 		color: 'white'
 	},
-	pfp:{
+	/* pfp:{
 		width: 150,
     	height: 150,
 		borderRadius: 100
-	},
+	}, */
 	
 
 });
