@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, StyleSheet, Alert, View, Text} from 'react-native';
+import {Button, StyleSheet, Alert, View, Text, TouchableOpacity} from 'react-native';
 import {globalStyles} from '../GlobalStyles';
 import {Input} from 'react-native-elements'
 import * as Location from 'expo-location';
 import firebase from 'firebase';
 import * as Permissions from "expo-permissions";
+import { Touchable } from 'react-native';
 
 
 export default class SetupScreen extends React.Component {
@@ -67,33 +68,57 @@ export default class SetupScreen extends React.Component {
             this.getNearbySchools(location.coords.latitude, location.coords.longitude);
       }
 
+      // from https://www.geodatasource.com/developers/javascript
+      distance(lat1, lon1, lat2, lon2, unit) {
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+          return 0;
+        }
+        else {
+          var radlat1 = Math.PI * lat1/180;
+          var radlat2 = Math.PI * lat2/180;
+          var theta = lon1-lon2;
+          var radtheta = Math.PI * theta/180;
+          var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+          if (dist > 1) {
+            dist = 1;
+          }
+          dist = Math.acos(dist);
+          dist = dist * 180/Math.PI;
+          dist = dist * 60 * 1.1515;
+          let kilos = dist * 1.609344
+          let miles =  dist * 0.8684
+          return {kilos, miles};
+        }
+      }
+
     getNearbySchools(latitude, longitude) {
       this.schoolRef.on('child_added', (snapshot) => {
-        // use distance formula to calculate distance
-        let latitudeDifference = latitude - snapshot.val().latitude
-        let longitudeDifference = longitude - snapshot.val().longitude
-
-        let latitudeDifferenceKM = 110.574 * latitudeDifference
-        let longitudeDifferenceKM = 111.320 * Math.cos(latitudeDifferenceKM) * longitudeDifference
-
-        let distance = Math.sqrt(latitudeDifferenceKM **2 + longitudeDifferenceKM**2)
+        let distance = this.distance(latitude, longitude, snapshot.val().latitude, snapshot.val().longitude, "K")
         // We define a nearby school as being within a 5 kilometer distance
-        if (distance < 3){
+        if (distance.kilos < 5){
           let nearbySchool = snapshot.val()
-          nearbySchool.distance = distance
+          nearbySchool.kilos = distance.kilos
+          nearbySchool.miles = distance.miles
           this.state.nearbySchools = this.state.nearbySchools.concat(nearbySchool)
           this.forceUpdate()
         }
         
       })
     }
+
+    onSchoolSelection(){
+      
+    }
       
 
 	  render() {
 
     var sortedNearbySchools = this.state.nearbySchools.sort(function(a, b) {
-      return a.distance - b.distance;
-    })    
+      return a.miles - b.miles;
+    }) 
+    if (sortedNearbySchools.length > 5){
+      sortedNearbySchools = sortedNearbySchools.slice(0, 4);
+    }
 	
 		return (
       <View style={globalStyles.centeredContainer}>
@@ -194,8 +219,14 @@ export default class SetupScreen extends React.Component {
         <View style={{flex: 1}}>
           {
                 sortedNearbySchools.map((l, i) => (
-            <View key={i}>
+            <View key={i} style={styles.buttonContainer}>
+            <TouchableOpacity 
+            style={styles.button}
+            onPress ={() => this.onSchoolSelection(l.id)}>
             <Text>{l.name}</Text>
+            <Text>{l.address + ', ' + l.city + ' ' + l.state + ' ' + l.zip}</Text>
+            <Text>{l.miles.toFixed(2) + ' mi (' + l.kilos.toFixed(2) + ' km)'}</Text>
+            </TouchableOpacity>
             </View>
           ))
           }
@@ -228,5 +259,15 @@ export default class SetupScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  button: {
+		backgroundColor: '#F7F6F9',
+		padding: 10,
+		paddingHorizontal: 30,
+		alignItems: "center", 
+		borderRadius: 10,
+	},
+  buttonContainer:{
+    flex: 1
+  }
 	
 });
