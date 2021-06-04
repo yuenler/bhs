@@ -13,8 +13,13 @@ export default class SetupScreen extends React.Component {
     state={
       question: 1,
       schoolType: '',
+      us_state: '',
+      city: '',
       zipCode: '',
+      name: '',
+      address: '',
       nearbySchools: [],
+      similarAddressSchools: [],
     }
 
     get schoolRef(){
@@ -55,6 +60,44 @@ export default class SetupScreen extends React.Component {
 
     onAddress(){
       this.setState({question: 6})
+    }
+
+    onNext(){
+      this.setState({question: this.state.question + 1})
+    }
+
+    onGuessSchools(){
+      this.guessSchools()
+      this.setState({question: this.state.question + 1})
+    }
+
+    guessSchools(){
+      this.schoolRef.on('child_added', (snapshot) => {
+        var score = 0
+        if (snapshot.val().state === this.state.us_state){
+          score += 1
+        }
+        if (snapshot.val().city === this.state.city){
+          score += 1
+        }
+        if (snapshot.val().zip === this.state.zipCode){
+          score += 1
+        }
+        if (snapshot.val().name === this.state.name){
+          score += 3
+        }
+        if (snapshot.val().address === this.state.address){
+          score += 3
+        }
+        if (score >= 3){
+          let school = snapshot.val()
+          school.score = score
+          this.state.similarAddressSchools = this.state.similarAddressSchools.concat(school)
+          this.forceUpdate()
+        }
+        
+        
+      })
     }
 
     getLocation = async() => {
@@ -118,6 +161,13 @@ export default class SetupScreen extends React.Component {
     }) 
     if (sortedNearbySchools.length > 5){
       sortedNearbySchools = sortedNearbySchools.slice(0, 4);
+    }
+
+    var sortedSimilarAddressSchools = this.state.similarAddressSchools.sort(function(a, b) {
+      return a.score - b.score;
+    }) 
+    if (sortedSimilarAddressSchools.length > 5){
+      sortedSimilarAddressSchools = sortedSimilarAddressSchools.slice(0, 4);
     }
 	
 		return (
@@ -234,10 +284,55 @@ export default class SetupScreen extends React.Component {
         : null
       }
 
-        {this.state.question==6?
+    {this.state.question==6?
           <View>
           <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text>We need to find your school! My school's zip code is...</Text>
+          <Text>My school is in...</Text>
+          </View>
+
+          <View style={{flex: 1}}>
+          <Input placeholder="Alabama"
+						label="State"
+						onChangeText={us_state => this.setState({ us_state })}
+						value={this.state.us_state}
+				/> 
+        </View>
+
+        <Button 
+          onPress={() => this.onNext()}
+          title="Next"/>
+      
+          </View>
+          : null
+        }
+
+    {this.state.question==7?
+          <View>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text>My school's city/town is...</Text>
+          </View>
+
+          <View style={{flex: 1}}>
+          <Input placeholder="Cambridge"
+						label="City/town"
+						onChangeText={city => this.setState({ city })}
+						value={this.state.city}
+				/> 
+        
+        </View>
+
+        <Button 
+          onPress={() => this.onNext()}
+          title="Next"/>
+      
+          </View>
+          : null
+        }
+
+        {this.state.question==8?
+          <View>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text>My school's zip code is...</Text>
           </View>
 
           <View style={{flex: 1}}>
@@ -248,9 +343,82 @@ export default class SetupScreen extends React.Component {
 				/> 
         </View>
 
+        <Button 
+          onPress={() => this.onNext()}
+          title="Next"/>
+      
           </View>
           : null
         }
+
+      {this.state.question==9?
+          <View>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text>My school's name is...</Text>
+          </View>
+
+          <View style={{flex: 1}}>
+          <Input placeholder="Harvard College"
+						label="School name"
+						onChangeText={name => this.setState({ name })}
+						value={this.state.name}
+				/> 
+        </View>
+
+        <Button 
+          onPress={() => this.onNext()}
+          title="Next"/>
+      
+          </View>
+          : null
+        }
+
+      {this.state.question==10?
+          <View>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text>My school's address is...</Text>
+          </View>
+
+          <View style={{flex: 1}}>
+          <Input placeholder="86 Brattle Street"
+						label="Address"
+						onChangeText={address => this.setState({ address })}
+						value={this.state.address}
+				/> 
+
+        </View>
+
+        <Button 
+          onPress={() => this.onGuessSchools()}
+          title="Next"/>
+      
+          </View>
+          : null
+        }
+
+        {this.state.question==11?
+        <View style={{flex: 1}}>
+          {
+                sortedSimilarAddressSchools.map((l, i) => (
+            <View key={i} style={styles.buttonContainer}>
+            <TouchableOpacity 
+            style={styles.button}
+            onPress ={() => this.onSchoolSelection(l.id)}>
+            <Text>{l.name}</Text>
+            <Text>{l.address + ', ' + l.city + ' ' + l.state + ' ' + l.zip}</Text>
+            </TouchableOpacity>
+            </View>
+          ))
+          }
+        </View>
+        : null
+      }
+
+     
+
+        
+   
+
 
 
       </View>
