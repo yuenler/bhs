@@ -74,22 +74,22 @@ export default class SetupScreen extends React.Component {
     guessSchools(){
       this.schoolRef.on('child_added', (snapshot) => {
         var score = 0
-        if (snapshot.val().state === this.state.us_state){
+        if (snapshot.val().state === this.state.us_state.toUpperCase()){
           score += 1
         }
-        if (snapshot.val().city === this.state.city){
+        if (snapshot.val().city === this.state.city.toUpperCase()){
           score += 1
         }
-        if (snapshot.val().zip === this.state.zipCode){
-          score += 1
+        if (snapshot.val().zip === this.state.zipCode.toUpperCase()){
+          score += 2
         }
-        if (snapshot.val().name === this.state.name){
+        if (snapshot.val().name === this.state.name.toUpperCase()){
           score += 3
         }
-        if (snapshot.val().address === this.state.address){
+        if (snapshot.val().address === this.state.address.toUpperCase()){
           score += 3
         }
-        if (score >= 3){
+        if (score >= 2){
           let school = snapshot.val()
           school.score = score
           this.state.similarAddressSchools = this.state.similarAddressSchools.concat(school)
@@ -160,14 +160,14 @@ export default class SetupScreen extends React.Component {
       return a.miles - b.miles;
     }) 
     if (sortedNearbySchools.length > 5){
-      sortedNearbySchools = sortedNearbySchools.slice(0, 4);
+      sortedNearbySchools = sortedNearbySchools.slice(0, 5);
     }
 
     var sortedSimilarAddressSchools = this.state.similarAddressSchools.sort(function(a, b) {
-      return a.score - b.score;
+      return b.score - a.score;
     }) 
     if (sortedSimilarAddressSchools.length > 5){
-      sortedSimilarAddressSchools = sortedSimilarAddressSchools.slice(0, 4);
+      sortedSimilarAddressSchools = sortedSimilarAddressSchools.slice(0, 5);
     }
 	
 		return (
